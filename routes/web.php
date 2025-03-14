@@ -7,7 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialiteController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('user.home');
 });
 
 Route::get('/dashboard', function () {
@@ -16,6 +16,14 @@ Route::get('/dashboard', function () {
 
 Route::get('/bookmark', function () {
     return view('bookmark', ['title' => 'Bookmark']);
+});
+
+Route::get('/admin', function () {
+    return view('admin.home', ['title' => 'Bookmark']);
+});
+
+Route::get('/admin/produk', function () {
+    return view('admin.produk', ['title' => 'Bookmark']);
 });
 
 
