@@ -20,7 +20,7 @@ class SocialiteController extends Controller
         // dd($googleUser); // Memeriksa data yang diterima dari Google
         if ($user){
             Auth::login($user);
-            return redirect()->route('dashboard');
+            return redirect()->route('/');
         }
         else{
             $userData = User::create(
@@ -33,7 +33,7 @@ class SocialiteController extends Controller
             // dd($userData); 
             if ($userData){
                 Auth::login($userData);
-                return redirect()->route('dashboard');
+                return redirect()->route('/');
             }
         }
     }

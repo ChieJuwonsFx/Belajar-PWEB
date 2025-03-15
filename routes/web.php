@@ -1,29 +1,26 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialiteController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::get('/', function () {
-    return view('user.home');
+    return view('user.home',['title' => 'Home']);
+})->name('dashboard');
+
+Route::get('/product', function () {
+    return view('user.product', ['title' => 'Product']);
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard',['title' => 'Home']);
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::get('/bookmark', function () {
-    return view('bookmark', ['title' => 'Bookmark']);
-});
-
-Route::get('/admin', function () {
-    return view('admin.home', ['title' => 'Bookmark']);
-});
+Route::get('/admin', [AdminController::class, 'dashboard'])
+    ->middleware(['auth', 'role:admin'])
+    ->name('admin');
 
 Route::get('/admin/produk', function () {
-    return view('admin.produk', ['title' => 'Bookmark']);
+    return view('admin.produk', ['title' => 'Kelola Produk']);
 });
 
 
@@ -47,6 +44,8 @@ Route::controller(SocialiteController::class)->group(function(){
 // Route::get('posts/edit{id}', [PostController::class, 'edit'])->name('posts.edit');
 // Route::get('posts/update{id}', [PostController::class, 'update'])->name('posts.update');
 // Route::post('posts/delete{id}', [PostController::class, 'delete'])->name('posts.delete');
+
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 
 require __DIR__.'/auth.php';

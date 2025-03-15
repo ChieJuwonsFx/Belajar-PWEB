@@ -1,7 +1,7 @@
 @if (Route::has('login'))
   <nav class="bg-white border-gray-200  sticky mt-3 w-full z-20">
     <div class="max-w-full flex flex-wrap items-center justify-between mx-auto py-3 px-4 lg:px-10 md:px-6 sm:px-4">
-        <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
             {{-- <img src="" class="h-8" alt="" /> --}}
             <span class="self-center text-2xl font-semibold whitespace-nowrap text-primary">InnoVixus</span>
         </a>
@@ -31,20 +31,20 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/bookmark"
-                        class="{{ request()->is('bookmark') ? 'text-primary relative md:after:content-[\'\'] md:after:absolute md:after:bottom-0 md:after:left-0 md:after:w-full md:after:h-1 md:after:bg-primary md:after:rounded-full' : 'text-secondary hover:text-primary' }} block py-2 px-3">
-                        Bookmark
+                    <a href="/product"
+                        class="{{ request()->is('product') ? 'text-primary relative md:after:content-[\'\'] md:after:absolute md:after:bottom-0 md:after:left-0 md:after:w-full md:after:h-1 md:after:bg-primary md:after:rounded-full' : 'text-secondary hover:text-primary' }} block py-2 px-3">
+                        Product
                     </a>
                 </li>
                 @auth
                     <div class="flex space-x-2">
-                        <form method="POST" action="{{ url('/dashboard') }}">
+                        <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit"
                                 class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
                                 {{ __('Log Out') }}
                             </button>
-                        </form>
+                        </form>                        
                     </div>
                     @else
                       <div class="flex space-x-2">
