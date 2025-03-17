@@ -44,13 +44,13 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
         $request->session()->regenerate();
 
-        if ($request->user()->role == 'admin') {
-            return redirect('/admin');
-        } elseif ($request->user()->role == 'user') {
-            return redirect('/');
+        if ($request->user()->role == 'Admin') {
+            return redirect('admin');
+        } elseif ($request->user()->role == 'Owner') {
+            return redirect('owner');
         }
 
-        return redirect('/'); // fallback jika role tidak terdeteksi
+        return redirect('/'); 
     }
 
 

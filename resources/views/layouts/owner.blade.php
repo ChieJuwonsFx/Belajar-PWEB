@@ -18,7 +18,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <div class="antialiased bg-white ">
-    <nav class="bg-white border-b border-secondary px-4 py-2.5  fixed left-0 right-0 top-0 z-50">
+    <nav class="bg-white border-b border-secondary px-4 py-2.5  fixed left-0 right-0 top-0 z-40">
         <div class="flex flex-wrap justify-between items-center">
             <div class="flex justify-start items-center">
                 <button data-drawer-target="drawer-navigation" data-drawer-toggle="drawer-navigation"
@@ -44,7 +44,7 @@
               class="mr-3 h-8"
               alt=""
             /> --}}
-                    <span class="self-center text-2xl font-semibold whitespace-nowrap text-primary">Flowbite</span>
+                    <span class="self-center text-2xl font-semibold whitespace-nowrap text-primary">InnoVixus</span>
                 </a>
                 <form action="#" method="GET" class="hidden md:block md:pl-2">
                     <label for="topbar-search" class="sr-only">Search</label>
@@ -214,7 +214,7 @@
 
     <!-- Sidebar -->
     <aside
-        class="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-secondary md:translate-x-0"
+        class="fixed top-0 left-0 z-30 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-secondary md:translate-x-0"
         aria-label="Sidenav" id="drawer-navigation">
         <div class="overflow-y-auto py-5 px-3 h-full bg-white">
             <form action="#" method="GET" class="md:hidden mb-2">
@@ -267,7 +267,7 @@
                     </button>
                     <ul id="dropdown-pages" class="hidden py-2 space-y-2">
                         <li>
-                            <a href="{{ route('admin.produk') }}"
+                            <a href="/admin/produk"
                                 class="flex items-center p-2 pl-11 w-full text-base font-medium text-primary rounded-lg transition duration-75 group hover:bg-gray-100">Produk</a>
                         </li>
                         <li>
@@ -315,7 +315,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#"
+                    <a href="{{ route('owner.employee') }}"
                         class="flex items-center p-2 text-base font-medium text-primary rounded-lg hover:bg-gray-100 group">
                         <svg aria-hidden="true"
                             class="flex-shrink-0 w-6 h-6 text-secondary transition duration-75 group-hover:text-primary"
@@ -327,11 +327,7 @@
                                 d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z">
                             </path>
                         </svg>
-                        <span class="flex-1 ml-3 whitespace-nowrap">Messages</span>
-                        <span
-                            class="inline-flex justify-center items-center w-5 h-5 text-xs font-semibold rounded-full text-primary-800 bg-primary-100">
-                            4
-                        </span>
+                        <span class="flex-1 ml-3 whitespace-nowrap">Employee</span>
                     </a>
                 </li>
                 <li>

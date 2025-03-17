@@ -16,8 +16,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->text('alamat')->nullable();
+            $table->string('telp')->unique();
             $table->string('password');
-            $table->enum('role', ['user', 'admin', 'owner', 'kasir'])->default('user');
+            $table->enum('status', ['Active', 'Inactive'])->nullable();
+            $table->string('image')->default('https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png');
+            $table->enum('role', ['User', 'Admin', 'Owner', 'Kasir'])->default('User');
             $table->rememberToken();
             $table->timestamps();
         });

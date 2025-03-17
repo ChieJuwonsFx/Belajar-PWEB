@@ -1,5 +1,5 @@
 <x-user>
-    <section class="bg-white lg:py-16 md:py-9 sm:py-6 items-center justify-center mx-auto">
+    <section class="bg-white flex items-center justify-center mx-auto h-screen">
         <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16">
             <div class="flex flex-col lg:flex-row items-center justify-between gap-8">
                 <div class="flex w-full lg:w-1/2 justify-center">

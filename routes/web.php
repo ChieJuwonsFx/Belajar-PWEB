@@ -1,28 +1,32 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::get('/', function () {
-    return view('user.home',['title' => 'Home']);
+    return view('user.home');
 })->name('dashboard');
 
 Route::get('/product', function () {
-    return view('user.product', ['title' => 'Product']);
+    return view('user.product');
 });
 
-Route::get('/admin', [AdminController::class, 'dashboard'])
-    ->middleware(['auth', 'role:admin'])
-    ->name('admin');
-
-Route::get('/admin/produk', function () {
-    return view('admin.produk', ['title' => 'Kelola Produk']);
+Route::middleware(['auth', 'role:Admin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin');
+    Route::get('/admin/produk', [AdminController::class, 'produk'])->name('admin.produk');
 });
 
+Route::middleware(['auth', 'role:Owner'])->group(function () {
+    Route::get('/owner', [OwnerController::class, 'dashboard'])->name('owner');
+    Route::get('/owner/employee', [OwnerController::class, 'employee'])->name('owner.employee');
+    Route::post('owner/submit', [OwnerController::class, 'createEmployee'])->name('employee.create');
+    Route::get('owner/update/{id}', [OwnerController::class, 'updateEmployee'])->name('employee.update');
+    Route::get('owner/delete/{id}', [OwnerController::class, 'deleteEmployee'])->name('employee.delete');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
