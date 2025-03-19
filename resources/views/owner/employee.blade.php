@@ -1,7 +1,6 @@
 <x-owner>
     <div class="grid mb-6 lg:mb-6 md:grid-cols-2">
         @if (count($users) > 0)
-
             @foreach ($users as $user)
                 <div class="text-primary p-2 relative">
                     <div class="w-full max-w-6xl mx-auto">

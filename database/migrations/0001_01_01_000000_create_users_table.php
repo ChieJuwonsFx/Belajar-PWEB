@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('alamat')->nullable();
             $table->string('telp')->unique();
             $table->string('password');
-            $table->enum('status', ['Active', 'Inactive'])->nullable();
+            $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->string('image')->default('https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png');
             $table->enum('role', ['User', 'Admin', 'Owner', 'Kasir'])->default('User');
             $table->rememberToken();

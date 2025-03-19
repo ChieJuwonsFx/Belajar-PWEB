@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('rasa');
             $table->integer('berat');
             $table->enum('status', ['Active', 'Inactive']);
+            $table->json('image')->nullable();
             $table->foreignId('category_id')->constrained(
                 table : 'categories',
                 indexName : 'products_category_id');
