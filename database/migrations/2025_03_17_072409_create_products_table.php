@@ -14,11 +14,14 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('slug')->unique();
             $table->integer('stok');
             $table->integer('harga');
             $table->text('deskripsi');
+            $table->text('komposisi');
+            $table->string('rasa');
+            $table->integer('berat');
             $table->enum('status', ['Active', 'Inactive']);
-            $table->string('image')->default('https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png');
             $table->foreignId('category_id')->constrained(
                 table : 'categories',
                 indexName : 'products_category_id');

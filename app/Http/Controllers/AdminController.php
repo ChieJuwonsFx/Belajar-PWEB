@@ -12,9 +12,6 @@ class AdminController extends Controller
     }
     public function produk()
     {
-        // $products = Product::with('category') 
-        //                 ->orderBy('name', 'asc')
-        //                 ->get();
         $products = Product::with(['category', 'images'])->orderBy('name', 'asc')->get();
 
         return view('admin.produk', compact('products'));
