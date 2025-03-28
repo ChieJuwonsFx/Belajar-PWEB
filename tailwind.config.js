@@ -57,7 +57,7 @@ export default {
                 greeny: '#E2F0DA',
                 bluey: '#DCECF5',
                 redy: '#FFD9D9',
-            },
+            },   
         },
     },
 
