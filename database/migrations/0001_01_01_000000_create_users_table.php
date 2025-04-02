@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->text('alamat')->nullable();
-            $table->string('telp')->unique();
+            $table->string('telp')->unique()->nullable();
             $table->string('password');
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->string('image')->default('https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png');

@@ -15,9 +15,9 @@ class SocialiteController extends Controller
     }
 
     public function googleAuthentication(){
-        $googleUser = Socialite::driver('google')->user();
+        $googleUser = Socialite::driver('google')->stateless()->user();
         $user = User::where('email', $googleUser->email)->first();
-        dd($googleUser); // Memeriksa data yang diterima dari Google
+        // dd($googleUser); // Memeriksa data yang diterima dari Google
         if ($user){
             Auth::login($user);
             return redirect()->route('/');
