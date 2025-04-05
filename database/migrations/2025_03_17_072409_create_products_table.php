@@ -11,23 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::disableForeignKeyConstraints();
+
+        Schema::create('product', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug')->unique();
-            $table->integer('stok');
-            $table->integer('harga');
             $table->text('deskripsi');
-            $table->text('komposisi');
-            $table->string('rasa');
-            $table->integer('berat');
-            $table->enum('status', ['Active', 'Inactive']);
-            $table->json('image')->nullable();
-            $table->foreignId('category_id')->constrained(
-                table : 'categories',
-                indexName : 'products_category_id');
-            $table->timestamps();
+            $table->integer('harga_jual');
+            $table->integer('stok');
+            $table->integer('stok_minimum');
+            $table->json('image');
+            $table->enum('is_available', ["Active","Inactive"]);
+            $table->bigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('category');
+            $table->dateTime('created_at');
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('product');
     }
 };

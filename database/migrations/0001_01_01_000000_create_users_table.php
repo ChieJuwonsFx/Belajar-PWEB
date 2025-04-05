@@ -11,19 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('user', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->text('alamat')->nullable();
-            $table->string('telp')->unique()->nullable();
             $table->string('password');
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->string('image')->default('https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png');
             $table->enum('role', ['User', 'Admin', 'Owner', 'Kasir'])->default('User');
-            $table->rememberToken();
-            $table->timestamps();
+            $table->text('alamat')->nullable();
+            $table->bigInteger('desa_id')->nullable();
+            $table->foreign('desa_id')->references('id')->on('village');
+            $table->string('no_hp')->nullable();
+            $table->timestamp('created_at');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

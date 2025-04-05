@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 
+
 class SocialiteController extends Controller
 {
     public function googleLogin (){
@@ -17,7 +18,7 @@ class SocialiteController extends Controller
     public function googleAuthentication(){
         $googleUser = Socialite::driver('google')->stateless()->user();
         $user = User::where('email', $googleUser->email)->first();
-        // dd($googleUser); // Memeriksa data yang diterima dari Google
+        dd($googleUser); 
         if ($user){
             Auth::login($user);
             return redirect()->route('/');
@@ -25,12 +26,12 @@ class SocialiteController extends Controller
         else{
             $userData = User::create(
                 [
-                    // 'google_id' => $googleUser->id,
+                    'google_id' => $googleUser->id,
                     'name' => $googleUser->name,
                     'email' => $googleUser->email,
                     'password' => Hash::make('123456789'),
                 ]);
-            // dd($userData); 
+            dd($userData); 
             if ($userData){
                 Auth::login($userData);
                 return redirect()->route('/');
