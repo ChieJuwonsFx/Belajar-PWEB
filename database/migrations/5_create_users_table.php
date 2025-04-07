@@ -11,7 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user', function (Blueprint $table) {
+        Schema::disableForeignKeyConstraints();
+        
+        Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
@@ -21,10 +23,12 @@ return new class extends Migration
             $table->enum('role', ['User', 'Admin', 'Owner', 'Kasir'])->default('User');
             $table->text('alamat')->nullable();
             $table->bigInteger('desa_id')->nullable();
-            $table->foreign('desa_id')->references('id')->on('village');
+            $table->foreign('desa_id')->references('id')->on('villages');
             $table->string('no_hp')->nullable();
             $table->timestamp('created_at');
         });
+
+        Schema::enableForeignKeyConstraints();
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();

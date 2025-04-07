@@ -11,10 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('villages', function (Blueprint $table) {
+        Schema::disableForeignKeyConstraints();
+
+        Schema::create('districts', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('nama_kecamatan');
+            $table->bigInteger('city_id');
+            $table->foreign('city_id')->references('id')->on('cities');
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -22,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('villages');
+        Schema::dropIfExists('districts');
     }
 };

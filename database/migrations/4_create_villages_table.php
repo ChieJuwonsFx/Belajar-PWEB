@@ -11,10 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stocks', function (Blueprint $table) {
+        Schema::disableForeignKeyConstraints();
+
+        Schema::create('villages', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('nama_desa');
+            $table->bigInteger('district_id');
+            $table->foreign('district_id')->references('id')->on('districts');
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -22,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stocks');
+        Schema::dropIfExists('villages');
     }
 };
