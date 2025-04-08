@@ -300,7 +300,6 @@
             const password = document.getElementById("password");
             const confirmPassword = document.getElementById("confirm_password");
 
-            // Buat span error di bawah input jika belum ada
             const addErrorText = (input, message) => {
                 let error = input.nextElementSibling;
                 if (!error || !error.classList.contains('error-message')) {
@@ -319,7 +318,6 @@
                 }
             };
 
-            // Telp Validation
             telp.addEventListener("input", () => {
                 const value = telp.value;
                 if (!/^\d{10,15}$/.test(value)) {
@@ -329,7 +327,6 @@
                 }
             });
 
-            // Email Validation
             email.addEventListener("input", () => {
                 const value = email.value;
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -340,7 +337,6 @@
                 }
             });
 
-            // Password Matching
             confirmPassword.addEventListener("input", () => {
                 if (confirmPassword.value !== password.value) {
                     addErrorText(confirmPassword, "Konfirmasi password tidak sama");
@@ -349,11 +345,9 @@
                 }
             });
 
-            // Final Check on Submit
             form.addEventListener("submit", (e) => {
                 let valid = true;
 
-                // Cek semua required input
                 form.querySelectorAll("input, textarea, select").forEach(input => {
                     if (!input.value.trim()) {
                         addErrorText(input, "Field ini wajib diisi");
@@ -361,26 +355,23 @@
                     }
                 });
 
-                // Cek No Telp
                 if (!/^\d{10,15}$/.test(telp.value)) {
                     addErrorText(telp, "No Telp harus angka (10–15 digit)");
                     valid = false;
                 }
 
-                // Cek Email
                 if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
                     addErrorText(email, "Format email tidak valid");
                     valid = false;
                 }
 
-                // Cek Password Confirm
                 if (confirmPassword.value !== password.value) {
                     addErrorText(confirmPassword, "Konfirmasi password tidak sama");
                     valid = false;
                 }
 
                 if (!valid) {
-                    e.preventDefault(); // stop submit
+                    e.preventDefault(); 
                 }
             });
         });
