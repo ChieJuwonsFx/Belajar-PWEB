@@ -9,4 +9,18 @@ class TransactionItem extends Model
 {
     /** @use HasFactory<\Database\Factories\TransactionItemFactory> */
     use HasFactory;
+    public function transaction()
+    {
+        return $this->belongsTo(Transaction::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function stock()
+    {
+        return $this->belongsTo(Stock::class);
+    }
 }

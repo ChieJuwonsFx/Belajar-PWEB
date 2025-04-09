@@ -9,4 +9,13 @@ class City extends Model
 {
     /** @use HasFactory<\Database\Factories\CityFactory> */
     use HasFactory;
+    public function province()
+    {
+        return $this->belongsTo(Province::class);
+    }
+
+    public function districts()
+    {
+        return $this->hasMany(District::class);
+    }
 }

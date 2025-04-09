@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::disableForeignKeyConstraints();
 
-        Schema::create('stocks', function (Blueprint $table) {
+        Schema::create('stock_adjustments', function (Blueprint $table) {
             $table->id();
             $table->integer('quantity');
-            $table->integer('remaining_quantity');
-            $table->bigInteger('harga_modal');
-            $table->bigInteger('product_id');
-            $table->foreign('product_id')->references('id')->on('products');
-            $table->date('expired_at')->nullable();
+            $table->enum('alasan', ["Rusak","Hilang","Expired","Diretur"]);
+            $table->text('note')->nullable();
+            $table->bigInteger('stock_id');
+            $table->foreign('stock_id')->references('id')->on('stocks');
+            $table->bigInteger('created_by');
+            $table->foreign('created_by')->references('id')->on('users');
             $table->timestamp('created_at');
         });
 
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stocks');
+        Schema::dropIfExists('stock_adjustments');
     }
 };

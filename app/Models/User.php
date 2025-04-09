@@ -46,4 +46,19 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function village()
+    {
+        return $this->belongsTo(Village::class);
+    }
+
+    public function transactionsAsCustomer()
+    {
+        return $this->hasMany(Transaction::class, 'user_id');
+    }
+
+    public function transactionsAsAdmin()
+    {
+        return $this->hasMany(Transaction::class, 'admin_id');
+    }
 }

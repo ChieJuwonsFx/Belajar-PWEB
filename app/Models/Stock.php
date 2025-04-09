@@ -9,4 +9,18 @@ class Stock extends Model
 {
     /** @use HasFactory<\Database\Factories\StockFactory> */
     use HasFactory;
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function stockAdjustments()
+    {
+        return $this->hasMany(StockAdjustment::class);
+    }
+
+    public function transactionItems()
+    {
+        return $this->hasMany(TransactionItem::class);
+    }
 }

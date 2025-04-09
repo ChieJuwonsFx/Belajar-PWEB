@@ -9,4 +9,13 @@ class Village extends Model
 {
     /** @use HasFactory<\Database\Factories\VillageFactory> */
     use HasFactory;
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

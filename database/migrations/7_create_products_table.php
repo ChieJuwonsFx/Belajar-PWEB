@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('stok');
             $table->integer('stok_minimum');
             $table->json('image');
-            $table->enum('is_available', ["Active","Inactive"]);
+            $table->enum('is_available', ["Active","Inactive"])->default("Active");
             $table->bigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->dateTime('created_at');
