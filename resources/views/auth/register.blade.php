@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-app-layout>
     <section class="min-h-screen flex items-center justify-center bg-sky-100 bg-opacity-30 px-4">
         <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 md:p-8">
             <div class="text-center mb-6">
@@ -62,4 +62,4 @@
             </form>
         </div>
     </section>
-</x-guest-layout>
+</x-app-layout>

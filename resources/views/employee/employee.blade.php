@@ -1,4 +1,4 @@
-<x-owner>
+<x-admin>
     <div class="grid mb-6 lg:mb-6 md:grid-cols-2">
         @if (count($users) > 0)
             @foreach ($users as $user)
@@ -13,7 +13,6 @@
                                     <img src="{{ asset('storage/' . $user->image) }}"
                                         class="w-16 h-16 object-cover rounded-full shadow" alt="{{ $user->name }}">
                                 @endif
-                                {{-- <img src="{{ asset('storage/' . $user->image) }}" class="w-16 h-16 object-cover rounded-full shadow" alt="{{ $user->name }}"> --}}
                                 <div>
                                     <h2 class="text-lg font-bold mb-1">{{ $user->name }}</h2>
                                     <p class="text-sm text-secondary">{{ $user->role }}</p>
@@ -65,7 +64,7 @@
                                                     d="M18.0299 8.98132c0 .55229-.4477 1-1 .99999l-3.03-.00002c-.5522 0-1-.44772-1-1V5.99995c0-.55229.4478-1 1-1 .5523 0 1 .44771 1 1v.58112l3.3184-3.29111c.3921-.38892 1.0253-.38631 1.4142.00582.3889.39213.3863 1.02529-.0058 1.4142l-3.2984 3.27133h.6016c.5523.00001 1 .44773 1 1.00001Z"
                                                     clip-rule="evenodd" />
                                             </svg>
-                                            <span>{{ $user->telp }}</span>
+                                            <span>{{ $user->no_hp }}</span>
                                         </div>
                                     </div>
                                     <div class="flex flex-wrap gap-3">
@@ -224,7 +223,7 @@
                         </div>
                         <div>
                             <label for="telp" class="block mb-2 text-sm font-medium text-gray-900">No Telp</label>
-                            <input type="tel" name="telp" pattern="[0-9]{10,15}" value="{{ $user->telp }}"
+                            <input type="tel" name="telp" pattern="[0-9]{10,15}" value="{{ $user->no_hp }}"
                                 disabled
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
                         </div>
@@ -288,10 +287,6 @@
                 });
             }
         });
-
-
-
-
 
         document.addEventListener("DOMContentLoaded", () => {
             const form = document.querySelector("form");
@@ -376,4 +371,4 @@
             });
         });
     </script>
-</x-owner>
+</x-admin>

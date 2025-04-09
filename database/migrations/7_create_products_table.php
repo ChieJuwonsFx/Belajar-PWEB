@@ -25,6 +25,7 @@ return new class extends Migration
             $table->bigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->dateTime('created_at');
+            $table->datetime('updated_at')->nullable();
         });
 
         Schema::enableForeignKeyConstraints();

@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Auth\LoginRequest;
+use Illuminate\Validation\ValidationException;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -41,16 +42,22 @@ class AuthenticatedSessionController extends Controller
     // }
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
-        $request->session()->regenerate();
+        try{
+            $request->authenticate();
+            $request->session()->regenerate();
 
-        if ($request->user()->role == 'Admin') {
-            return redirect('admin');
-        } elseif ($request->user()->role == 'Owner') {
-            return redirect('owner');
+            if ($request->user()->role == 'Admin') {
+                return redirect('admin');
+            } elseif ($request->user()->role == 'Owner') {
+                return redirect('owner');
+            }
+
+            return redirect('/'); 
+        } catch (ValidationException $e) {
+            throw ValidationException::withMessages([
+                'email' => ['Email atau password yang kamu masukkan salah, coba lagi ya!'],
+            ]);
         }
-
-        return redirect('/'); 
     }
 
 

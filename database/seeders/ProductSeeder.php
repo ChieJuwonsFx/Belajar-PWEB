@@ -3,9 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Product;
-use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Str;
 
 class ProductSeeder extends Seeder
 {
@@ -14,109 +13,67 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        $image = [
-            [
-                'filename' => 'produk1.jpg',
-                'path' => 'https://m.media-amazon.com/images/I/41WpqIvJWRL._AC_UY436_QL65_.jpg'
-            ],
-            [
-                'filename' => 'produk2.jpg',
-                'path' => 'https://m.media-amazon.com/images/I/61ghDjhS8vL._AC_UY436_QL65_.jpg'
-            ]
+
+
+        for ($i = 1; $i <= 20; $i++) {
+            
+            Product::create([
+                'name' => Str::random(12),
+                'deskripsi' => $this->generateProductDescription('halo'),
+                'harga_jual' => rand(50000, 5000000),
+                'stok' => rand(10, 200),
+                'stok_minimum' => rand(5, 15),
+                'image' => $this->generateProductImages($i),
+                'is_available' => rand(0, 1) ? 'Active' : 'Inactive',
+                'category_id' => 1,
+                'created_at' => now()->subDays(rand(1, 30)),
+            ]);
+        }
+    }
+
+    protected function generateProductName(int $categoryId): string
+    {
+        $names = [
+            1 => ['Smartphone', 'Laptop', 'Headphone', 'Smart TV', 'Kamera Digital'],
+            2 => ['Kemeja', 'Celana Jeans', 'Jaket', 'Gaun', 'Sepatu'],
+            3 => ['Snack', 'Minuman', 'Makanan Ringan', 'Makanan Kaleng', 'Bahan Pokok'],
+            4 => ['Panci', 'Blender', 'Vacuum Cleaner', 'Lampu', 'Kursi'],
+            5 => ['Sepatu Lari', 'Treadmill', 'Dumbell', 'Yoga Mat', 'Bola Basket'],
         ];
-        
-        Product::create([
-            'name' => 'Es Teh Manis',
-            'slug' => Str::slug('Es Teh Manis'),
-            'stok' => 50,
-            'harga' => 5000,
-            'deskripsi' => 'Es teh manis segar dengan gula asli.',
-            'komposisi' => 'Air, Gula, Teh',
-            'rasa' => 'Manis',
-            'berat' => '200',
-            'image' => $image,
-            'status' => 'Active',
-            'category_id' => 1
-        ]);
 
-        Product::create([
-            'name' => 'Nasi Goreng',
-            'slug' => Str::slug('Nasi Goreng'),
-            'stok' => 30,
-            'harga' => 15000,
-            'deskripsi' => 'Nasi goreng enak dengan bumbu khas.',
-            'komposisi' => 'Nasi, Bumbu, Telur, Kecap',
-            'rasa' => 'Gurih',
-            'berat' => '200',
-            'image' => $image,
-            'status' => 'Active',
-            'category_id' => 2
-        ]);
+        return $names[$categoryId][array_rand($names[$categoryId])];
+    }
 
-        Product::create([
-            'name' => 'Keripik Kentang',
-            'slug' => Str::slug('Keripik Kentang'),
-            'stok' => 40,
-            'harga' => 7000,
-            'deskripsi' => 'Keripik kentang renyah dan gurih.',
-            'komposisi' => 'Kentang, Minyak, Garam',
-            'rasa' => 'Asin',
-            'berat' => '200',
-            'image' => $image,
-            'status' => 'Inactive',
-            'category_id' => 3
-        ]);
-        Product::create([
-            'name' => 'Keripik Kentang',
-            'slug' => Str::slug('Keripik Kentang4'),
-            'stok' => 40,
-            'harga' => 7000,
-            'deskripsi' => 'Keripik kentang renyah dan gurih.',
-            'komposisi' => 'Kentang, Minyak, Garam',
-            'rasa' => 'Asin',
-            'berat' => '200',
-            'image' => $image,
-            'status' => 'Inactive',
-            'category_id' => 3
-        ]);
-        Product::create([
-            'name' => 'Keripik Kentang',
-            'slug' => Str::slug('Keripik Kentang3'),
-            'stok' => 40,
-            'harga' => 7000,
-            'deskripsi' => 'Keripik kentang renyah dan gurih.',
-            'komposisi' => 'Kentang, Minyak, Garam',
-            'rasa' => 'Asin',
-            'berat' => '200',
-            'image' => $image,
-            'status' => 'Inactive',
-            'category_id' => 3
-        ]);
-        Product::create([
-            'name' => 'Keripik Kentang',
-            'slug' => Str::slug('Keripik Kentang1'),
-            'stok' => 40,
-            'harga' => 7000,
-            'deskripsi' => 'Keripik kentang renyah dan gurih.',
-            'komposisi' => 'Kentang, Minyak, Garam',
-            'rasa' => 'Asin',
-            'berat' => '200',
-            'image' => $image,
-            'status' => 'Inactive',
-            'category_id' => 3
-        ]);
-        Product::create([
-            'name' => 'Keripik Kentang',
-            'slug' => Str::slug('Keripik Kentang2'),
-            'stok' => 40,
-            'harga' => 7000,
-            'deskripsi' => 'Keripik kentang renyah dan gurih.',
-            'komposisi' => 'Kentang, Minyak, Garam',
-            'rasa' => 'Asin',
-            'berat' => '200',
-            'image' => $image,
-            'status' => 'Inactive',
-            'category_id' => 3
-        ]);
+    protected function generateProductDescription(string $productName): string
+    {
+        $descriptions = [
+            "Produk {$productName} berkualitas tinggi dengan bahan terbaik.",
+            "{$productName} original dengan garansi resmi 1 tahun.",
+            "Temukan pengalaman baru dengan {$productName} versi terbaru kami.",
+            "{$productName} dengan desain modern dan fitur lengkap.",
+            "Produk {$productName} yang nyaman dan tahan lama.",
+        ];
+
+        return $descriptions[array_rand($descriptions)];
+    }
+
+    protected function generateProductImages(int $index): string
+    {
+        $imageCount = rand(1, 4); 
+        $images = [];
+
+        for ($j = 0; $j < $imageCount; $j++) {
+            $width = rand(800, 1200);
+            $height = rand(600, 900);
+            $imageId = $index * 10 + $j; 
+
+            $images[] = [
+                'path' => "https://picsum.photos/id/{$imageId}/{$width}/{$height}",
+                'filename' => "product-{$index}-{$j}.jpg",
+                'is_primary' => $j === 0
+            ];
+        }
+
+        return json_encode($images);
     }
 }

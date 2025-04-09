@@ -9,11 +9,12 @@ class AdminController extends Controller
 {
     public function dashboard(){
         return view ('admin.home');
+        // return view ('dashboard');
     }
     public function produk()
     {
         $products = Product::with(['category'])->orderBy('name', 'asc')->get();
 
-        return view('admin.produk', compact('products'));
+        return view('produk.produk', compact('products'));
     }
 }

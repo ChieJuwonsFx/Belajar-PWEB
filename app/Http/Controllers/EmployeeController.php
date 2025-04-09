@@ -6,19 +6,15 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class OwnerController extends Controller
+class EmployeeController extends Controller
 {
-    public function dashboard(){
-        return view ('owner.home');
-    }
-
     public function employee()
     {
-        $users = User::whereNotIn('role', ['Owner', 'User'])->where('status', 'Active')
+        $users = User::whereNotIn('role', ['Admin', 'User'])->where('status', 'Active')
                      ->orderBy('role', 'asc')
                      ->get();
     
-        return view('owner.employee', compact('users'));
+        return view('employee.employee', compact('users'));
     }
     
     
@@ -61,7 +57,7 @@ class OwnerController extends Controller
     
         $user->save();
     
-        return redirect()->route('owner.employee')->with('success', 'Employee berhasil ditambahkan!');
+        return redirect()->route('admin.employee')->with('success', 'Employee berhasil ditambahkan!');
     }
 
 
@@ -71,13 +67,13 @@ class OwnerController extends Controller
         $users->role = $request->role;
         $users->save();
     
-        return redirect()->route('owner.employee')->with('success', 'Role berhasil diperbarui!');
+        return redirect()->route('admin.employee')->with('success', 'Role berhasil diperbarui!');
     }    
     public function deleteEmployee($id){
         $users = User::findOrFail($id);
         $users->status = 'Inactive';
         $users->save();
     
-        return redirect()->route('owner.employee')->with('success', 'Karyawan berhasil dipecat!');
+        return redirect()->route('admin.employee')->with('success', 'Karyawan berhasil dipecat!');
     }       
 }

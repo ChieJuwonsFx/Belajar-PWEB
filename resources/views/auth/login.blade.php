@@ -1,9 +1,6 @@
-<x-guest-layout>
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<x-app-layout>
     <section class="min-h-screen flex items-center justify-center bg-sky-100 bg-opacity-30 px-4">
         <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 md:p-8">
-            <x-auth-session-status class="mb-4" :status="session('status')" />
-
             <div class="text-center mb-6">
                 <h1 class="text-2xl font-bold text-primary md:text-3xl">Welcome Back!!!</h1>
                 <p class="text-sm text-gray-600 mt-1">Sign in to your account</p>
@@ -66,4 +63,4 @@
             </form>
         </div>
     </section>
-</x-guest-layout>
+</x-app-layout>

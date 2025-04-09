@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
         User::factory()->create([
             'name' => 'User',
             'email' => 'user@gmail.com',
-            'telp' => '081234567893',
+            'no_hp' => '081234567893',
             'password' => Hash::make('123456789'),
             'role' => 'User',
             'status' => 'Active',
@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
-            'telp' => '081234567892',
+            'no_hp' => '081234567892',
             'password' => Hash::make('123456789'),
             'role' => 'Admin',
             'status' => 'Active',
@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
         User::factory()->create([
             'name' => 'Owner',
             'email' => 'owner@gmail.com',
-            'telp' => '081234567891',
+            'no_hp' => '081234567891',
             'password' => Hash::make('123456789'),
             'role' => 'Owner',
             'status' => 'Active',
@@ -46,7 +46,7 @@ class UserSeeder extends Seeder
         User::factory()->create([
             'name' => 'Kasir',
             'email' => 'kasir@gmail.com',
-            'telp' => '081234567890',
+            'no_hp' => '081234567890',
             'password' => Hash::make('123456789'),
             'role' => 'Kasir',
             'status' => 'Active',

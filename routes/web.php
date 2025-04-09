@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
@@ -18,15 +18,24 @@ Route::get('/product', function () {
 Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin');
     Route::get('/admin/produk', [AdminController::class, 'produk'])->name('admin.produk');
+    Route::get('/admin/produk/create', [AdminController::class, 'create'])->name('produk.create');
+    Route::post('/admin/produk/store', [AdminController::class, 'store'])->name('produk.store');
+    Route::get('/admin/produk/edit/{id}', [AdminController::class, 'edit'])->name('produk.edit');
+    Route::post('/admin/produk/update/{id}', [AdminController::class, 'update'])->name('produk.update');
+    Route::get('/admin/produk/delete/{id}', [AdminController::class, 'delete'])->name('produk.delete');
+    Route::get('/admin/employee', [EmployeeController::class, 'employee'])->name('admin.employee');
+    Route::post('admin/submit', [EmployeeController::class, 'createEmployee'])->name('employee.create');
+    Route::get('admin/update/{id}', [EmployeeController::class, 'updateEmployee'])->name('employee.update');
+    Route::get('admin/delete/{id}', [EmployeeController::class, 'deleteEmployee'])->name('employee.delete');
 });
-
-Route::middleware(['auth', 'role:Owner'])->group(function () {
-    Route::get('/owner', [OwnerController::class, 'dashboard'])->name('owner');
-    Route::get('/owner/employee', [OwnerController::class, 'employee'])->name('owner.employee');
-    Route::post('owner/submit', [OwnerController::class, 'createEmployee'])->name('employee.create');
-    Route::get('owner/update/{id}', [OwnerController::class, 'updateEmployee'])->name('employee.update');
-    Route::get('owner/delete/{id}', [OwnerController::class, 'deleteEmployee'])->name('employee.delete');
-});
+ 
+// Route::middleware(['auth', 'role:Owner'])->group(function () {
+    // Route::get('/owner', [OwnerController::class, 'dashboard'])->name('owner');
+    // Route::get('/owner/employee', [OwnerController::class, 'employee'])->name('owner.employee');
+    // Route::post('owner/submit', [OwnerController::class, 'createEmployee'])->name('employee.create');
+    // Route::get('owner/update/{id}', [OwnerController::class, 'updateEmployee'])->name('employee.update');
+    // Route::get('owner/delete/{id}', [OwnerController::class, 'deleteEmployee'])->name('employee.delete');
+// });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
