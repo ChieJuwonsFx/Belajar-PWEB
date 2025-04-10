@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('name');
             $table->text('deskripsi');
             $table->integer('harga_jual');
-            $table->integer('stok');
             $table->integer('stok_minimum');
             $table->json('image');
             $table->enum('is_available', ["Active","Inactive"])->default("Active");

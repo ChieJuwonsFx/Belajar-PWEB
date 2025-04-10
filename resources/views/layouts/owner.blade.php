@@ -319,7 +319,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="{{ route('owner.employee') }}"
+                    <a href="{{ route('employee') }}"
                         class="flex items-center p-2 text-base font-medium text-primary rounded-lg hover:bg-gray-100 group">
                         <svg aria-hidden="true"
                             class="flex-shrink-0 w-6 h-6 text-secondary transition duration-75 group-hover:text-primary"

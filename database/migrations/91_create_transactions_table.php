@@ -25,7 +25,7 @@ return new class extends Migration
             $table->foreign('admin_id')->references('id')->on('users');
             $table->string('customer_offline')->nullable();
             $table->enum('status', ["Paid","Pending","Canceled"])->default("Pending");
-            $table->timestamp('created_at');
+            $table->timestamps();
         });
 
         Schema::enableForeignKeyConstraints();

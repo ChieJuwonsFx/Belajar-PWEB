@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('payment_type');
             $table->string('payment_status');
             $table->timestamp('paid_at')->nullable();
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
+            $table->dateTime('created_at');
+            $table->datetime('updated_at')->nullable();
         });
 
         Schema::enableForeignKeyConstraints();

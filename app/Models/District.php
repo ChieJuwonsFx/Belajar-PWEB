@@ -9,6 +9,10 @@ class District extends Model
 {
     /** @use HasFactory<\Database\Factories\DistrictFactory> */
     use HasFactory;
+    protected $fillable = ['id_kecamatan', 'nama_kecamatan', 'city_id'];
+    protected $primaryKey = 'id_kecamatan';
+    public $incrementing = false;
+    protected $keyType = 'string';
     public function city()
     {
         return $this->belongsTo(City::class);

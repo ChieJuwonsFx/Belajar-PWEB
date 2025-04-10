@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\SocialiteController;
@@ -17,25 +18,33 @@ Route::get('/product', function () {
 
 Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin');
+    
     Route::get('/admin/produk', [AdminController::class, 'produk'])->name('admin.produk');
     Route::get('/admin/produk/create', [AdminController::class, 'create'])->name('produk.create');
     Route::post('/admin/produk/store', [AdminController::class, 'store'])->name('produk.store');
     Route::get('/admin/produk/edit/{id}', [AdminController::class, 'edit'])->name('produk.edit');
     Route::post('/admin/produk/update/{id}', [AdminController::class, 'update'])->name('produk.update');
     Route::get('/admin/produk/delete/{id}', [AdminController::class, 'delete'])->name('produk.delete');
-    Route::get('/admin/employee', [EmployeeController::class, 'employee'])->name('admin.employee');
-    Route::post('admin/submit', [EmployeeController::class, 'createEmployee'])->name('employee.create');
-    Route::get('admin/update/{id}', [EmployeeController::class, 'updateEmployee'])->name('employee.update');
-    Route::get('admin/delete/{id}', [EmployeeController::class, 'deleteEmployee'])->name('employee.delete');
+
+    // Route::get('/admin/employee', [EmployeeController::class, 'employee'])->name('admin.employee');
+    // Route::post('admin/submit', [EmployeeController::class, 'create'])->name('employee.create');
+    // Route::get('admin/update/{id}', [EmployeeController::class, 'update'])->name('employee.update');
+    // Route::get('admin/delete/{id}', [EmployeeController::class, 'delete'])->name('employee.delete');
+
+    // Route::get('/', [CategoryController::class, 'lihat'])->name('kategori.lihat');
+    // Route::post('/store', [CategoryController::class, 'store'])->name('kategori.store');
+    // Route::put('/update/{id}', [CategoryController::class, 'update'])->name('kategori.update');
+    // Route::delete('/delete/{id}', [CategoryController::class, 'delete'])->name('kategori.delete');
 });
  
-// Route::middleware(['auth', 'role:Owner'])->group(function () {
-    // Route::get('/owner', [OwnerController::class, 'dashboard'])->name('owner');
-    // Route::get('/owner/employee', [OwnerController::class, 'employee'])->name('owner.employee');
-    // Route::post('owner/submit', [OwnerController::class, 'createEmployee'])->name('employee.create');
-    // Route::get('owner/update/{id}', [OwnerController::class, 'updateEmployee'])->name('employee.update');
-    // Route::get('owner/delete/{id}', [OwnerController::class, 'deleteEmployee'])->name('employee.delete');
-// });
+Route::middleware(['auth', 'role:Owner'])->group(function () {
+    Route::get('/owner', [OwnerController::class, 'dashboard'])->name('owner');
+    Route::get('/owner/employee', [OwnerController::class, 'employee'])->name('employee');
+    Route::post('owner/submit', [OwnerController::class, 'createEmployee'])->name('employee.create');
+    Route::get('owner/update/{id}', [OwnerController::class, 'updateEmployee'])->name('employee.update');
+    Route::get('owner/delete/{id}', [OwnerController::class, 'deleteEmployee'])->name('employee.delete');
+});
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -47,16 +56,6 @@ Route::controller(SocialiteController::class)->group(function(){
     route::get('auth/google', [SocialiteController::class, 'googleLogin'])->name('auth.google');
     Route::get('auth/google-callback', 'googleAuthentication')->name('auth.google-callback');
 });
-
-// Route::get('admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard')->middleware(['auth', 'role:admin']);
-
-
-// Route::get('posts', [PostController::class, 'tampil'])->name('posts.tampil');
-// Route::get('posts/tambah', [PostController::class, 'tambah'])->name('posts.tambah');
-// Route::get('posts/submit', [PostController::class, 'submit'])->name('posts.submit');
-// Route::get('posts/edit{id}', [PostController::class, 'edit'])->name('posts.edit');
-// Route::get('posts/update{id}', [PostController::class, 'update'])->name('posts.update');
-// Route::post('posts/delete{id}', [PostController::class, 'delete'])->name('posts.delete');
 
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 

@@ -1,4 +1,4 @@
-<x-app_layout>
+<x-app-layout>
     <div class="antialiased bg-white ">
         <nav class="bg-white border-b border-secondary px-4 py-2.5  fixed left-0 right-0 top-0 z-50">
             <div class="flex flex-wrap justify-between items-center">
@@ -301,7 +301,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="{{ route('admin.employee') }}"
+                        <a href="{{ route('employee') }}"
                             class="flex items-center p-2 text-base font-medium text-primary rounded-lg hover:bg-gray-100 group">
                             <svg aria-hidden="true"
                                 class="flex-shrink-0 w-6 h-6 text-secondary transition duration-75 group-hover:text-primary"
@@ -429,4 +429,25 @@
             {{ $slot }}
         </main>
     </div>
-</x-app_layout>
+    <script>
+        function openModal(id) {
+            document.getElementById(id)?.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id)?.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('[id^="product-detail-"], [id^="edit-product-"], [id^="delete-product-"]').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeModal(this.id);
+                    }
+                });
+            });
+        });
+    </script>
+</x-app-layout>

@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::disableForeignKeyConstraints();
 
         Schema::create('villages', function (Blueprint $table) {
-            $table->id();
+            $table->string('id_desa')->primary();
             $table->string('nama_desa');
-            $table->bigInteger('district_id');
-            $table->foreign('district_id')->references('id')->on('districts');
+            $table->string('district_id');
+            $table->foreign('district_id')->references('id_kecamatan')->on('districts');
+            $table->timestamps();
         });
 
         Schema::enableForeignKeyConstraints();

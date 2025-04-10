@@ -9,6 +9,10 @@ class City extends Model
 {
     /** @use HasFactory<\Database\Factories\CityFactory> */
     use HasFactory;
+    protected $fillable = ['id_kabupaten', 'nama_kabupaten', 'province_id'];
+    protected $primaryKey = 'id_kabupaten';
+    public $incrementing = false;
+    protected $keyType = 'string';
     public function province()
     {
         return $this->belongsTo(Province::class);

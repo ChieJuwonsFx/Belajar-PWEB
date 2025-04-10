@@ -5,21 +5,33 @@
                 <div class="bg-white rounded-lg shadow hover:shadow-md transition-all duration-300 overflow-hidden cursor-pointer" 
                      onclick="openModal('product-detail-{{ $product->id }}')">
                     <div class="p-4 flex items-start gap-4">
-                        @if($image = json_decode($product->image, true)[0]['path'] ?? null)
-                            <img src="{{ Str::startsWith($image, 'http') ? $image : asset('storage/'.$image) }}" 
-                                 class="flex-shrink-0 h-16 w-16 object-cover rounded-lg">
-                        @endif
+                        <div class="grid grid-rows-[auto_auto] gap-1 items-center">                            
+                            @if($image = json_decode($product->image, true)[0]['path'] ?? null)
+                                <div class="flex justify-center">
+                                    <img src="{{ Str::startsWith($image, 'http') ? $image : asset('storage/'.$image) }}" class="h-16 w-16 object-cover rounded-lg border border-gray-200" alt="{{ $product->name }}" loading="lazy">
+                                </div>
+                            @endif
+                            <div class="h-6 w-16 flex items-center justify-center">
+                                <div class="py-1 rounded-lg text-xs font-medium text-center w-full  {{ $product->is_available == 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                    {{ $product->is_available }}
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="flex-1 min-w-0">
-                            <h3 class="text-lg font-bold truncate">{{ $product->name }}</h3>
+                            <div class="mt-2 flex justify-between items-center">
+                                <h3 class="text-lg font-bold truncate">{{ $product->name }}</h3>
+                            </div>
                             <p class="text-sm text-gray-500 truncate">{{ $product->category->name }}</p>
                             <div class="mt-2 flex justify-between items-center">
-                                <span class="text-lg font-bold text-primary">
+                                <div class="text-lg font-bold text-primary">
                                     Rp{{ number_format($product->harga_jual, 0, ',', '.') }}
-                                </span>
-                                <span class="px-2 py-1 text-xs font-medium rounded-full 
-                                      {{ $product->stok > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                    Stok: {{ $product->stok }}
-                                </span>
+                                </div>
+                                <div class="h-6 w-20 flex items-center justify-center">
+                                    <div class="py-1 rounded-lg text-xs font-medium text-center w-full  {{ $product->total_stok > $product->stok_minimum ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                        Stok: {{ $product->total_stok }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -29,7 +41,6 @@
 
         @foreach ($products as $product)
             @include('produk.detailProduk', ['product' => $product])
-            @include('produk.editProduk', ['product' => $product])
             @include('produk.deleteProduk', ['product' => $product])
         @endforeach
     </div>

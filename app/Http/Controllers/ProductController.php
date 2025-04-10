@@ -12,14 +12,19 @@ class ProductController extends Controller
     public function produk()
     {
         if (Auth::user()->role == 'Admin') {
-            $products = Product::with('category')->get(); 
+            $products = Product::with('category')
+                ->withSum('stocks as total_stok', 'remaining_quantity')
+                ->get(); 
         } else {
-            $products = Product::where('is_available', 'Active')->with('category')->get(); 
+            $products = Product::where('is_available', 'Active')
+                ->with('category')
+                ->withSum('stocks as total_stok', 'remaining_quantity')
+                ->get(); 
         }
-    
+        
         return view('produk', compact('products'));
     }
-    
+
     public function create()
     {
         $categories = Category::all();
@@ -75,7 +80,7 @@ class ProductController extends Controller
             'category_id' => 'required',
         ]);
 
-        $data = $request->only(['name', 'deskripsi', 'harga_jual', 'stok', 'stok_minimum', 'category_id']);
+        // $data = $request->only(['name', 'deskripsi', 'harga_jual', 'stok', 'stok_minimum', 'category_id']);
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('products', 'public');

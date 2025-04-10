@@ -13,15 +13,12 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-
-
         for ($i = 1; $i <= 20; $i++) {
             
             Product::create([
                 'name' => Str::random(12),
                 'deskripsi' => $this->generateProductDescription('halo'),
                 'harga_jual' => rand(50000, 5000000),
-                'stok' => rand(10, 200),
                 'stok_minimum' => rand(5, 15),
                 'image' => $this->generateProductImages($i),
                 'is_available' => rand(0, 1) ? 'Active' : 'Inactive',

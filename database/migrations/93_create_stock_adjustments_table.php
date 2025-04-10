@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreign('stock_id')->references('id')->on('stocks');
             $table->bigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users');
-            $table->timestamp('created_at');
+            $table->timestamps();
         });
 
         Schema::enableForeignKeyConstraints();

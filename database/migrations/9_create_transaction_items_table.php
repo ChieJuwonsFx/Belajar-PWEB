@@ -25,6 +25,7 @@ return new class extends Migration
             $table->foreign('stock_id')->references('id')->on('stocks');
             $table->bigInteger('transaction_id');
             $table->foreign('transaction_id')->references('id')->on('transactions');
+            $table->timestamps();
         });
 
         Schema::enableForeignKeyConstraints();

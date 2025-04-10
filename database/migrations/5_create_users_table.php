@@ -20,10 +20,10 @@ return new class extends Migration
             $table->string('password');
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->string('image')->default('https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png');
-            $table->enum('role', ['User', 'Admin', 'Kasir'])->default('User');
+            $table->enum('role', ['User', 'Admin', 'Kasir', 'Owner'])->default('User');
             $table->text('alamat')->nullable();
-            $table->bigInteger('desa_id')->nullable();
-            $table->foreign('desa_id')->references('id')->on('villages');
+            $table->string('desa_id')->nullable();
+            $table->foreign('desa_id')->references('id_desa')->on('villages');
             $table->string('no_hp')->nullable();
             $table->rememberToken();
             $table->timestamps();

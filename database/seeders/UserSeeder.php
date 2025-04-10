@@ -52,5 +52,23 @@ class UserSeeder extends Seeder
             'status' => 'Active',
             'alamat' => 'Jln. Jawa 2, Sumbersari, Sumbersari, Jember',
         ]);
+        User::factory()->create([
+            'name' => 'Kasir1',
+            'email' => 'kasir1@gmail.com',
+            'no_hp' => '081234567890',
+            'password' => Hash::make('123456789'),
+            'role' => 'Kasir',
+            'status' => 'Active',
+            'alamat' => 'Jln. Jawa 2, Sumbersari, Sumbersari, Jember',
+        ]);
+        User::factory()->create([
+            'name' => 'Kasir2',
+            'email' => 'kasir2@gmail.com',
+            'no_hp' => '081234567890',
+            'password' => Hash::make('123456789'),
+            'role' => 'Kasir',
+            'status' => 'Active',
+            'alamat' => 'Jln. Jawa 2, Sumbersari, Sumbersari, Jember',
+        ]);
     }
 }

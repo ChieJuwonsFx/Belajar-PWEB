@@ -40,42 +40,45 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                     <div class="space-y-3">
-                        <div class="flex">
-                            <span class="w-32 font-medium text-gray-500">Deskripsi</span>
-                            <span class="flex-1 text-gray-800">{{ $product->deskripsi }}</span>
+                        <div class="flex items-start">
+                            <div class="w-32 font-medium text-gray-500">Deskripsi</div>
+                            <div class="flex-1 text-gray-800">{{ $product->deskripsi }}</div>
                         </div>
-                        <div class="flex">
-                            <span class="w-32 font-medium text-gray-500">Kategori</span>
-                            <span class="flex-1 text-gray-800">{{ $product->category->name }}</span>
+                        <div class="flex items-center">
+                            <div class="w-32 font-medium text-gray-500">Kategori</div>
+                            <div class="flex-1 text-gray-800">{{ $product->category->name }}</div>
                         </div>
-                        <div class="flex">
-                            <span class="w-32 font-medium text-gray-500">Status</span>
-                            <span class="flex-1">
-                                <span class="px-2 py-1 rounded-full text-xs 
-                                      {{ $product->is_available == 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                        <div class="flex items-center">
+                            <div class="w-32 font-medium text-gray-500">Status</div>
+                            <div class="flex-1">
+                                <div class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                                    {{ $product->is_available == 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                     {{ $product->is_available }}
-                                </span>
-                            </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    
                     <div class="space-y-3">
-                        <div class="flex">
-                            <span class="w-32 font-medium text-gray-500">Stok Tersedia</span>
-                            <span class="flex-1 text-gray-800">{{ $product->stok }} unit</span>
+                        <div class="flex items-center">
+                            <div class="w-32 font-medium text-gray-500">Stok Tersedia</div>
+                            <div class="flex-1 text-gray-800">{{ $product->total_stok }} unit</div>
+                        </div>   
+                        <div class="flex items-center">
+                            <div class="w-32 font-medium text-gray-500">Stok Minimum</div>
+                            <div class="flex-1 text-gray-800">{{ $product->stok_minimum }} unit</div>
                         </div>
-                        <div class="flex">
-                            <span class="w-32 font-medium text-gray-500">Stok Minimum</span>
-                            <span class="flex-1 text-gray-800">{{ $product->stok_minimum }} unit</span>
-                        </div>
-                        <div class="flex">
-                            <span class="w-32 font-medium text-gray-500">Harga Jual</span>
-                            <span class="flex-1 font-semibold text-primary">Rp{{ number_format($product->harga_jual, 0, ',', '.') }}</span>
+                        <div class="flex items-center">
+                            <div class="w-32 font-medium text-gray-500">Harga Jual</div>
+                            <div class="flex-1 font-semibold text-primary">
+                                Rp{{ number_format($product->harga_jual, 0, ',', '.') }}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            @include('produk.editProduk', ['product' => $product])
+            
             <div class="bg-gray-50 px-6 py-4 border-t flex justify-end space-x-3">
                 <button type="button"
                         onclick="event.stopPropagation(); closeModal('product-detail-{{ $product->id }}'); openModal('edit-product-{{ $product->id }}')"
