@@ -54,9 +54,9 @@ class User extends Authenticatable
 
     public function village()
     {
-        return $this->belongsTo(Village::class);
+        return $this->belongsTo(Village::class, 'desa_id', 'id_desa');
     }
-
+    
     public function transactionsAsCustomer()
     {
         return $this->hasMany(Transaction::class, 'user_id');

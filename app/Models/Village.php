@@ -15,7 +15,7 @@ class Village extends Model
     protected $keyType = 'string';
     public function district()
     {
-        return $this->belongsTo(District::class);
+        return $this->belongsTo(District::class , 'district_id', 'id_kecamatan');
     }
 
     public function users()

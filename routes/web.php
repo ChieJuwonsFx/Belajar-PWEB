@@ -26,11 +26,6 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::post('/admin/produk/update/{id}', [AdminController::class, 'update'])->name('produk.update');
     Route::get('/admin/produk/delete/{id}', [AdminController::class, 'delete'])->name('produk.delete');
 
-    // Route::get('/admin/employee', [EmployeeController::class, 'employee'])->name('admin.employee');
-    // Route::post('admin/submit', [EmployeeController::class, 'create'])->name('employee.create');
-    // Route::get('admin/update/{id}', [EmployeeController::class, 'update'])->name('employee.update');
-    // Route::get('admin/delete/{id}', [EmployeeController::class, 'delete'])->name('employee.delete');
-
     // Route::get('/', [CategoryController::class, 'lihat'])->name('kategori.lihat');
     // Route::post('/store', [CategoryController::class, 'store'])->name('kategori.store');
     // Route::put('/update/{id}', [CategoryController::class, 'update'])->name('kategori.update');
@@ -39,10 +34,10 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
  
 Route::middleware(['auth', 'role:Owner'])->group(function () {
     Route::get('/owner', [OwnerController::class, 'dashboard'])->name('owner');
-    Route::get('/owner/employee', [OwnerController::class, 'employee'])->name('employee');
-    Route::post('owner/submit', [OwnerController::class, 'createEmployee'])->name('employee.create');
-    Route::get('owner/update/{id}', [OwnerController::class, 'updateEmployee'])->name('employee.update');
-    Route::get('owner/delete/{id}', [OwnerController::class, 'deleteEmployee'])->name('employee.delete');
+    Route::get('/owner/employee', [EmployeeController::class, 'employee'])->name('employee');
+    Route::post('owner/submit', [EmployeeController::class, 'create'])->name('employee.create');
+    Route::get('owner/update/{id}', [EmployeeController::class, 'update'])->name('employee.update');
+    Route::get('owner/delete/{id}', [EmployeeController::class, 'delete'])->name('employee.delete');
 });
 
 

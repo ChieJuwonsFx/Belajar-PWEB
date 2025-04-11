@@ -85,7 +85,7 @@ class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 
         </div>
 
         <div class="p-6">
-            <form id="alamatForm" action="{{ route('employee.create') }}" method="POST" enctype="multipart/form-data">
+            <form id="edit-employee-form" action="{{ route('employee.create') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="grid gap-6 mb-6 md:grid-cols-2">
                     <div class="space-y-4">
@@ -198,114 +198,5 @@ class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 
         </div>
     </div>
 
-    <script>
-        const BASE_URL = 'https://chiejuwonsfx.github.io/api-wilayah-indonesia/json';
 
-        const provinsiSelect = document.getElementById('provinsi');
-        const kabupatenSelect = document.getElementById('kabupaten');
-        const kecamatanSelect = document.getElementById('kecamatan');
-        const desaSelect = document.getElementById('desa');
-
-        let provinsiData = {};
-        let selectedCityDistricts = [];
-        let selectedDistrictVillages = [];
-
-        const populateSelect = (selectElem, items, placeholder) => {
-            selectElem.innerHTML = `<option value="">${placeholder}</option>`;
-            items.forEach(item => {
-                const opt = document.createElement('option');
-                opt.value = item.id;
-                opt.textContent = item.nama;
-                selectElem.appendChild(opt);
-            });
-            selectElem.disabled = false;
-        };
-
-        fetch(`${BASE_URL}/provinces.json`)
-            .then(res => res.json())
-            .then(data => populateSelect(provinsiSelect, data, 'Pilih Provinsi'));
-
-        provinsiSelect.addEventListener('change', function () {
-            const provId = this.value;
-            if (!provId) return;
-
-            kabupatenSelect.disabled = true;
-            kecamatanSelect.disabled = true;
-            desaSelect.disabled = true;
-            
-            fetch(`${BASE_URL}/regencies/${provId}.json`)
-                .then(res => res.json())
-                .then(data => {
-                    populateSelect(kabupatenSelect, data, 'Pilih Kabupaten/Kota');
-                });
-        });
-
-        kabupatenSelect.addEventListener('change', function () {
-            const kabId = this.value;
-            if (!kabId) return;
-
-            kecamatanSelect.disabled = true;
-            desaSelect.disabled = true;
-
-            fetch(`${BASE_URL}/districts/${kabId}.json`)
-                .then(res => res.json())
-                .then(data => {
-                    populateSelect(kecamatanSelect, data, 'Pilih Kecamatan');
-                });
-        });
-
-        kecamatanSelect.addEventListener('change', function () {
-            const kecId = this.value;
-            if (!kecId) return;
-
-            desaSelect.disabled = true;
-
-            fetch(`${BASE_URL}/villages/${kecId}.json`)
-                .then(res => res.json())
-                .then(data => {
-                    populateSelect(desaSelect, data, 'Pilih Desa');
-                });
-        });
-
-
-
-        const getSelectedLocation = () => {
-            const provinsiId = provinsiSelect.value;
-            const provinsiNama = provinsiSelect.options[provinsiSelect.selectedIndex].textContent;
-
-            const kabupatenId = kabupatenSelect.value;
-            const kabupatenNama = kabupatenSelect.options[kabupatenSelect.selectedIndex].textContent;
-
-            const kecamatanId = kecamatanSelect.value;
-            const kecamatanNama = kecamatanSelect.options[kecamatanSelect.selectedIndex].textContent;
-
-            const desaId = desaSelect.value;
-            const desaNama = desaSelect.options[desaSelect.selectedIndex].textContent;
-
-            return {
-                provinsi: { id: provinsiId, nama: provinsiNama },
-                kabupaten: { id: kabupatenId, nama: kabupatenNama },
-                kecamatan: { id: kecamatanId, nama: kecamatanNama },
-                desa: { id: desaId, nama: desaNama }
-            };
-        };
-
-
-        document.getElementById('submitBtn').addEventListener('click', () => {
-            const lokasi = getSelectedLocation();
-            console.log('Data Lokasi Dipilih:', lokasi);
-
-            document.getElementById('provinsi_id').value = lokasi.provinsi.id;
-            document.getElementById('provinsi_nama').value = lokasi.provinsi.nama;
-
-            document.getElementById('kabupaten_id').value = lokasi.kabupaten.id;
-            document.getElementById('kabupaten_nama').value = lokasi.kabupaten.nama;
-
-            document.getElementById('kecamatan_id').value = lokasi.kecamatan.id;
-            document.getElementById('kecamatan_nama').value = lokasi.kecamatan.nama;
-
-            document.getElementById('desa_id').value = lokasi.desa.id;
-            document.getElementById('desa_nama').value = lokasi.desa.nama;
-        });
-    </script>
 </div>

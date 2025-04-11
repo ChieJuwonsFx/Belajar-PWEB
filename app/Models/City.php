@@ -15,7 +15,7 @@ class City extends Model
     protected $keyType = 'string';
     public function province()
     {
-        return $this->belongsTo(Province::class);
+        return $this->belongsTo(Province::class, 'province_id', 'id_provinsi');
     }
 
     public function districts()
