@@ -85,22 +85,21 @@ class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 
         </div>
 
         <div class="p-6">
-            <form id="edit-employee-form" action="{{ route('employee.create') }}" method="POST" enctype="multipart/form-data">
+            <form id="edit-employee-form" action="{{ route('employee.update', $user->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                @method('PUT') 
                 <div class="grid gap-6 mb-6 md:grid-cols-2">
                     <div class="space-y-4">
                         <div>
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-700">Full Name</label>
-                            <input type="text" name="name" id="name"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                placeholder="John Doe" required>
+                            <input type="text" name="name" id="name" value="{{ $user->name }}"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" readonly>
                         </div>
                         
                         <div>
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-700">Email</label>
-                            <input type="email" name="email" id="email"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                placeholder="john.doe@company.com" required>
+                            <input type="email" name="email" id="email" value="{{ $user->email }}"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" readonly>
                         </div>
                         
 
@@ -109,81 +108,36 @@ class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 
                     <div class="space-y-4">
                         <div>
                             <label for="role" class="block mb-2 text-sm font-medium text-gray-700">Role</label>
-                            <select name="role" id="role"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                required>
-                                <option value="" disabled selected>Select Role</option>
-                                <option value="Kasir">Kasir</option>
+                            <select name="role" id="role" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" required>
+                                <option value="" disabled>Select Role</option>
+                                <option value="Kasir" {{ $user->role == 'Kasir' ? 'selected' : '' }}>Kasir</option>
+                                <option value="Admin" {{ $user->role == 'Admin' ? 'selected' : '' }}>Admin</option>
                             </select>
                         </div>
                         <div>
                             <label for="no_hp" class="block mb-2 text-sm font-medium text-gray-700">Phone Number</label>
-                            <input type="tel" name="no_hp" id="no_hp" pattern="[0-9]{10,15}"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                placeholder="081234567890" required>
+                            <input type="tel" name="no_hp" id="no_hp" pattern="[0-9]{10,15}" value="{{ $user->no_hp }}"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"readonly>
                         </div>
                     </div>
                 </div>
-
-                <div class="mb-6 bg-gray-50 rounded-lg p-4">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Region Information</h3>
-                    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                        <div>
-                            <label for="provinsi" class="block mb-2 text-sm font-medium text-gray-700">Province</label>
-                            <select id="provinsi" name="provinsi"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                required>
-                                <option value="" selected disabled>Select Province</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="kabupaten" class="block mb-2 text-sm font-medium text-gray-700">Regency/City</label>
-                            <select id="kabupaten" name="kabupaten"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                disabled required>
-                                <option value="" selected disabled>Select Province First</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="kecamatan" class="block mb-2 text-sm font-medium text-gray-700">District</label>
-                            <select id="kecamatan" name="kecamatan"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                disabled required>
-                                <option value="" selected disabled>Select Regency First</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="desa" class="block mb-2 text-sm font-medium text-gray-700">Village</label>
-                            <select id="desa" name="desa"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                disabled required>
-                                <option value="" selected disabled>Select District First</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <input type="hidden" name="provinsi_id" id="provinsi_id">
-                <input type="hidden" name="provinsi_nama" id="provinsi_nama">
-
-                <input type="hidden" name="kabupaten_id" id="kabupaten_id">
-                <input type="hidden" name="kabupaten_nama" id="kabupaten_nama">
-
-                <input type="hidden" name="kecamatan_id" id="kecamatan_id">
-                <input type="hidden" name="kecamatan_nama" id="kecamatan_nama">
-
-                <input type="hidden" name="desa_id" id="desa_id">
-                <input type="hidden" name="desa_nama" id="desa_nama">
-
 
                 <div class="grid gap-6 mb-6">
                     <div>
                         <label for="alamat" class="block mb-2 text-sm font-medium text-gray-700">Complete Address</label>
                         <textarea name="alamat" id="alamat" rows="3"
                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
-                            placeholder="Jl. Example No. 123, RT/RW 001/002" required></textarea>
+                            readonly>{{ collect([
+                                $user->alamat,
+                                $user->village?->nama_desa,
+                                $user->village?->district?->nama_kecamatan,
+                                $user->village?->district?->city?->nama_kabupaten,
+                                $user->village?->district?->city?->province?->nama_provinsi,
+                            ])->filter()->implode(', ') }}</textarea>
                     </div>
                 </div>
+                
+                
 
                 <div class="flex justify-end">
                     <button id="submitBtn" type="submit"

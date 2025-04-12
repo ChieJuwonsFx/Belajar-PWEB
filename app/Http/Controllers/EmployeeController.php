@@ -14,7 +14,7 @@ class EmployeeController extends Controller
 {
     public function employee()
     {
-        $users = User::with('village.district.city.province')->whereNotIn('role', ['Admin', 'User'])->where('status', 'Active')
+        $users = User::with('village.district.city.province')->whereNotIn('role', ['Owner', 'User'])->where('status', 'Active')
         ->orderBy('role', 'asc')->get();
         
         return view('owner.employee.employee', compact('users'));

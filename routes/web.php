@@ -36,7 +36,7 @@ Route::middleware(['auth', 'role:Owner'])->group(function () {
     Route::get('/owner', [OwnerController::class, 'dashboard'])->name('owner');
     Route::get('/owner/employee', [EmployeeController::class, 'employee'])->name('employee');
     Route::post('owner/submit', [EmployeeController::class, 'create'])->name('employee.create');
-    Route::get('owner/update/{id}', [EmployeeController::class, 'update'])->name('employee.update');
+    Route::put('owner/update/{id}', [EmployeeController::class, 'update'])->name('employee.update');
     Route::get('owner/delete/{id}', [EmployeeController::class, 'delete'])->name('employee.delete');
 });
 

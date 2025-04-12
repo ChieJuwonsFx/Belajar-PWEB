@@ -6,8 +6,8 @@
         <div class="bg-primary p-6 text-white">
             <div class="flex justify-between items-start">
                 <div>
-                    <h2 class="text-2xl font-bold">Add New Employee</h2>
-                    <p class="text-primary-100">Fill all required fields</p>
+                    <h2 class="text-2xl font-bold">Tambah Karyawan Baru</h2>
+                    <p class="text-primary-100">Isi Semua Form di Bawah Ini</p>
                 </div>
                 <button type="button" 
                         class="text-white hover:text-primary-100 transition-colors"
@@ -25,24 +25,24 @@
                 <div class="grid gap-6 mb-6 md:grid-cols-2">
                     <div class="space-y-4">
                         <div>
-                            <label for="name" class="block mb-2 text-sm font-medium text-gray-700">Full Name</label>
+                            <label for="name" class="block mb-2 text-sm font-medium text-gray-700">Nama Lengkap</label>
                             <input type="text" name="name" id="name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                placeholder="John Doe" required>
+                                placeholder="Richie Olajuwon Santoso" required>
                         </div>
                         
                         <div>
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-700">Email</label>
                             <input type="email" name="email" id="email"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                placeholder="john.doe@company.com" required>
+                                placeholder="richieolajuwons@gmail.com" required>
                         </div>
                         
                         <div>
-                            <label for="no_hp" class="block mb-2 text-sm font-medium text-gray-700">Phone Number</label>
+                            <label for="no_hp" class="block mb-2 text-sm font-medium text-gray-700">No Telp</label>
                             <input type="tel" name="no_hp" id="no_hp" pattern="[0-9]{10,15}"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                placeholder="081234567890" required>
+                                placeholder="081238038207" required>
                         </div>
                     </div>
 
@@ -54,6 +54,7 @@
                                 required>
                                 <option value="" disabled selected>Select Role</option>
                                 <option value="Kasir">Kasir</option>
+                                <option value="Admin">Admin</option>
                             </select>
                         </div>
                         
@@ -65,7 +66,7 @@
                         </div>
                         
                         <div>
-                            <label for="confirm_password" class="block mb-2 text-sm font-medium text-gray-700">Confirm Password</label>
+                            <label for="confirm_password" class="block mb-2 text-sm font-medium text-gray-700">Konfirmasi Password</label>
                             <input type="password" name="confirm_password" id="confirm_password"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
                                 placeholder="••••••••" required>
@@ -74,40 +75,46 @@
                 </div>
 
                 <div class="mb-6 bg-gray-50 rounded-lg p-4">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Region Information</h3>
-                    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Alamat</h3>
+                    <div class="grid gap-4 grid-cols-2">
                         <div>
-                            <label for="provinsi" class="block mb-2 text-sm font-medium text-gray-700">Province</label>
+                            <label for="provinsi" class="block mb-2 text-sm font-medium text-gray-700">Provinsi</label>
                             <select id="provinsi" name="provinsi"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
                                 required>
-                                <option value="" selected disabled>Select Province</option>
+                                <option value="" selected disabled>Pilih Provinsi</option>
                             </select>
                         </div>
                         <div>
-                            <label for="kabupaten" class="block mb-2 text-sm font-medium text-gray-700">Regency/City</label>
+                            <label for="kabupaten" class="block mb-2 text-sm font-medium text-gray-700">Kabupaten/Kota</label>
                             <select id="kabupaten" name="kabupaten"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
                                 disabled required>
-                                <option value="" selected disabled>Select Province First</option>
+                                <option value="" selected disabled>Pilih Provinsi Dulu</option>
                             </select>
                         </div>
                         <div>
-                            <label for="kecamatan" class="block mb-2 text-sm font-medium text-gray-700">District</label>
+                            <label for="kecamatan" class="block mb-2 text-sm font-medium text-gray-700">Kecamatan</label>
                             <select id="kecamatan" name="kecamatan"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
                                 disabled required>
-                                <option value="" selected disabled>Select Regency First</option>
+                                <option value="" selected disabled>Pilih Kabupaten Dulu</option>
                             </select>
                         </div>
                         <div>
-                            <label for="desa" class="block mb-2 text-sm font-medium text-gray-700">Village</label>
+                            <label for="desa" class="block mb-2 text-sm font-medium text-gray-700">Desa</label>
                             <select id="desa" name="desa"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
                                 disabled required>
-                                <option value="" selected disabled>Select District First</option>
+                                <option value="" selected disabled>Pilih Kecamatan Dulu</option>
                             </select>
                         </div>
+                    </div>
+                    <div class="mt-4">
+                        <label for="alamat" class="block mb-2 text-sm font-medium text-gray-700">Alamat Lengkap</label>
+                        <textarea name="alamat" id="alamat" rows="3"
+                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
+                            placeholder="Jl. Penggangsaan Timur No. 123, RT 001, RW 002" required></textarea>
                     </div>
                 </div>
 
@@ -125,13 +132,6 @@
 
 
                 <div class="grid gap-6 mb-6">
-                    <div>
-                        <label for="alamat" class="block mb-2 text-sm font-medium text-gray-700">Complete Address</label>
-                        <textarea name="alamat" id="alamat" rows="3"
-                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
-                            placeholder="Jl. Example No. 123, RT/RW 001/002" required></textarea>
-                    </div>
-                    
                     <div>
                         <label for="image" class="block mb-2 text-sm font-medium text-gray-700">Profile Photo</label>
                         <input type="file" name="image" id="image" accept="image/*"
