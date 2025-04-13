@@ -188,7 +188,7 @@
                                     @csrf
                                     <button type="submit"
                                         class="block w-full text-left py-2 px-4 text-sm hover:bg-gray-100">
-                                        {{ __('Sign out') }}
+                                        Sign out
                                     </button>
                                 </form> 
                             </li>
@@ -253,7 +253,7 @@
                         </button>
                         <ul id="dropdown-pages" class="hidden py-2 space-y-2">
                             <li>
-                                <a href="/admin/produk"
+                                <a href="{{ route('owner.produk') }}"
                                     class="flex items-center p-2 pl-11 w-full text-base font-medium text-primary rounded-lg transition duration-75 group hover:bg-gray-100">Produk</a>
                             </li>
                             <li>

@@ -13,7 +13,7 @@ class StockSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 100; $i++) {
             Stock::create([
                 'quantity' => rand(20, 100),
                 'remaining_quantity' => rand(10, 90),

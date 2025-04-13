@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OwnerController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\SocialiteController;
@@ -20,11 +21,11 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin');
     
     Route::get('/admin/produk', [AdminController::class, 'produk'])->name('admin.produk');
-    Route::get('/admin/produk/create', [AdminController::class, 'create'])->name('produk.create');
-    Route::post('/admin/produk/store', [AdminController::class, 'store'])->name('produk.store');
-    Route::get('/admin/produk/edit/{id}', [AdminController::class, 'edit'])->name('produk.edit');
-    Route::post('/admin/produk/update/{id}', [AdminController::class, 'update'])->name('produk.update');
-    Route::get('/admin/produk/delete/{id}', [AdminController::class, 'delete'])->name('produk.delete');
+    Route::get('/admin/produk/create', [AdminController::class, 'create'])->name('admin.produk.create');
+    Route::post('/admin/produk/store', [AdminController::class, 'store'])->name('admin.produk.store');
+    Route::get('/admin/produk/edit/{id}', [AdminController::class, 'edit'])->name('admin.produk.edit');
+    Route::post('/admin/produk/update/{id}', [AdminController::class, 'update'])->name('admin.produk.update');
+    Route::get('/admin/produk/delete/{id}', [AdminController::class, 'delete'])->name('admin.produk.delete');
 
     // Route::get('/', [CategoryController::class, 'lihat'])->name('kategori.lihat');
     // Route::post('/store', [CategoryController::class, 'store'])->name('kategori.store');
@@ -38,6 +39,12 @@ Route::middleware(['auth', 'role:Owner'])->group(function () {
     Route::post('owner/submit', [EmployeeController::class, 'create'])->name('employee.create');
     Route::put('owner/update/{id}', [EmployeeController::class, 'update'])->name('employee.update');
     Route::get('owner/delete/{id}', [EmployeeController::class, 'delete'])->name('employee.delete');
+    Route::get('/owner/produk', [ProductController::class, 'produk'])->name('owner.produk');
+    Route::get('/owner/produk/create', [ProductController::class, 'create'])->name('owner.produk.create');
+    Route::post('/owner/produk/store', [ProductController::class, 'store'])->name('owner.produk.store');
+    Route::get('/owner/produk/edit/{id}', [ProductController::class, 'edit'])->name('owner.produk.edit');
+    Route::post('/owner/produk/update/{id}', [ProductController::class, 'update'])->name('owner.produk.update');
+    Route::get('/owner/produk/delete/{id}', [ProductController::class, 'delete'])->name('owner.produk.delete');
 });
 
 

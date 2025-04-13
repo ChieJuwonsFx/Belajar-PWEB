@@ -13,7 +13,7 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
             
             Product::create([
                 'name' => Str::random(12),
@@ -22,7 +22,7 @@ class ProductSeeder extends Seeder
                 'stok_minimum' => rand(5, 15),
                 'image' => $this->generateProductImages($i),
                 'is_available' => rand(0, 1) ? 'Active' : 'Inactive',
-                'category_id' => 1,
+                'category_id' => 3,
                 'created_at' => now()->subDays(rand(1, 30)),
             ]);
         }

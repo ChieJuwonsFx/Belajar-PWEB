@@ -118,19 +118,6 @@
                     </div>
                 </div>
 
-                <input type="hidden" name="provinsi_id" id="provinsi_id">
-                <input type="hidden" name="provinsi_nama" id="provinsi_nama">
-
-                <input type="hidden" name="kabupaten_id" id="kabupaten_id">
-                <input type="hidden" name="kabupaten_nama" id="kabupaten_nama">
-
-                <input type="hidden" name="kecamatan_id" id="kecamatan_id">
-                <input type="hidden" name="kecamatan_nama" id="kecamatan_nama">
-
-                <input type="hidden" name="desa_id" id="desa_id">
-                <input type="hidden" name="desa_nama" id="desa_nama">
-
-
                 <div class="grid gap-6 mb-6">
                     <div>
                         <label for="image" class="block mb-2 text-sm font-medium text-gray-700">Profile Photo</label>

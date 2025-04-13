@@ -188,7 +188,7 @@
                                     @csrf
                                     <button type="submit"
                                         class="block w-full text-left py-2 px-4 text-sm hover:bg-gray-100">
-                                        {{ __('Sign out') }}
+                                        Sign Out
                                     </button>
                                 </form>                            
                             </li>

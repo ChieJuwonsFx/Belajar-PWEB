@@ -35,7 +35,7 @@
                 </div>
 
                 <x-secondary-button class="w-full mt-2">
-                    {{ __('Log in') }}
+                    Log in
                 </x-secondary-button>
 
                 <p class="text-sm font-light text-center text-gray-600 mt-4">

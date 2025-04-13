@@ -9,6 +9,7 @@ use App\Models\District;
 use App\Models\Province;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 
 class EmployeeController extends Controller
 {
@@ -21,79 +22,94 @@ class EmployeeController extends Controller
 
     }
     
-    
-    public function create(Request $request){
-         $province = Province::firstOrCreate([
-            'id_provinsi' => $request->provinsi_id
+    public function create(Request $request)
+    {
+        $provinsiId = $request->input('provinsi');
+        $kabupatenId = $request->input('kabupaten');
+        $kecamatanId = $request->input('kecamatan');
+        $desaId = $request->input('desa');
+
+        $provinsiNama = Http::get("https://chiejuwonsfx.github.io/api-wilayah-indonesia/json/provinces.json")
+            ->collect()
+            ->firstWhere('id', $provinsiId)['nama'];
+
+        $kabupatenNama = Http::get("https://chiejuwonsfx.github.io/api-wilayah-indonesia/json/regencies/{$provinsiId}.json")
+            ->collect()
+            ->firstWhere('id', $kabupatenId)['nama'];
+
+        $kecamatanNama = Http::get("https://chiejuwonsfx.github.io/api-wilayah-indonesia/json/districts/{$kabupatenId}.json")
+            ->collect()
+            ->firstWhere('id', $kecamatanId)['nama'];
+
+        $desaNama = Http::get("https://chiejuwonsfx.github.io/api-wilayah-indonesia/json/villages/{$kecamatanId}.json")
+            ->collect()
+            ->firstWhere('id', $desaId)['nama'];
+
+        $province = Province::firstOrCreate([
+            'id_provinsi' => $provinsiId
         ], [
-            'nama_provinsi' => $request->provinsi_nama
+            'nama_provinsi' => $provinsiNama
         ]);
-        
+
         $city = City::firstOrCreate([
-            'id_kabupaten' => $request->kabupaten_id
+            'id_kabupaten' => $kabupatenId
         ], [
-            'nama_kabupaten' => $request->kabupaten_nama,
+            'nama_kabupaten' => $kabupatenNama,
             'province_id' => $province->id_provinsi
         ]);
-        
+
         $district = District::firstOrCreate([
-            'id_kecamatan' => $request->kecamatan_id
+            'id_kecamatan' => $kecamatanId
         ], [
-            'nama_kecamatan' => $request->kecamatan_nama,
+            'nama_kecamatan' => $kecamatanNama,
             'city_id' => $city->id_kabupaten
         ]);
-        
+
         $village = Village::firstOrCreate([
-            'id_desa' => $request->desa_id
+            'id_desa' => $desaId
         ], [
-            'nama_desa' => $request->desa_nama,
+            'nama_desa' => $desaNama,
             'district_id' => $district->id_kecamatan
         ]);
-        
+
         $user = User::where('email', $request->email)->first();
-    
+
         if ($user) {
-            $user->name = $request->name;
-            $user->no_hp = $request->no_hp;
-            $user->role = $request->role;
-            $user->alamat = $request->alamat;
-            $user->desa_id = $village->id_desa;
-            $user->status = 'Active';
-    
+            $user->fill([
+                'name' => $request->name,
+                'no_hp' => $request->no_hp,
+                'role' => $request->role,
+                'alamat' => $request->alamat,
+                'desa_id' => $village->id_desa,
+                'status' => 'Active'
+            ]);
+
             if ($request->filled('password')) {
                 $user->password = Hash::make($request->password);
             }
-    
-            if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store('users', 'public');
-                $user->image = $imagePath;
-            }
-    
         } else {
-            $user = new User();
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->no_hp = $request->no_hp;
-            $user->role = $request->role;
-            $user->password = Hash::make($request->password);
-            $user->alamat = $request->alamat;
-            $user->desa_id = $village->id_desa;
-            $user->status = 'Active';
-    
-            if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store('users', 'public');
-                $user->image = $imagePath;
-            } else {
-                $user->image = 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png' . urlencode($request->name); 
-            }
+            $user = new User([
+                'name' => $request->name,
+                'email' => $request->email,
+                'no_hp' => $request->no_hp,
+                'role' => $request->role,
+                'password' => Hash::make($request->password),
+                'alamat' => $request->alamat,
+                'desa_id' => $village->id_desa,
+                'status' => 'Active'
+            ]);
         }
-    
-        $user->save();
-        return redirect()->route('employee')->with('alert_success', 'Karyawan baru berhasil ditambahkan!');
-    
-        // return redirect()->route('employee')->with('success', 'Employee berhasil ditambahkan!');
-    }
 
+        if ($request->hasFile('image')) {
+            $user->image = $request->file('image')->store('users', 'public');
+        } else if (!$user->exists) {
+            $user->image = 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png';
+        }
+
+        $user->save();
+
+        return redirect()->route('employee')->with('alert_success', 'Karyawan baru berhasil ditambahkan!');
+    }
     public function update(Request $request, $id){
         $users = User::findOrFail($id);
         $users->role = $request->role;

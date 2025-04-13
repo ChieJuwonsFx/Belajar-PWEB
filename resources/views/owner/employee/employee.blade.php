@@ -1,4 +1,4 @@
-<x-admin>
+<x-owner>
     <div class="p-6 w-full">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             @foreach ($users as $user)
@@ -77,10 +77,10 @@
                                    </div>
                                    
                                    <div class="flex flex-wrap gap-3">
-                                       <button onclick="openModal('editModal')" class="px-4 py-2 bg-primary text-white border border-primary hover:text-primary hover:bg-white rounded-lg whitespace-nowrap">
+                                       <button onclick="openModal('editModal-{{ $user->id }}')" class="px-4 py-2 bg-primary text-white border border-primary hover:text-primary hover:bg-white rounded-lg whitespace-nowrap">
                                            Edit Role
                                        </button>
-                                        <button onclick="openModal('deleteModal-{{ $user->id }}')"
+                                        <button
                                                 class="px-4 py-2 bg-primary text-white border border-primary hover:text-primary hover:bg-white rounded-lg whitespace-nowrap">
                                             Pecat
                                         </button>
@@ -98,11 +98,9 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                
-            @endforeach
-            @foreach ($users as $user)
-                @include('owner.employee.editEmployee')
+                    @include('owner.employee.editEmployee', ['user' => $user])             
+
+                </div>   
             @endforeach
         </div>
     </div>
@@ -170,16 +168,7 @@
             const kabupatenSelect = form.querySelector('[name="kabupaten"]');
             const kecamatanSelect = form.querySelector('[name="kecamatan"]');
             const desaSelect = form.querySelector('[name="desa"]');
-            
-            const provinsiIdInput = form.querySelector('[name="provinsi_id"]');
-            const provinsiNamaInput = form.querySelector('[name="provinsi_nama"]');
-            const kabupatenIdInput = form.querySelector('[name="kabupaten_id"]');
-            const kabupatenNamaInput = form.querySelector('[name="kabupaten_nama"]');
-            const kecamatanIdInput = form.querySelector('[name="kecamatan_id"]');
-            const kecamatanNamaInput = form.querySelector('[name="kecamatan_nama"]');
-            const desaIdInput = form.querySelector('[name="desa_id"]');
-            const desaNamaInput = form.querySelector('[name="desa_nama"]');
-            
+
             const submitBtn = form.querySelector('[type="submit"]');
             
             const populateSelect = (selectElem, items, placeholder) => {
@@ -238,74 +227,6 @@
                         populateSelect(desaSelect, data, 'Pilih Desa');
                     });
             });
-            
-            const updateAllHiddenFields = () => {
-                const selectedProvinsi = provinsiSelect.options[provinsiSelect.selectedIndex];
-                const selectedKabupaten = kabupatenSelect.options[kabupatenSelect.selectedIndex];
-                const selectedKecamatan = kecamatanSelect.options[kecamatanSelect.selectedIndex];
-                const selectedDesa = desaSelect.options[desaSelect.selectedIndex];
-
-                if (provinsiIdInput && selectedProvinsi) {
-                    provinsiIdInput.value = selectedProvinsi.value;
-                    provinsiNamaInput.value = selectedProvinsi.text;
-                }
-                
-                if (kabupatenIdInput && selectedKabupaten) {
-                    kabupatenIdInput.value = selectedKabupaten.value;
-                    kabupatenNamaInput.value = selectedKabupaten.text;
-                }
-                
-                if (kecamatanIdInput && selectedKecamatan) {
-                    kecamatanIdInput.value = selectedKecamatan.value;
-                    kecamatanNamaInput.value = selectedKecamatan.text;
-                }
-                
-                if (desaIdInput && selectedDesa) {
-                    desaIdInput.value = selectedDesa.value;
-                    desaNamaInput.value = selectedDesa.text;
-                }
-            };
-
-
-            const getSelectedLocation = () => {
-                const provinsiId = provinsiSelect.value;
-                const provinsiNama = provinsiSelect.options[provinsiSelect.selectedIndex]?.textContent || '';
-                
-                const kabupatenId = kabupatenSelect.value;
-                const kabupatenNama = kabupatenSelect.options[kabupatenSelect.selectedIndex]?.textContent || '';
-                
-                const kecamatanId = kecamatanSelect.value;
-                const kecamatanNama = kecamatanSelect.options[kecamatanSelect.selectedIndex]?.textContent || '';
-                
-                const desaId = desaSelect.value;
-                const desaNama = desaSelect.options[desaSelect.selectedIndex]?.textContent || '';
-                
-                return {
-                    provinsi: { id: provinsiId, nama: provinsiNama },
-                    kabupaten: { id: kabupatenId, nama: kabupatenNama },
-                    kecamatan: { id: kecamatanId, nama: kecamatanNama },
-                    desa: { id: desaId, nama: desaNama }
-                };
-            };
-            
-            if (submitBtn) {
-                submitBtn.addEventListener('click', () => {
-                    const lokasi = getSelectedLocation();
-                    console.log('Data Lokasi Dipilih:', lokasi);
-                    
-                    provinsiIdInput.value = lokasi.provinsi.id;
-                    provinsiNamaInput.value = lokasi.provinsi.nama;
-                    
-                    kabupatenIdInput.value = lokasi.kabupaten.id;
-                    kabupatenNamaInput.value = lokasi.kabupaten.nama;
-                    
-                    kecamatanIdInput.value = lokasi.kecamatan.id;
-                    kecamatanNamaInput.value = lokasi.kecamatan.nama;
-                    
-                    desaIdInput.value = lokasi.desa.id;
-                    desaNamaInput.value = lokasi.desa.nama;
-                });
-            }
         }
         
 
@@ -314,4 +235,4 @@
             initializeLocationSelection('edit-employee-form');
         });
     </script>
-</x-admin>
+</x-owner>

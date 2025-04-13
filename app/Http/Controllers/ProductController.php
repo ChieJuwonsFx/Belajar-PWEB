@@ -9,21 +9,54 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    public function produk()
+    // public function produk()
+    // {
+    //     if (Auth::user()->role == 'Admin'||'Owner') {
+    //         $products = Product::with('category')
+    //             ->withSum('stocks as total_stok', 'remaining_quantity')->orderBy('is_available', 'asc')
+    //             ->get(); 
+    //     } else {
+    //         $products = Product::where('is_available', 'Active')
+    //             ->with('category')
+    //             ->withSum('stocks as total_stok', 'remaining_quantity')
+    //             ->get(); 
+    //     }
+        
+    //     return view('produk.produk', compact('products'));
+    // }
+
+
+    public function produk(Request $request)
     {
-        if (Auth::user()->role == 'Admin') {
-            $products = Product::with('category')
-                ->withSum('stocks as total_stok', 'remaining_quantity')
-                ->get(); 
+        $categories = Category::all();
+
+        $query = Product::with('category')
+                        ->withSum('stocks as total_stok', 'remaining_quantity');
+
+        if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Owner') {
         } else {
-            $products = Product::where('is_available', 'Active')
-                ->with('category')
-                ->withSum('stocks as total_stok', 'remaining_quantity')
-                ->get(); 
+            $query->where('is_available', 'Active');
+        }
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%$search%")
+                  ->orWhereHas('category', function ($q2) use ($search) {
+                      $q2->where('name', 'like', "%$search%");
+                  });
+            });
         }
         
-        return view('produk', compact('products'));
+        if ($request->has('category') && $request->category != '') {
+            $query->where('category_id', $request->category);
+        }
+      
+        $products = $query->orderBy('is_available', 'asc')->get();
+
+        return view('produk.produk', compact('products', 'categories'));
     }
+
 
     public function create()
     {
@@ -33,16 +66,6 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'deskripsi' => 'required',
-            'harga_jual' => 'required|integer',
-            'stok' => 'required|integer',
-            'stok_minimum' => 'required|integer',
-            'category_id' => 'required',
-            'image' => 'required|image|max:2048',
-        ]);
-
         $imagePath = $request->file('image')->store('products', 'public');
 
         Product::create([
@@ -70,16 +93,6 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $produk = Product::findOrFail($id);
-
-        $request->validate([
-            'name' => 'required',
-            'deskripsi' => 'required',
-            'harga_jual' => 'required|integer',
-            'stok' => 'required|integer',
-            'stok_minimum' => 'required|integer',
-            'category_id' => 'required',
-        ]);
-
         // $data = $request->only(['name', 'deskripsi', 'harga_jual', 'stok', 'stok_minimum', 'category_id']);
 
         if ($request->hasFile('image')) {
