@@ -429,25 +429,4 @@
             {{ $slot }}
         </main>
     </div>
-    <script>
-        function openModal(id) {
-            document.getElementById(id)?.classList.remove('hidden');
-            document.body.classList.add('overflow-hidden');
-        }
-
-        function closeModal(id) {
-            document.getElementById(id)?.classList.add('hidden');
-            document.body.classList.remove('overflow-hidden');
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('[id^="product-detail-"], [id^="edit-product-"], [id^="delete-product-"]').forEach(modal => {
-                modal.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        closeModal(this.id);
-                    }
-                });
-            });
-        });
-    </script>
 </x-app-layout>

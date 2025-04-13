@@ -9,23 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    // public function produk()
-    // {
-    //     if (Auth::user()->role == 'Admin'||'Owner') {
-    //         $products = Product::with('category')
-    //             ->withSum('stocks as total_stok', 'remaining_quantity')->orderBy('is_available', 'asc')
-    //             ->get(); 
-    //     } else {
-    //         $products = Product::where('is_available', 'Active')
-    //             ->with('category')
-    //             ->withSum('stocks as total_stok', 'remaining_quantity')
-    //             ->get(); 
-    //     }
-        
-    //     return view('produk.produk', compact('products'));
-    // }
-
-
     public function produk(Request $request)
     {
         $categories = Category::all();
@@ -54,14 +37,14 @@ class ProductController extends Controller
       
         $products = $query->orderBy('is_available', 'asc')->get();
 
-        return view('produk.produk', compact('products', 'categories'));
+        return view('owner.produk.produk', compact('products', 'categories'));
     }
 
 
     public function create()
     {
         $categories = Category::all();
-        return view('produk.create', compact('categories'));
+        return view('owner.produk.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -87,7 +70,7 @@ class ProductController extends Controller
     {
         $produk = Product::findOrFail($id);
         $categories = Category::all();
-        return view('produk.edit', compact('products', 'categories'));
+        return view('owner.produk.edit', compact('products', 'categories'));
     }
 
     public function update(Request $request, $id)

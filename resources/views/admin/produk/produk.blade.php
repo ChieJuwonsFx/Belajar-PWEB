@@ -1,6 +1,6 @@
-<x-owner>
+<x-admin>
     <div class="p-6 w-full">     
-        <form method="GET" action="{{ route('owner.produk') }}" class="max-w-full mb-4">
+        <form method="GET" action="{{ route('admin.produk') }}" class="max-w-full mb-4">
             <div class="flex flex-col sm:flex-row gap-2 sm:gap-4">
                 <div class="relative w-full sm:w-auto">
                     <label for="category" class="sr-only">Category</label>
@@ -72,8 +72,8 @@
         </div>
 
         @foreach ($products as $product)
-            @include('produk.detailProduk', ['product' => $product])
-            @include('produk.deleteProduk', ['product' => $product])
+            @include('admin.produk.detailProduk', ['product' => $product])
+            @include('admin.produk.deleteProduk', ['product' => $product])
         @endforeach
     </div>
 
@@ -86,46 +86,5 @@
         </button>
     </div>
 
-    @include('produk.createProduk')
-
-    <script>
-        function openModal(id) {
-            document.getElementById(id)?.classList.remove('hidden');
-            document.body.classList.add('overflow-hidden');
-        }
-
-        function closeModal(id) {
-            document.getElementById(id)?.classList.add('hidden');
-            document.body.classList.remove('overflow-hidden');
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('[id^="product-detail-"], [id^="edit-product-"], [id^="delete-product-"]').forEach(modal => {
-                modal.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        closeModal(this.id);
-                    }
-                });
-            });
-        });
-    </script>
-    <script>
-        function searchProducts() {
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            const productGrid = document.getElementById('product-grid');
-            const productItems = productGrid.getElementsByClassName('bg-white');
-            
-            Array.from(productItems).forEach(item => {
-                const productName = item.querySelector('h3').textContent.toLowerCase();
-                const productCategory = item.querySelector('p').textContent.toLowerCase();
-    
-                if (productName.includes(searchTerm) || productCategory.includes(searchTerm)) {
-                    item.style.display = '';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
-    </script>
-    
-</x-owner>
+    @include('admin.produk.createProduk')
+</x-admin>

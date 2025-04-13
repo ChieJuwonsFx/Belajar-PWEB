@@ -77,7 +77,7 @@
                 </div>
             </div>
 
-            @include('produk.editProduk', ['product' => $product])
+            @include('owner.produk.editProduk', ['product' => $product])
             
             <div class="bg-gray-50 px-6 py-4 border-t flex justify-end space-x-3">
                 <button type="button"

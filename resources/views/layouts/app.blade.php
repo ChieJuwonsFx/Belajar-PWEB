@@ -47,7 +47,16 @@
             </script>
         @endif
     
-
-
+        <script>
+            function openModal(id) {
+                document.getElementById(id)?.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
+            }
+    
+            function closeModal(id) {
+                document.getElementById(id)?.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            }
+        </script>
     </body>
 </html>

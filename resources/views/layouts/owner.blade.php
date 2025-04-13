@@ -429,5 +429,4 @@
             {{ $slot }}
         </main>
     </div>
-
 </x-app-layout>

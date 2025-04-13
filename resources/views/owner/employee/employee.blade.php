@@ -129,32 +129,12 @@
             targetDropdown.classList.toggle('hidden');
         }
 
-        function openModal(id) {
-            document.getElementById(id)?.classList.remove('hidden');
-            document.body.classList.add('overflow-hidden');
-        }
-
-        function closeModal(id) {
-            document.getElementById(id)?.classList.add('hidden');
-            document.body.classList.remove('overflow-hidden');
-        }
-
         document.addEventListener('click', function(event) {
             if (!event.target.closest('.user-dropdown') && !event.target.closest('[onclick^="toggleDropdown"]')) {
                 document.querySelectorAll('.user-dropdown').forEach(dropdown => {
                     dropdown.classList.add('hidden');
                 });
             }
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('[id^="edit-user-"], [id^="delete-user-"]').forEach(modal => {
-                modal.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        closeModal(this.id);
-                    }
-                });
-            });
         });
     </script>
     <script>
