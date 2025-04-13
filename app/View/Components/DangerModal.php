@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class WarningModal extends Component
+class DangerModal extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class WarningModal extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('popup.warning-modal');
+        return view('popup.danger-modal');
     }
 }

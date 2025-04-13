@@ -21,13 +21,33 @@
         <script src="https://unpkg.com/flowbite@latest/dist/flowbite.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.0/lottie.min.js"></script>
-        <script src="{{ asset('component/warningToast.js') }}"></script>
+        <script src="{{ asset('component/alert.js') }}"></script>
     </head>
     <body>
-        <div id="toastContainer" class="fixed top-4 right-4 z-[9999] space-y-2"></div>
-
+        <div id="alertContainer" class="fixed top-4 right-4 z-[9999] space-y-2"></div>
         <main>
             {{ $slot }}
         </main>
+
+        @if (session('alert_success'))
+            <script>
+                showAlert('success', @json(session('alert_success')));
+            </script>
+        @endif
+        
+        @if (session('alert_warning'))
+            <script>
+                showAlert('warning', @json(session('alert_warning')));
+            </script>
+        @endif
+        
+        @if (session('alert_failed'))
+            <script>
+                showAlert('failed', @json(session('alert_failed')));
+            </script>
+        @endif
+    
+
+
     </body>
 </html>

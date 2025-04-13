@@ -11,7 +11,7 @@
     <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 transition-opacity" onclick="closeModal('{{ $id }}')"></div>
     <div class="bg-white rounded-xl z-40 shadow-2xl max-w-md w-full p-6">
         <div class="text-center">
-            <div id="warningLottie-{{ $id }}" class="mx-auto w-32 h-32 mb-4"></div>
+            <div id="dangerLottie-{{ $id }}" class="mx-auto w-32 h-32 mb-4"></div>
             <h2 class="text-2xl font-bold text-red-700 mb-2">{{ $title }}</h2>
             <p class="text-gray-700 mb-4">
                 {!! str_replace(':name', "<span class='font-semibold'>$name</span>", $message) !!}
@@ -30,13 +30,13 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const id = '{{ $id }}';
-        if (!document.getElementById('warningLottie-' + id).hasChildNodes()) {
+        if (!document.getElementById('dangerLottie-' + id).hasChildNodes()) {
             lottie.loadAnimation({
-                container: document.getElementById('warningLottie-' + id),
+                container: document.getElementById('dangerLottie-' + id),
                 renderer: 'svg',
                 loop: true,
                 autoplay: true,
-                path: '{{ asset('assets/warning.json') }}'
+                path: '{{ asset('assets/danger.json') }}'
             });
         }
     });

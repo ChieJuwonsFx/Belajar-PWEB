@@ -84,7 +84,7 @@
                                                 class="px-4 py-2 bg-primary text-white border border-primary hover:text-primary hover:bg-white rounded-lg whitespace-nowrap">
                                             Pecat
                                         </button>
-                                        <x-warning-modal
+                                        <x-danger-modal
                                             id="deleteModal-{{ $user->id }}"
                                             title="Peringatan!"
                                             message="Apakah kamu yakin ingin memecat :name dari perusahaan? Tindakan ini tidak dapat dibatalkan."
@@ -93,8 +93,6 @@
                                             buttonText="Ya, Pecat"
                                             cancelText="Batal"
                                         />
-                                        {{-- <button onclick="showWarningToast('Gagal memproses data!')">Tes Toast</button> --}}
-
                                    </div>
                                </div>                            
                             </div>
@@ -120,8 +118,6 @@
 
     @include('owner.employee.createEmployee')
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.5/lottie.min.js"></script>
-
     <script>
         function toggleDropdown(id) {
             const allDropdowns = document.querySelectorAll('.user-dropdown');
@@ -138,7 +134,6 @@
         function openModal(id) {
             document.getElementById(id)?.classList.remove('hidden');
             document.body.classList.add('overflow-hidden');
-            loadWarningLottie(); 
         }
 
         function closeModal(id) {

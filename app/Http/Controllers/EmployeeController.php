@@ -89,8 +89,9 @@ class EmployeeController extends Controller
         }
     
         $user->save();
+        return redirect()->route('employee')->with('alert_success', 'Karyawan baru berhasil ditambahkan!');
     
-        return redirect()->route('employee')->with('success', 'Employee berhasil ditambahkan!');
+        // return redirect()->route('employee')->with('success', 'Employee berhasil ditambahkan!');
     }
 
     public function update(Request $request, $id){
@@ -98,13 +99,12 @@ class EmployeeController extends Controller
         $users->role = $request->role;
         $users->save();
     
-        return redirect()->route('employee')->with('success', 'Role berhasil diperbarui!');
+        return redirect()->route('employee')->with('alert_success', 'Role karyawan berhasil diperbaharui!');
     }    
     public function delete($id){
         $users = User::findOrFail($id);
         $users->status = 'Inactive';
         $users->save();
-    
-        return redirect()->route('employee')->with('success', 'Karyawan berhasil dipecat!');
+        return redirect()->route('employee')->with('alert_success', 'Karyawan berhasil dihapus!');
     }       
 }
