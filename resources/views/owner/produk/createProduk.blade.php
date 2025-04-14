@@ -91,19 +91,6 @@
                         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
                         placeholder="Mampu menarik air hingga mengalir sampai jauh..." required></textarea>
                 </div>
-
-                {{-- <div class="grid gap-6 mb-6">
-                    <div>
-                        <label class="block mb-2 text-sm font-medium text-gray-700">Foto Produk</label>
-
-                        <input type="file" id="imageInput" accept="image/*"
-                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none p-2">
-                        <p class="mt-1 text-xs text-gray-500">PNG, JPG, or JPEG (Max 2MB)</p>
-                    
-                        <div id="previewContainer" class="grid grid-cols-3 gap-4 mt-4"></div>
-                    
-                        <input type="hidden" name="images_json" id="imagesJsonInput">
-                </div> --}}
                 
                 <div class="mb-6">
                     <label class="block mb-2 text-sm font-medium text-gray-700">Foto Produk</label>
