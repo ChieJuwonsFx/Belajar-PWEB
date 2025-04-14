@@ -72,8 +72,8 @@
         </div>
 
         @foreach ($products as $product)
-            @include('admin.produk.detailProduk', ['product' => $product])
-            @include('admin.produk.deleteProduk', ['product' => $product])
+            {{-- @include('admin.produk.detailProduk', ['product' => $product])
+            @include('admin.produk.deleteProduk', ['product' => $product]) --}}
         @endforeach
     </div>
 
@@ -86,5 +86,5 @@
         </button>
     </div>
 
-    @include('admin.produk.createProduk')
+    {{-- @include('admin.produk.createProduk') --}}
 </x-admin>

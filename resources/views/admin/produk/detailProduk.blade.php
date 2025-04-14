@@ -61,11 +61,11 @@
                     <div class="space-y-3">
                         <div class="flex items-center">
                             <div class="w-32 font-medium text-gray-500">Stok Tersedia</div>
-                            <div class="flex-1 text-gray-800">{{ $product->total_stok }} {{ $product->unit->name }}</div>
+                            <div class="flex-1 text-gray-800">{{ $product->total_stok }} unit</div>
                         </div>   
                         <div class="flex items-center">
                             <div class="w-32 font-medium text-gray-500">Stok Minimum</div>
-                            <div class="flex-1 text-gray-800">{{ $product->stok_minimum }} {{ $product->unit->name }}</div>
+                            <div class="flex-1 text-gray-800">{{ $product->stok_minimum }} unit</div>
                         </div>
                         <div class="flex items-center">
                             <div class="w-32 font-medium text-gray-500">Harga Jual</div>
@@ -77,7 +77,7 @@
                 </div>
             </div>
 
-            @include('owner.produk.editProduk', ['product' => $product])
+            @include('admin.produk.editProduk', ['product' => $product])
             
             <div class="bg-gray-50 px-6 py-4 border-t flex justify-end space-x-3">
                 <button type="button"

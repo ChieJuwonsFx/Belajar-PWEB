@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('status', ['Active', 'Inactive'])->default('Active');
+            $table->boolean('is_active')->default(true);
             $table->string('image')->default('https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png');
             $table->enum('role', ['User', 'Admin', 'Kasir', 'Owner'])->default('User');
             $table->text('alamat')->nullable();

@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             'no_hp' => '081234567893',
             'password' => Hash::make('123456789'),
             'role' => 'User',
-            'status' => 'Active',
+            'is_active' => true,
             'alamat' => 'Jln. Jawa 3, Sumbersari, Sumbersari, Jember',
 
         ]);
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
             'no_hp' => '081234567892',
             'password' => Hash::make('123456789'),
             'role' => 'Admin',
-            'status' => 'Active',
+            'is_active' => true,
             'alamat' => 'Jln. Jawa 1, Sumbersari, Sumbersari, Jember',
 
         ]);
@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
             'no_hp' => '081234567891',
             'password' => Hash::make('123456789'),
             'role' => 'Owner',
-            'status' => 'Active',
+            'is_active' => true,
             'alamat' => 'Jln. Jawa 7, Sumbersari, Sumbersari, Jember',
         ]);
         User::factory()->create([
@@ -49,7 +49,7 @@ class UserSeeder extends Seeder
             'no_hp' => '081234567890',
             'password' => Hash::make('123456789'),
             'role' => 'Kasir',
-            'status' => 'Active',
+            'is_active' => true,
             'alamat' => 'Jln. Jawa 2, Sumbersari, Sumbersari, Jember',
         ]);
         User::factory()->create([
@@ -58,7 +58,7 @@ class UserSeeder extends Seeder
             'no_hp' => '081234567890',
             'password' => Hash::make('123456789'),
             'role' => 'Kasir',
-            'status' => 'Active',
+            'is_active' => true,
             'alamat' => 'Jln. Jawa 2, Sumbersari, Sumbersari, Jember',
         ]);
         User::factory()->create([
@@ -67,7 +67,7 @@ class UserSeeder extends Seeder
             'no_hp' => '081234567890',
             'password' => Hash::make('123456789'),
             'role' => 'Kasir',
-            'status' => 'Active',
+            'is_active' => true,
             'alamat' => 'Jln. Jawa 2, Sumbersari, Sumbersari, Jember',
         ]);
     }

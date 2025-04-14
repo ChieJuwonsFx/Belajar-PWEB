@@ -19,6 +19,10 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class);
+    }
 
     public function stocks()
     {

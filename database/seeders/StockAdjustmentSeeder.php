@@ -22,8 +22,6 @@ class StockAdjustmentSeeder extends Seeder
                 'note' => 'Catatan penyesuaian stok ke-' . $i,
                 'stock_id' => $i,
                 'created_by' => 1, 
-                'created_at' => now(),
-                'updated_at' => now(),
             ]);
         }
     }

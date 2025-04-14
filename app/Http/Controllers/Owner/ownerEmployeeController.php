@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Owner;
 
 use App\Models\City;
 use App\Models\User;
@@ -8,14 +8,15 @@ use App\Models\Village;
 use App\Models\District;
 use App\Models\Province;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 
-class EmployeeController extends Controller
+class ownerEmployeeController extends Controller
 {
     public function employee()
     {
-        $users = User::with('village.district.city.province')->whereNotIn('role', ['Owner', 'User'])->where('status', 'Active')
+        $users = User::with('village.district.city.province')->whereNotIn('role', ['Owner', 'User'])->where('is_active', true)
         ->orderBy('role', 'asc')->get();
         
         return view('owner.employee.employee', compact('users'));
@@ -81,7 +82,7 @@ class EmployeeController extends Controller
                 'role' => $request->role,
                 'alamat' => $request->alamat,
                 'desa_id' => $village->id_desa,
-                'status' => 'Active'
+                'is_active' => true
             ]);
 
             if ($request->filled('password')) {
@@ -96,7 +97,7 @@ class EmployeeController extends Controller
                 'password' => Hash::make($request->password),
                 'alamat' => $request->alamat,
                 'desa_id' => $village->id_desa,
-                'status' => 'Active'
+                'is_active' => true
             ]);
         }
 
@@ -119,7 +120,7 @@ class EmployeeController extends Controller
     }    
     public function delete($id){
         $users = User::findOrFail($id);
-        $users->status = 'Inactive';
+        $users->is_active = false;
         $users->save();
         return redirect()->route('employee')->with('alert_success', 'Karyawan berhasil dihapus!');
     }       

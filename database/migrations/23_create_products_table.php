@@ -20,11 +20,13 @@ return new class extends Migration
             $table->integer('harga_jual');
             $table->integer('stok_minimum');
             $table->json('image');
-            $table->enum('is_available', ["Active","Inactive"])->default("Active");
+            $table->enum('is_available', ["Available","Unavailable"])->default("Available");
+            $table->boolean('is_active')->default(true);
             $table->bigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
-            $table->dateTime('created_at');
-            $table->datetime('updated_at')->nullable();
+            $table->bigInteger('unit_id');
+            $table->foreign('unit_id')->references('id')->on('units');
+            $table->timestamps();
         });
 
         Schema::enableForeignKeyConstraints();

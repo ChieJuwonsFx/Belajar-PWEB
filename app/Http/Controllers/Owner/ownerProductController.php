@@ -1,25 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Owner;
 
+use App\Models\Unit;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
-class ProductController extends Controller
+class ownerProductController extends Controller
 {
     public function produk(Request $request)
     {
         $categories = Category::all();
+        $units = Unit::all();
 
-        $query = Product::with('category')
-                        ->withSum('stocks as total_stok', 'remaining_quantity');
-
-        if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Owner') {
-        } else {
-            $query->where('is_available', 'Active');
-        }
+        $query = Product::with('category')->with('unit') 
+                        ->withSum('stocks as total_stok', 'remaining_quantity')->where('is_active', true);
 
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
@@ -37,7 +34,7 @@ class ProductController extends Controller
       
         $products = $query->orderBy('is_available', 'asc')->get();
 
-        return view('owner.produk.produk', compact('products', 'categories'));
+        return view('owner.produk.produk', compact('products', 'categories', 'units'));
     }
 
 

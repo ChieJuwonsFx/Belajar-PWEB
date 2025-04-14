@@ -21,8 +21,7 @@ return new class extends Migration
             $table->bigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products');
             $table->date('expired_at')->nullable();
-            $table->dateTime('created_at');
-            $table->datetime('updated_at')->nullable();
+            $table->timestamps();
         });
 
         Schema::enableForeignKeyConstraints();

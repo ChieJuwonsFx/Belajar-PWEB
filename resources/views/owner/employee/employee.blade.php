@@ -7,11 +7,9 @@
                         <div class="bg-white rounded-lg shadow p-4 mb-2 flex justify-between items-center">
                             <div class="grid grid-rows-[auto_auto] gap-1 items-center">                            
                                 @if ($user->image && Str::startsWith($user->image, 'http'))
-                                    <img src="{{ $user->image }}" class="w-16 h-16 object-cover rounded-full shadow"
-                                        alt="{{ $user->name }}">
+                                    <img src="{{ $user->image }}" class="w-16 h-16 object-cover rounded-full shadow" alt="{{ $user->name }}">
                                 @elseif($user->image)
-                                    <img src="{{ asset('storage/' . $user->image) }}"
-                                        class="w-16 h-16 object-cover rounded-full shadow" alt="{{ $user->name }}">
+                                    <img src="{{ asset('storage/' . $user->image) }}" class="w-16 h-16 object-cover rounded-full shadow" alt="{{ $user->name }}">
                                 @endif
                                 <div class="h-6 w-16 flex items-center justify-center">
                                     <div class="py-1 rounded-lg text-xs font-medium text-center w-full bg-green-100 text-green-800' ">
@@ -32,15 +30,12 @@
                             <div class="relative">
                                 <button onclick="toggleDropdown('{{ $user->id }}')"
                                     class="text-secondary hover:text-primary hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200 rounded-full p-2">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="3"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M6 12h.01M12 12h.01M18 12h.01" />
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 12h.01M12 12h.01M18 12h.01" />
                                     </svg>
                                 </button>
 
-                                <div id="{{ $user->id }}"
-                                    class="hidden absolute top-10 right-0 z-40 bg-white rounded-lg shadow-lg p-4 w-72 md:w-80 lg:w-96 transition-all duration-300 user-dropdown">
+                                <div id="{{ $user->id }}" class="hidden absolute top-10 right-0 z-40 bg-white rounded-lg shadow-lg p-4 w-72 md:w-80 lg:w-96 transition-all duration-300 user-dropdown">
                                    <div class="text-sm text-primary space-y-3 mb-4">
                                        <div class="flex items-center gap-2">
                                            <div class="flex-shrink-0 pt-0.5">
@@ -77,15 +72,16 @@
                                    </div>
                                    
                                    <div class="flex flex-wrap gap-3">
-                                       <button onclick="openModal('editModal-{{ $user->id }}')" class="px-4 py-2 bg-primary text-white border border-primary hover:text-primary hover:bg-white rounded-lg whitespace-nowrap">
-                                           Edit Role
+                                       <button onclick="openModal('edit-employee-{{ $user->id }}')" 
+                                            class="px-4 py-2 bg-primary text-white border border-primary hover:text-primary hover:bg-white rounded-lg whitespace-nowrap">
+                                            Edit Role
                                        </button>
-                                        <button
-                                                class="px-4 py-2 bg-primary text-white border border-primary hover:text-primary hover:bg-white rounded-lg whitespace-nowrap">
+                                        <button onclick="openModal('delete-konfirmasi-{{ $user->id }}')" 
+                                            class="px-4 py-2 bg-primary text-white border border-primary hover:text-primary hover:bg-white rounded-lg whitespace-nowrap">
                                             Pecat
                                         </button>
                                         <x-danger-modal
-                                            id="deleteModal-{{ $user->id }}"
+                                            id="delete-konfirmasi-{{ $user->id }}"
                                             title="Peringatan!"
                                             message="Apakah kamu yakin ingin memecat :name dari perusahaan? Tindakan ini tidak dapat dibatalkan."
                                             :route="route('employee.delete', $user->id)"
@@ -107,7 +103,7 @@
 
     <div class="fixed bottom-6 right-6">
         <button onclick="openModal('add-employee')" 
-                class="p-4 bg-primary text-white rounded-full shadow-lg hover:bg-primary-dark transition-colors">
+            class="p-4 bg-primary text-white rounded-full shadow-lg hover:bg-primary-dark transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
             </svg>

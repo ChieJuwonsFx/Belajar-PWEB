@@ -18,10 +18,8 @@ class StockSeeder extends Seeder
                 'quantity' => rand(20, 100),
                 'remaining_quantity' => rand(10, 90),
                 'harga_modal' => rand(5000, 80000),
-                'product_id' => $i,
+                'product_id' => rand(1,20),
                 'expired_at' => now()->addMonths(rand(1, 6)),
-                'created_at' => now(),
-                'updated_at' => now(),
             ]);
         }
     }

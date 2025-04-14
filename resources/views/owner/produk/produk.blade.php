@@ -18,8 +18,7 @@
                     <input type="search" name="search" id="search-dropdown"
                         class="block w-full py-2.5 px-4 text-sm text-gray-900 bg-white border border-primary rounded-lg focus:ring-1 focus:outline-none focus:border-primary focus:ring-gray-100 pr-12"
                         placeholder="Cari produk..." value="{{ request('search') }}" />
-                    <button type="submit"
-                        class="absolute top-1/2 right-2 -translate-y-1/2 p-2 text-white bg-primary rounded-lg border border-primary hover:text-primary hover:bg-white focus:ring-4 focus:outline-none focus:ring-blue-300">
+                    <button type="submit" class="absolute top-1/2 right-2 -translate-y-1/2 p-2 text-white bg-primary rounded-lg border border-primary hover:text-primary hover:bg-white focus:ring-1 focus:outline-none focus:border-primary focus:ring-gray-100 ">
                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -43,8 +42,8 @@
                                     <img src="{{ Str::startsWith($image, 'http') ? $image : asset('storage/'.$image) }}" class="h-16 w-16 object-cover rounded-lg border border-gray-200" alt="{{ $product->name }}" loading="lazy">
                                 </div>
                             @endif
-                            <div class="h-6 w-16 flex items-center justify-center">
-                                <div class="py-1 rounded-lg text-xs font-medium text-center w-full  {{ $product->is_available == 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                            <div class="h-6 w-20 flex items-center justify-center">
+                                <div class="py-1 rounded-lg text-xs font-medium text-center w-full  {{ $product->is_available == 'Available' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                     {{ $product->is_available }}
                                 </div>
                             </div>
@@ -78,7 +77,7 @@
     </div>
 
     <div class="fixed bottom-6 right-6">
-        <button onclick="openModal('add-product')" 
+        <button onclick="openModal('add-produk')" 
                 class="p-4 bg-primary text-white rounded-full shadow-lg hover:bg-primary-dark transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
