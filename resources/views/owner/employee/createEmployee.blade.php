@@ -94,7 +94,7 @@
                     </div>
                 </div>
                 <div class="mb-6">
-                    <label class="block mb-2 text-sm font-medium text-gray-700">Foto Produk</label>
+                    <label class="block mb-2 text-sm font-medium text-gray-700">Foto Profil</label>
                     <div id="profilePreviewContainer">
                         <label id="addImage" for="image"
                             class="flex items-center justify-center w-40 h-40 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition">
@@ -104,7 +104,7 @@
                             </div>
                         </label>
                     </div>
-                    <p class="mt-2 text-xs text-gray-500">PNG, JPG, or JPEG (Max 2MB)</p>
+                    <p class="mt-3 text-xs text-gray-500">PNG, JPG, or JPEG (Max 2MB)</p>
                     <input type="file" id="image" name="image" accept="image/png, image/jpeg, image/jpg, image/webp" class="hidden">
                 </div>
 
@@ -151,10 +151,10 @@
             addImage.classList.add('hidden');
 
             const card = document.createElement('div');
-            card.className = "relative rounded-lg overflow-hidden shadow-md group preview-card";
+            card.className = "relative rounded-lg overflow-hidden w-40 h-40 shadow-md group preview-card";
 
             card.innerHTML = `
-                <img src="${base64}" class="w-full h-40 object-cover">
+                <img src="${base64}" class="w-40 h-40 object-cover">
                 <button type="button" class="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 hover:bg-red-700 transition"
                         onclick="removeProfileImage()">
                     &times;

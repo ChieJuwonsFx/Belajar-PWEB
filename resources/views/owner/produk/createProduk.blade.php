@@ -162,7 +162,7 @@
                     </button>
                 `;
     
-                previewContainer.appendChild(card);
+                previewContainer.prepend(card);
             };
             reader.readAsDataURL(file);
     
