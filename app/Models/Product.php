@@ -13,6 +13,22 @@ class Product extends Model
     protected $casts = [
         'image' => 'array',
     ];
+
+    protected $fillable=[
+        'name',
+        'deskripsi',
+        'harga_jual',
+        'stok' => 0,
+        'stok_minimum' ,
+        'image' ,
+        'is_available',
+        'is_active',
+        'is_stock_real',
+        'is_modal_real' ,
+        'estimasi_modal',
+        'category_id',
+        'unit_id',
+    ];
     
 
     public function category()

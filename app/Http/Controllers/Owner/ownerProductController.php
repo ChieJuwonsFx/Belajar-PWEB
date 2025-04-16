@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Models\Unit;
+use App\Models\Stock;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -46,21 +47,49 @@ class ownerProductController extends Controller
 
     public function store(Request $request)
     {
-        $imagePath = $request->file('image')->store('products', 'public');
+        // $imagePath = $request->file('image')->store('products', 'public');
 
-        Product::create([
-            'name' => $request->name,
-            'deskripsi' => $request->deskripsi,
-            'harga_jual' => $request->harga_jual,
-            'stok' => $request->stok,
-            'stok_minimum' => $request->stok_minimum,
-            'image' => json_encode([$imagePath]),
-            'category_id' => $request->category_id,
-            'is_available' => 'Active',
-            'created_at' => now(),
-        ]);
-
-        return redirect()->route('produk')->with('success', 'Produk berhasil ditambahkan');
+        if($request->is_stock_real == true && $request->is_modal_real==true ){
+            $product = Product::create([
+                'name' => $request->name,
+                'deskripsi' => $request->deskripsi,
+                'harga_jual' => $request->harga_jual,
+                'stok' => 0,
+                'stok_minimum' => $request->min_stok,
+                'image' => $request->images_json,
+                'is_available' => $request->is_available,
+                'is_active' => true,
+                'is_stock_real' => $request->is_stock_real,
+                'is_modal_real' => $request->is_modal_real,
+                'estimasi_modal'=> 0,
+                'category_id' => $request->category,
+                'unit_id' => $request->unit,
+            ]);
+            Stock::create([
+                'quantity' => $request->stok,
+                'remaining_quantity' => $request->stok,
+                'harga_modal' => $request->harga_modal,
+                'product_id' => $product->id
+            ]);
+        }
+        else{
+            Product::create([
+                'name' => $request->name,
+                'deskripsi' => $request->deskripsi,
+                'harga_jual' => $request->harga_jual,
+                'stok' => $request->stok,
+                'stok_minimum' => $request->min_stok,
+                'image' => $request->images_json,
+                'is_available' => $request->is_available,
+                'is_active' => true,
+                'is_stock_real' => $request->is_stock_real,
+                'is_modal_real' => $request->is_modal_real,
+                'estimasi_modal'=> $request->harga_modal,
+                'category_id' => $request->category,
+                'unit_id' => $request->unit,
+            ]);
+        }
+        return redirect()->route('owner.produk')->with('success', 'Produk berhasil ditambahkan');
     }
 
     public function edit($id)

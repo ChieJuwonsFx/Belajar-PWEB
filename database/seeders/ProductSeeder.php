@@ -23,6 +23,9 @@ class ProductSeeder extends Seeder
                 'image' => $this->generateProductImages($i),
                 'is_available' => rand(0, 1) ? 'Available' : 'Unavailable',
                 'is_active' => true,
+                'is_stock_real' => true,
+                'is_modal_real' => true,
+                'estimasi_modal' => 0,
                 'category_id' => rand(1,5),
                 'unit_id' => rand(1,5),
             ]);

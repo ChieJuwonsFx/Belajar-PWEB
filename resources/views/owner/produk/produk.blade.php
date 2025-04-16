@@ -37,11 +37,12 @@
                      onclick="openModal('product-detail-{{ $product->id }}')">
                     <div class="p-4 flex items-start gap-4">
                         <div class="grid grid-rows-[auto_auto] gap-1 items-center">                            
-                            @if($image = json_decode($product->image, true)[0]['path'] ?? null)
+                            @if($image = json_decode($product->image, true)[0] ?? null)
                                 <div class="flex justify-center">
-                                    <img src="{{ Str::startsWith($image, 'http') ? $image : asset('storage/'.$image) }}" class="h-16 w-16 object-cover rounded-lg border border-gray-200" alt="{{ $product->name }}" loading="lazy">
+                                    <img src="{{ $image }}" class="h-16 w-16 object-cover rounded-lg border border-gray-200" alt="{{ $product->name }}" loading="lazy">
                                 </div>
                             @endif
+                        
                             <div class="h-6 w-20 flex items-center justify-center">
                                 <div class="py-1 rounded-lg text-xs font-medium text-center w-full  {{ $product->is_available == 'Available' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                     {{ $product->is_available }}

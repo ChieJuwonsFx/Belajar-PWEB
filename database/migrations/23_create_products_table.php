@@ -22,6 +22,9 @@ return new class extends Migration
             $table->json('image');
             $table->enum('is_available', ["Available","Unavailable"])->default("Available");
             $table->boolean('is_active')->default(true);
+            $table->boolean('is_stock_real')->default(true);
+            $table->boolean('is_modal_real')->default(true);
+            $table->integer('estimasi_modal')->nullable();
             $table->bigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->bigInteger('unit_id');

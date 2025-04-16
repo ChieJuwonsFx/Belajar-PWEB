@@ -16,7 +16,7 @@
         </div>
 
         <div class="p-6">
-            <form id="add-produk-form" action="{{ route('employee.create') }}" method="POST" enctype="multipart/form-data">
+            <form id="add-produk-form" action="{{ route('owner.produk.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="grid gap-6 mb-6 md:grid-cols-2">
                     <div>
@@ -74,15 +74,35 @@
                     </div>             
                     <div>
                         <label for="harga_modal" class="block mb-2 text-sm font-medium text-gray-700">Harga Modal</label>
-                        <input type="number" name="harga_modal" id="harga_modal" step="1000" 
+                        <input type="number" name="harga_modal" id="harga_modal"  
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" 
                             placeholder="20000" required>
                     </div>
                     <div>
                         <label for="harga_jual" class="block mb-2 text-sm font-medium text-gray-700">Harga Jual</label>
-                        <input type="number" name="harga_jual" id="harga_jual" step="1000" 
+                        <input type="number" name="harga_jual" id="harga_jual" 
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" 
                             placeholder="20000" required>
+                    </div>
+                    <div>
+                        <label for="is_stock_real" class="block mb-1 text-sm font-medium text-gray-700">Status Stok</label>
+                        <p class="block mb-2 text-xs text-gray-700">Pilih apakah stok awal sudah sesuai dengan kondisi nyata.</p>
+                        <select name="is_stock_real" id="is_stock_real" 
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" required>
+                            <option value="" disabled selected>Pilih ketersediaan</option>
+                            <option value=true>Sesuai</option>
+                            <option value=false>Tidak Sesuai</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="is_modal_real" class="block mb-1 text-sm font-medium text-gray-700">Status Harga Modal</label>
+                        <p class="block mb-2 text-xs text-gray-700">Pilih apakah harga modal sudah sesuai dengan kondisi nyata.</p>
+                        <select name="is_modal_real" id="is_modal_real" 
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" required>
+                            <option value="" disabled selected>Pilih ketersediaan</option>
+                            <option value=true>Sesuai</option>
+                            <option value=false>Tidak Sesuai</option>
+                        </select>
                     </div>
                 </div>
                 <div class="my-4">

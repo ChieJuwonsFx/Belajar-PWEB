@@ -24,9 +24,9 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     @foreach (json_decode($product->image, true) as $index => $img)
                         <div class="relative group">
-                            <img src="{{ Str::startsWith($img['path'], 'http') ? $img['path'] : asset('storage/' . $img['path']) }}"
-                                 class="w-full h-48 md:h-56 object-cover rounded-lg shadow-md transition-transform group-hover:scale-105"
-                                 alt="Product Image {{ $index + 1 }}">
+                            <img src="{{ $img }}" 
+                                class="w-full h-48 md:h-56 object-cover rounded-lg shadow-md transition-transform group-hover:scale-105"
+                                alt="Product Image {{ $index + 1 }}">
                             <div class="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded-full">
                                 {{ $index + 1 }}/{{ count(json_decode($product->image, true)) }}
                             </div>
@@ -52,7 +52,7 @@
                             <div class="w-32 font-medium text-gray-500">Status</div>
                             <div class="flex-1">
                                 <div class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                                    {{ $product->is_available == 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                    {{ $product->is_available == 'Available' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                     {{ $product->is_available }}
                                 </div>
                             </div>
