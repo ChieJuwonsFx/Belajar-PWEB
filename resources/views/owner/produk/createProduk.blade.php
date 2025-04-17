@@ -4,7 +4,7 @@
         <div class="bg-primary p-6 text-white">
             <div class="flex justify-between items-start">
                 <div>
-                    <h2 class="text-2xl font-bold">Tambah Karyawan Baru</h2>
+                    <h2 class="text-2xl font-bold">Tambah Produk Baru</h2>
                     <p class="text-primary-100">Isi Semua Form di Bawah Ini</p>
                 </div>
                 <button type="button"  class="text-white hover:text-primary-100 transition-colors" onclick="closeModal('add-produk')">
@@ -16,7 +16,7 @@
         </div>
 
         <div class="p-6">
-            <form id="add-produk-form" action="{{ route('owner.produk.store') }}" method="POST" enctype="multipart/form-data">
+            <form id="add-produk-form" action="{{ route('owner.produk.create') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="grid gap-6 mb-6 md:grid-cols-2">
                     <div>
@@ -39,7 +39,7 @@
                     </div>
                     <div>
                         <label for="stok" class="block mb-2 text-sm font-medium text-gray-700">Stok Awal</label>
-                        <input type="number" name="stok" id="stok" 
+                        <input type="number" name="stok" id="stok" value="0"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" 
                             placeholder="20" required>
                     </div>
@@ -132,7 +132,7 @@
 
                 <div class="flex justify-end">
                     <button id="submitBtn" type="submit"
-                        class="text-white bg-primary hover:bg-primary-dark focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+                        class="text-white bg-primary border border-primary hover:bg-white hover:text-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
                         <svg class="mr-2 -ml-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
                         </svg>
@@ -198,6 +198,5 @@
     
             card.remove();
         }
-    
     </script>
     </div>

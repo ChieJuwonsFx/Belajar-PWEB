@@ -24,7 +24,7 @@
                 <div class="flex items-center justify-between">
                     <label class="flex items-center">
                         <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-primary shadow-sm focus:ring-primary">
-                        <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+                        <span class="ms-2 text-sm text-gray-600">Remember me</span>
                     </label>
 
                     @if (Route::has('password.request'))
@@ -34,9 +34,9 @@
                     @endif
                 </div>
 
-                <x-secondary-button class="w-full mt-2">
+                <button type="submit" class="text-white border border-primary bg-primary hover:bg-white hover:text-primary hover:border-primary font-medium rounded-lg text-sm px-4 py-2 text-center w-full mt-2">
                     Log in
-                </x-secondary-button>
+                </button>
 
                 <p class="text-sm font-light text-center text-gray-600 mt-4">
                     Don’t have an account yet?

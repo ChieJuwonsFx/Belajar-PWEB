@@ -61,7 +61,7 @@
                     <div class="space-y-3">
                         <div class="flex items-center">
                             <div class="w-32 font-medium text-gray-500">Stok Tersedia</div>
-                            <div class="flex-1 text-gray-800">{{ $product->total_stok }} {{ $product->unit->name }}</div>
+                            <div class="flex-1 text-gray-800">{{ $product->stok }} {{ $product->unit->name }}</div>
                         </div>   
                         <div class="flex items-center">
                             <div class="w-32 font-medium text-gray-500">Stok Minimum</div>
@@ -85,11 +85,19 @@
                         class="px-5 py-2.5 bg-white border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-200">
                     <i class="fas fa-edit mr-2"></i> Edit Produk
                 </button>
-                <button type="button"
-                        onclick="event.stopPropagation(); closeModal('product-detail-{{ $product->id }}'); openModal('delete-product-{{ $product->id }}')"
-                        class="px-5 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-300">
-                    <i class="fas fa-trash-alt mr-2"></i> Hapus Produk
+                <button onclick="openModal('delete-konfirmasi-{{ $product->id }}')" 
+                    class="px-4 py-2 bg-primary text-white border border-primary hover:text-primary hover:bg-white rounded-lg whitespace-nowrap">
+                    Hapus Produk
                 </button>
+                <x-danger-modal
+                    id="delete-konfirmasi-{{ $product->id }}"
+                    title="Peringatan!"
+                    message="Apakah kamu yakin ingin menghapus produk :name ini? Tindakan ini tidak dapat dibatalkan."
+                    :route="route('owner.produk.delete', $product->id)"
+                    name="{{ $product->name }}"
+                    buttonText="Ya, Hapus"
+                    cancelText="Batal"
+                />
             </div>
         </div>
     </div>

@@ -18,7 +18,7 @@ class Product extends Model
         'name',
         'deskripsi',
         'harga_jual',
-        'stok' => 0,
+        'stok' ,
         'stok_minimum' ,
         'image' ,
         'is_available',

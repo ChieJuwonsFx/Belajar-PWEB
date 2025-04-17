@@ -17,12 +17,12 @@
                 {!! str_replace(':name', "<span class='font-semibold'>$name</span>", $message) !!}
             </p>
             <div class="flex justify-center gap-4">
-                <button onclick="closeModal('{{ $id }}')" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg">
+                <button onclick="closeModal('{{ $id }}')" class="h-10 w-24 bg-white border border-primary text-primary hover:bg-primary hover:text-white rounded-lg">
                     {{ $cancelText }}
                 </button>
-                <a href="{{ $route }}" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg">
+                <button onclick="window.location.href='{{ $route }}'" class="h-10 w-24 bg-danger border border-danger hover:bg-white text-white hover:text-danger font-semibold rounded-lg">
                     {{ $buttonText }}
-                </a>
+                </button>
             </div>
         </div>
     </div>

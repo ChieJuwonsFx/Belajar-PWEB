@@ -4,8 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\SocialiteController;
-use App\Http\Controllers\owner\ownerProductController;
+use App\Http\Owner\Controllers\ownerUnitController;
 use App\Http\Controllers\admin\adminProductController;
+use App\Http\Controllers\owner\ownerProductController;
+use App\Http\Controllers\owner\ownerCategoryController;
 use App\Http\Controllers\owner\ownerEmployeeController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
@@ -38,10 +40,15 @@ Route::middleware(['auth', 'role:Owner'])->group(function () {
     Route::get('owner/delete/{id}', [ownerEmployeeController::class, 'delete'])->name('employee.delete');
     Route::get('/owner/produk', [ownerProductController::class, 'produk'])->name('owner.produk');
     Route::get('/owner/produk/create', [ownerProductController::class, 'create'])->name('owner.produk.create');
-    Route::post('/owner/produk/store', [ownerProductController::class, 'store'])->name('owner.produk.store');
     Route::get('/owner/produk/edit/{id}', [ownerProductController::class, 'edit'])->name('owner.produk.edit');
     Route::post('/owner/produk/update/{id}', [ownerProductController::class, 'update'])->name('owner.produk.update');
     Route::get('/owner/produk/delete/{id}', [ownerProductController::class, 'delete'])->name('owner.produk.delete');
+    Route::post('/owner/kategori/create', [ownerCategoryController::class, 'create'])->name('owner.kategori.create');
+    Route::put('/owner/kategori/update/{id}', [ownerCategoryController::class, 'update'])->name('owner.kategori.update');
+    Route::get('/owner/kategori/delete/{id}', [ownerCategoryController::class, 'delete'])->name('owner.kategori.delete');
+    Route::post('/owner/unit/create', [ownerUnitController::class, 'create'])->name('owner.unit.create');
+    Route::put('/owner/unit/update/{id}', [ownerUnitController::class, 'update'])->name('owner.unit.update');
+    Route::get('/owner/unit/delete/{id}', [ownerUnitController::class, 'delete'])->name('owner.unit.delete');
 });
 
 
