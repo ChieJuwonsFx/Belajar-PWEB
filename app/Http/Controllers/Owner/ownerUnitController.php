@@ -10,25 +10,38 @@ use App\Http\Controllers\Controller;
 class ownerUnitController extends Controller
 {
     public function index(){
-        $units = Unit::all();
-        return view('owner.produk.kelolaUnit', compact('units'));
+        try{
+            $units = Unit::all();
+            return view('owner.produk.kelolaUnit', compact('units'));
+        } catch (\Exception $e) {
+            return redirect()->route('owner.unit')->with('alert_failed', 'Terjadi kesalahan saat melakukan load data unit: ' . $e->getMessage());
+        }
     }
 
     public function store(Request $request){
-        Unit::create([
-            'name' => $request->nama,
-            'singkatan' => $request->singkatan
-        ]);
-        return redirect()->route('owner.unit')->with('alert_success', 'Unit baru berhasil ditambahkan');
+        try{
+            Unit::create([
+                'name' => $request->nama,
+                'singkatan' => $request->singkatan
+            ]);
+            return redirect()->route('owner.unit')->with('alert_success', 'Unit baru berhasil ditambahkan');
+        } catch (\Exception $e) {
+            return redirect()->route('owner.unit')->with('alert_failed', 'Terjadi kesalahan saat menambahkan unit baru: ' . $e->getMessage());
+        }
     }
 
     public function update(Request $request, $id){
-        $units= Unit::findOrFail($id);
-        $units->update([
-            'name' => $request->nama,
-            'singkatan' => $request->singkatan
-        ]);
-        return redirect()->route('owner.unit')->with('alert_success', 'Unit baru berhasil ditambahkan');
+        try{
+            $units= Unit::findOrFail($id);
+            $units->update([
+                'name' => $request->nama,
+                'singkatan' => $request->singkatan
+            ]);
+            return redirect()->route('owner.unit')->with('alert_success', 'Unit baru berhasil ditambahkan');
+        } catch (\Exception $e) {
+            return redirect()->route('owner.unit')->with('alert_failed', 'Terjadi kesalahan saat memperbaharui unit: ' . $e->getMessage());
+        }
+
     }
 
     public function delete($id)

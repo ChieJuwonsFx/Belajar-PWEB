@@ -8,10 +8,14 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class ownerCategoryController extends Controller
-{
+{  
     public function index(){
-        $categories = Category::all();
-        return view('owner.produk.kelolaCategory', compact('categories'));
+        try{
+            $categories = Category::all();
+            return view('owner.produk.kelolaCategory', compact('categories'));
+        } catch (\Exception $e) {
+            return redirect()->route('owner.kategori')->with('alert_failed', 'Terjadi kesalahan saat melakukan load data kategori: ' . $e->getMessage());
+        }
     }
 
     public function store(Request $request){
