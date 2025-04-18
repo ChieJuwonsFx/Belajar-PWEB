@@ -2,14 +2,12 @@
     <header class="fixed top-3 left-4 right-4 z-40 bg-white rounded-xl shadow-md shadow-primary border border-gray-100 mx-auto max-w-[95vw]">
         <div class="px-4 py-2 md:px-6 md:py-3 flex items-center justify-between">
             <div class="flex items-center gap-2 md:gap-4">
-                <!-- Mobile menu button -->
                 <button id="mobile-menu-button" class="md:hidden text-dark hover:text-primary">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-7 md:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
-    
-                <!-- Logo -->
+
                 <a href="#" class="flex items-center group">
                     <div class="w-8 h-8 md:w-9 md:h-9 rounded-lg bg-primary flex items-center justify-center mr-2 md:mr-3 group-hover:rotate-12 transition-transform">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
@@ -19,8 +17,7 @@
                     <span class="text-lg md:text-2xl font-bold bg-clip-text text-primary">InnoVixus</span>
                 </a>
             </div>
-    
-            <!-- User menu -->
+   
             <div class="flex items-center gap-4">
                 <div class="relative">
                     <button id="user-menu-button" class="flex items-center space-x-2 focus:outline-none group">
@@ -34,7 +31,6 @@
                         </div>
                     </button>
     
-                    <!-- Dropdown -->
                     <div id="user-dropdown"
                         class="hidden absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg py-2 z-50 border border-gray-100">
                         <div class="px-4 py-3 border-b border-gray-100">
@@ -60,8 +56,6 @@
         </div>
     </header>
     
-
-    <!-- Sidebar -->
     <aside id="sidebar" class="bg-primary shadow-md shadow-black fixed top-0 left-0 z-30 w-64 h-screen pt-16 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out sidebar-gradient text-white">
         <div class="h-full overflow-y-auto px-4 py-6 flex flex-col">
             <ul class="space-y-1.5 flex-1">
@@ -209,7 +203,6 @@
                 </li>
             </ul>
 
-            <!-- Sidebar footer -->
             <div class="pt-4 mt-auto border-t border-blue-700">
                 <ul class="space-y-1.5">
                     <li>
@@ -246,10 +239,8 @@
         </div>
     </aside>
 
-    <!-- Mobile sidebar overlay -->
     <div id="sidebar-overlay" class="fixed inset-0 z-20 bg-black bg-opacity-50 md:hidden hidden"></div>
 
-    <!-- Main content -->
     <main class="md:ml-64 pt-16 min-h-screen">
         <div class="p-4">
             {{ $slot }}
