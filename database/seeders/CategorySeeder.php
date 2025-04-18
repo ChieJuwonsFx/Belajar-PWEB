@@ -17,8 +17,7 @@ class CategorySeeder extends Seeder
 
         foreach ($categories as $name) {
             Category::create([
-                'name' => $name,
-                'is_active' => true,
+                'name' => $name
             ]);
         }
     }

@@ -10,6 +10,11 @@ class Unit extends Model
 {
     /** @use HasFactory<\Database\Factories\UnitFactory> */
     use HasFactory;
+
+    protected $fillable=[
+        'name',
+        'singkatan'
+    ];
     
     public function products(): HasMany
     {

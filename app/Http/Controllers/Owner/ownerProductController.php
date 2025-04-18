@@ -11,14 +11,13 @@ use App\Http\Controllers\Controller;
 
 class ownerProductController extends Controller
 {
-    public function produk(Request $request)
+    public function index(Request $request)
     {
         try{
             $categories = Category::all();
             $units = Unit::all();
     
             $query = Product::with('category', 'unit')
-                // ->with('unit')
                 ->withSum('stocks as stok', 'remaining_quantity')
                 ->where('is_active', true);
     
@@ -45,7 +44,7 @@ class ownerProductController extends Controller
 
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
         try{
             $isStockReal = filter_var($request->is_stock_real, FILTER_VALIDATE_BOOLEAN);
@@ -57,7 +56,7 @@ class ownerProductController extends Controller
                     'name' => $request->name,
                     'deskripsi' => $request->deskripsi,
                     'harga_jual' => $request->harga_jual,
-                    'stok_minimum' => $request->min_stok,
+                    'stok_minimum' => $request->stok_minimum,
                     'stok' => 0,
                     'image' => $request->images_json,
                     'is_available' => $request->is_available,
@@ -81,7 +80,7 @@ class ownerProductController extends Controller
                     'deskripsi' => $request->deskripsi,
                     'harga_jual' => $request->harga_jual,
                     'stok' => 0,
-                    'stok_minimum' => $request->min_stok,
+                    'stok_minimum' => $request->stok_minimum,
                     'image' => $request->images_json,
                     'is_available' => $request->is_available,
                     'is_active' => true,
@@ -102,16 +101,18 @@ class ownerProductController extends Controller
     {
         try{
             $produk = Product::findOrFail($id);
-            // $data = $request->only(['name', 'deskripsi', 'harga_jual', 'stok', 'stok_minimum', 'category_id']);
+            $produk->update([
+                'name' => $request->name,
+                'deskripsi' => $request->deskripsi,
+                'harga_jual' => $request->harga_jual,
+                'stok_minimum' => $request->stok_minimum,
+                'image' => $request->filled('image') ? $request->image : '[]',
+                'is_available' => $request->is_available,
+                'category_id' => $request->category,
+                'unit_id' => $request->unit,
+            ]);
     
-            if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store('products', 'public');
-                $data['image'] = json_encode([$imagePath]);
-            }
-    
-            $produk->update($data);
-    
-            return redirect()->route('produk')->with('success', 'Produk berhasil diupdate');
+            return redirect()->route('owner.produk')->with('alert_success', 'Produk berhasil diperbaharui');
         } catch (\Exception $e) {
             return redirect()->route('owner.produk')->with('alert_failed', 'Terjadi kesalahan saat memperbaharui produk: ' . $e->getMessage());
         }

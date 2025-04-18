@@ -16,7 +16,7 @@
         </div>
 
         <div class="p-6">
-            <form id="add-produk-form" action="{{ route('owner.produk.create') }}" method="POST" enctype="multipart/form-data">
+            <form id="add-produk-form" action="{{ route('owner.produk.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="grid gap-6 mb-6 md:grid-cols-2">
                     <div>
@@ -39,13 +39,13 @@
                     </div>
                     <div>
                         <label for="stok" class="block mb-2 text-sm font-medium text-gray-700">Stok Awal</label>
-                        <input type="number" name="stok" id="stok" value="0"
+                        <input type="number" name="stok" id="stok" 
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" 
                             placeholder="20" required>
                     </div>
                     <div>
-                        <label for="min_stok" class="block mb-2 text-sm font-medium text-gray-700">Stok Minimum</label>
-                        <input type="number" name="min_stok" id="min_stok" 
+                        <label for="stok_minimum" class="block mb-2 text-sm font-medium text-gray-700">Stok Minimum</label>
+                        <input type="number" name="stok_minimum" id="stok_minimum" 
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" 
                             placeholder="20" required>
                     </div>

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Http;
 
 class ownerEmployeeController extends Controller
 {
-    public function employee()
+    public function index()
     {
         try{
             $users = User::with('village.district.city.province')->whereNotIn('role', ['Owner', 'User'])->where('is_active', true)
@@ -26,7 +26,7 @@ class ownerEmployeeController extends Controller
         }
     }
     
-    public function create(Request $request)
+    public function store(Request $request)
     {
         try{
             $provinsiId = $request->input('provinsi');

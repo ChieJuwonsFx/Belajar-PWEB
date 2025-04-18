@@ -1,51 +1,66 @@
-<div id="kelola-unit" class="hidden fixed inset-0 z-50 overflow-y-auto">
-    <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
-         onclick="closeModal('kelola-unit')"></div>
-
-    <div class="relative bg-white rounded-xl shadow-2xl max-w-3xl w-full mx-auto my-8 overflow-hidden">
-        <div class="bg-primary p-6 text-white">
-            <div class="flex justify-between items-center">
-                <h2 class="text-xl font-semibold">Kelola Unit</h2>
-                <button type="button"
-                        class="text-white hover:text-primary-100 transition-colors"
-                        onclick="closeModal('kelola-unit')">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
+<x-owner>
+    <div class="mx-auto px-4 p-6 w-full">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-semibold text-gray-800">Kelola Unit</h1>
         </div>
 
-        <div class="p-6 space-y-4">
-            <form method="POST" action="{{ route('owner.unit.create') }}" class="flex gap-2">
+        <div class="mb-8 p-4 bg-gray-50 rounded-lg">
+            <h2 class="text-lg font-medium mb-4">Tambah Unit Baru</h2>
+            <form method="POST" action="{{ route('owner.unit.store') }}" class="flex flex-col md:flex-row gap-4">
                 @csrf
-                <input type="text" name="nama" placeholder="Nama Unit"
-                       class="flex-1 ml-1 py-2 px-3 border rounded-lg text-sm focus:ring-1 focus:border-primary focus:ring-primary" required>
-                <input type="text" name="singkatan" placeholder="Singkatan Unit"
-                       class="flex-1 py-2 px-3 border rounded-lg text-sm focus:ring-1 focus:border-primary focus:ring-primary" required>
-                <button type="submit"
-                        class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition">
-                    Tambah
-                </button>
+                <div class="flex-1">
+                    <label for="nama" class="block text-sm font-medium text-gray-700 mb-1">Nama Unit</label>
+                    <input type="text" name="nama" id="nama" placeholder="Contoh: Kilogram"
+                        class="w-full py-2 px-3 border rounded-lg focus:ring-primary focus:border-primary text-sm" required>
+                </div>
+                <div class="w-full md:w-48">
+                    <label for="singkatan" class="block text-sm font-medium text-gray-700 mb-1">Singkatan</label>
+                    <input type="text" name="singkatan" id="singkatan" placeholder="Contoh: kg"
+                        class="w-full py-2 px-3 border rounded-lg focus:ring-primary focus:border-primary text-sm" required>
+                </div>
+                <div class="self-end">
+                    <button type="submit"
+                        class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition text-sm">
+                        Tambah Unit
+                    </button>
+                </div>
             </form>
+        </div>
 
-            <div class="max-h-96 overflow-y-auto">
-                <ul>
-                    @foreach($units as $unit)
-                        <li class="flex gap-2 justify-between items-center py-2">
-                            <form method="POST" action="{{ route('owner.unit.update', $unit->id) }}" class="flex flex-1 gap-2 items-center">
+        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <h2 class="text-lg font-medium p-4 bg-gray-50">Daftar Unit</h2>
+            <ul class="divide-y divide-gray-200">
+                @foreach ($units as $unit)
+                    <li class="p-4 hover:bg-gray-50">
+                        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+                            <form method="POST" action="{{ route('owner.unit.update', $unit->id) }}"
+                                class="w-full flex flex-col md:flex-row md:items-center md:gap-4">
                                 @csrf
                                 @method('PUT')
-                                <input type="text" name="nama" value="{{ $unit->name }}"
-                                       class="flex-1 m-1 py-1.5 px-2 border rounded text-sm focus:ring-1 focus:border-primary focus:ring-primary">
-                                <input type="text" name="singkatan" value="{{ $unit->singkatan }}"
-                                       class="flex-1 m-1 py-1.5 px-2 border rounded text-sm focus:ring-1 focus:border-primary focus:ring-primary">
-                                <button type="submit" class="h-9 w-20 text-sm w bg-primary text-white border border-primary hover:text-primary hover:bg-white rounded-lg whitespace-nowrap">Simpan</button>
+                            
+                                <div class="flex flex-col md:flex-row md:gap-4 flex-1 w-full">
+                                    <div class="flex-1 mb-2 md:mb-0">
+                                        <input type="text" name="nama" value="{{ $unit->name }}"
+                                            class="w-full py-1.5 px-3 border rounded focus:ring-primary focus:border-primary text-sm">
+                                    </div>
+                                    <div class="w-full md:w-48 mb-2 md:mb-0">
+                                        <input type="text" name="singkatan" value="{{ $unit->singkatan }}"
+                                            class="w-full py-1.5 px-3 border rounded focus:ring-primary focus:border-primary text-sm">
+                                    </div>
+                                </div>
+                            
+                                <div class="flex gap-2 mt-2 md:mt-0">
+                                    <button type="submit"
+                                        class="px-3 py-1.5 bg-primary text-white border border-primary hover:text-primary hover:bg-white rounded-md text-sm">
+                                        Simpan
+                                    </button>
+                                    <button onclick="openModal('delete-konfirmasi-{{ $unit->id }}')" type="button"
+                                        class="px-3 py-1.5 bg-red-500 text-white border border-red-500 hover:text-red-500 hover:bg-white rounded-md text-sm">
+                                        Hapus
+                                    </button>
+                                </div>
                             </form>
-                            <button onclick="openModal('delete-konfirmasi-{{ $unit->id }}')" 
-                                class="h-9 w-28 text-sm bg-primary text-white border border-primary hover:text-primary hover:bg-white rounded-lg whitespace-nowrap">
-                                Hapus
-                            </button>
+                            
                             <x-danger-modal
                                 id="delete-konfirmasi-{{ $unit->id }}"
                                 title="Peringatan!"
@@ -55,18 +70,10 @@
                                 buttonText="Ya, Hapus"
                                 cancelText="Batal"
                             />
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-        </div>
-
-        <div class="px-6 py-4 bg-gray-50 text-right border-t">
-            <button type="button"
-                    onclick="closeModal('kelola-unit')"
-                    class="px-4 py-2 text-sm bg-white border border-primary text-primary rounded-lg hover:bg-gray-100">
-                Tutup
-            </button>
+                        </div>
+                    </li>
+                @endforeach
+            </ul>
         </div>
     </div>
-</div>
+</x-owner>

@@ -18,7 +18,7 @@
         </div>
 
         <div class="p-6">
-            <form id="add-employee-form" action="{{ route('employee.create') }}" method="POST" enctype="multipart/form-data">
+            <form id="add-employee-form" action="{{ route('owner.employee.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="grid gap-6 mb-6 md:grid-cols-2">
                     <div>
@@ -58,7 +58,7 @@
 
                 <div class="mb-6 bg-gray-50 rounded-lg p-4">
                     <h3 class="text-lg font-semibold text-gray-800 mb-4">Alamat</h3>
-                    <div class="grid gap-4 grid-cols-2">
+                    <div class="grid gap-4 sm:grid-cols-1 lg:grid-cols-2">
                         <div>
                             <label for="provinsi" class="block mb-2 text-sm font-medium text-gray-700">Provinsi</label>
                             <select id="provinsi" name="provinsi" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" required>

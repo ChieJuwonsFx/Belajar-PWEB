@@ -1,6 +1,6 @@
 <x-owner>
     <div class="p-6 w-full">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
             @foreach ($users as $user)
                 <div class="text-primary p-2 relative">
                     <div class="w-full max-w-6xl mx-auto">
@@ -84,7 +84,7 @@
                                             id="delete-konfirmasi-{{ $user->id }}"
                                             title="Peringatan!"
                                             message="Apakah kamu yakin ingin memecat :name dari perusahaan? Tindakan ini tidak dapat dibatalkan."
-                                            :route="route('employee.delete', $user->id)"
+                                            :route="route('owner.employee.delete', $user->id)"
                                             name="{{ $user->name }}"
                                             buttonText="Ya, Pecat"
                                             cancelText="Batal"

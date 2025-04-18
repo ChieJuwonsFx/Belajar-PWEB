@@ -19,7 +19,7 @@
         </div>
 
         <div class="p-6">
-            <form id="edit-employee-form" action="{{ route('employee.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+            <form id="edit-employee-form" action="{{ route('owner.employee.update', $user->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT') 
                 <div class="grid gap-6 mb-6 md:grid-cols-2">

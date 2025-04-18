@@ -9,14 +9,19 @@ use App\Http\Controllers\Controller;
 
 class ownerCategoryController extends Controller
 {
-    public function create(Request $request){
+    public function index(){
+        $categories = Category::all();
+        return view('owner.produk.kelolaCategory', compact('categories'));
+    }
+
+    public function store(Request $request){
         try{
             Category::create([
                 'name' => $request->nama
             ]);
-            return redirect()->route('owner.produk')->with('alert_success', 'Kategori baru berhasil ditambahkan');
+            return redirect()->route('owner.kategori')->with('alert_success', 'Kategori baru berhasil ditambahkan');
         } catch (\Exception $e) {
-            return redirect()->route('owner.produk')->with('alert_failed', 'Terjadi kesalahan saat menambah kategori: ' . $e->getMessage());
+            return redirect()->route('owner.kategori')->with('alert_failed', 'Terjadi kesalahan saat menambah kategori: ' . $e->getMessage());
         }
 
     }
@@ -27,9 +32,9 @@ class ownerCategoryController extends Controller
                 'nama' =>$request->nama
             ]);
     
-            return redirect()->route('owner.produk')->with('alert_success', 'Kategori berhasil diperbaharui');
+            return redirect()->route('owner.kategori')->with('alert_success', 'Kategori berhasil diperbaharui');
         } catch (\Exception $e) {
-            return redirect()->route('owner.produk')->with('alert_failed', 'Terjadi kesalahan saat memperbaharui kategori: ' . $e->getMessage());
+            return redirect()->route('owner.kategori')->with('alert_failed', 'Terjadi kesalahan saat memperbaharui kategori: ' . $e->getMessage());
         }
     }
     public function delete($id)
@@ -40,14 +45,14 @@ class ownerCategoryController extends Controller
             $isCategoryUsed = Product::where('category_id', $id)->exists();
         
             if ($isCategoryUsed) {
-                return redirect()->route('owner.produk')->with('alert_failed', 'Kategori tidak bisa dihapus karena masih digunakan di produk.');
+                return redirect()->route('owner.kategori')->with('alert_failed', 'Kategori tidak bisa dihapus karena masih digunakan di produk.');
             }
         
             $category->delete();
         
-            return redirect()->route('owner.produk')->with('alert_success', 'Kategori berhasil dihapus');
+            return redirect()->route('owner.kategori')->with('alert_success', 'Kategori berhasil dihapus');
         } catch (\Exception $e) {
-            return redirect()->route('owner.produk')->with('alert_failed', 'Terjadi kesalahan saat menghapus kategori: ' . $e->getMessage());
+            return redirect()->route('owner.kategori')->with('alert_failed', 'Terjadi kesalahan saat menghapus kategori: ' . $e->getMessage());
         }
     }
 }
