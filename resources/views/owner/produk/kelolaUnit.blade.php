@@ -20,7 +20,7 @@
                 </div>
                 <div class="self-end">
                     <button type="submit"
-                        class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition text-sm">
+                        class="px-4 py-2 bg-primary text-white border border-primary rounded-lg hover:bg-white hover:text-primary transition text-sm">
                         Tambah Unit
                     </button>
                 </div>
@@ -55,7 +55,7 @@
                                         Simpan
                                     </button>
                                     <button onclick="openModal('delete-konfirmasi-{{ $unit->id }}')" type="button"
-                                        class="px-3 py-1.5 bg-red-500 text-white border border-red-500 hover:text-red-500 hover:bg-white rounded-md text-sm">
+                                        class="px-3 py-1.5 bg-danger text-white border border-danger hover:text-danger hover:bg-white rounded-md text-sm">
                                         Hapus
                                     </button>
                                 </div>

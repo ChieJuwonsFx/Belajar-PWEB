@@ -53,7 +53,7 @@
 
                         <div class="flex-1 min-w-0">
                             <div class="mt-2 flex justify-between items-center">
-                                <h3 class="text-lg font-bold truncate">{{ $product->name }}</h3>
+                                <h3 class="text-lg font-semibold truncate">{{ $product->name }}</h3>
                             </div>
                             <p class="text-sm text-gray-500 truncate">{{ $product->category->name }}</p>
                             <div class="mt-2 flex justify-between items-center">

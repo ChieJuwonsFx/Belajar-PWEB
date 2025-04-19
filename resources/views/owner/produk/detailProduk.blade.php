@@ -111,15 +111,19 @@
                 </div>
             </div>
             
-            
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div class="md:w-[500px] grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-4 mb-4 ">
+                <button type="button"
+                        onclick="openModal('restok-produk-{{ $product->id }}')"
+                        class="px-4 py-2 bg-white text-primary border border-primary hover:text-white hover:bg-primary rounded-lg whitespace-nowrap">
+                    <i class="fas fa-edit mr-2"></i> Restok Produk
+                </button>
                 <button type="button"
                         onclick="openModal('edit-produk-{{ $product->id }}')"
-                        class="px-4 py-2 bg-white border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-200">
+                        class="px-4 py-2 bg-primary text-white border border-primary hover:text-primary hover:bg-white rounded-lg whitespace-nowrap">
                     <i class="fas fa-edit mr-2"></i> Edit Produk
                 </button>
                 <button onclick="openModal('delete-konfirmasi-{{ $product->id }}')" 
-                        class="px-4 py-2 bg-primary text-white border border-primary hover:text-primary hover:bg-white rounded-lg whitespace-nowrap">
+                        class="px-4 py-2 bg-danger text-white border border-danger hover:text-danger hover:bg-white rounded-lg whitespace-nowrap">
                     Hapus Produk
                 </button>
                 <x-danger-modal
@@ -133,7 +137,7 @@
                 />
             </div>
             
-            
+            @include('owner.produk.restokProduk', ['product' => $product])
             @include('owner.produk.editProduk', ['product' => $product])
         </div>
     </div>

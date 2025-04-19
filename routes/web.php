@@ -5,11 +5,13 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\Owner\ownerUnitController;
+use App\Http\Controllers\Owner\ownerStockController;
 use App\Http\Controllers\admin\adminProductController;
 use App\Http\Controllers\owner\ownerProductController;
 use App\Http\Controllers\owner\ownerCategoryController;
 use App\Http\Controllers\owner\ownerEmployeeController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Owner\ownerStockAdjustmentController;
 
 Route::get('/', function () {
     return view('user.home');
@@ -32,8 +34,8 @@ Route::middleware(['auth', 'role:Owner'])->group(function () {
 
     Route::get('/owner/employee', [ownerEmployeeController::class, 'index'])->name('employee');
     Route::post('owner/submit', [ownerEmployeeController::class, 'store'])->name('owner.employee.store');
-    Route::put('owner/update/{id}', [ownerEmployeeController::class, 'update'])->name('employee.update');
-    Route::get('owner/delete/{id}', [ownerEmployeeController::class, 'delete'])->name('employee.delete');
+    Route::put('owner/update/{id}', [ownerEmployeeController::class, 'update'])->name('owner.employee.update');
+    Route::get('owner/delete/{id}', [ownerEmployeeController::class, 'delete'])->name('owner.employee.delete');
 
     Route::get('/owner/produk', [ownerProductController::class, 'index'])->name('owner.produk');
     Route::post('/owner/produk/store', [ownerProductController::class, 'store'])->name('owner.produk.store');
@@ -50,6 +52,11 @@ Route::middleware(['auth', 'role:Owner'])->group(function () {
     Route::post('/owner/unit/store', [ownerUnitController::class, 'store'])->name('owner.unit.store');
     Route::put('/owner/unit/update/{id}', [ownerUnitController::class, 'update'])->name('owner.unit.update');
     Route::get('/owner/unit/delete/{id}', [ownerUnitController::class, 'delete'])->name('owner.unit.delete');
+
+    Route::post('/owner/stok/store/{id}', [ownerStockController::class, 'store'])->name('owner.stok.store');
+
+    Route::get('/batches', [ownerStockAdjustmentController::class, 'index'])->name('owner.batches');
+    Route::post('/batches/store/{id?}', [ownerStockAdjustmentController::class, 'store'])->name('owner.batches.store');
 });
 
 

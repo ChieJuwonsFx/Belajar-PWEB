@@ -74,6 +74,23 @@ class ownerProductController extends Controller
                     'product_id' => $product->id
                 ]);
             }
+            elseif($isStockReal){
+                $product = Product::create([
+                    'name' => $request->name,
+                    'deskripsi' => $request->deskripsi,
+                    'harga_jual' => $request->harga_jual,
+                    'stok_minimum' => $request->stok_minimum,
+                    'stok' => $request->stok,
+                    'image' => $request->images_json,
+                    'is_available' => $request->is_available,
+                    'is_active' => true,
+                    'is_stock_real' => $request->is_stock_real,
+                    'is_modal_real' => $request->is_modal_real,
+                    'estimasi_modal'=> 1,
+                    'category_id' => $request->category,
+                    'unit_id' => $request->unit,
+                ]);
+            }
             else{
                 Product::create([
                     'name' => $request->name,
@@ -129,4 +146,6 @@ class ownerProductController extends Controller
             return redirect()->route('owner.produk')->with('alert_failed', 'Terjadi kesalahan saat menghapus produk: ' . $e->getMessage());
         }
     }
+
+
 }

@@ -6,7 +6,7 @@
 
         <div class="mb-8 p-4 bg-gray-50 rounded-lg">
             <h2 class="text-lg font-medium mb-4">Tambah Kategori Baru</h2>
-            <form method="POST" action="{{ route('owner.kategori.stre') }}" class="flex flex-col md:flex-row gap-4">
+            <form method="POST" action="{{ route('owner.kategori.store') }}" class="flex flex-col md:flex-row gap-4">
                 @csrf
                 <div class="flex-1">
                     <label for="nama" class="block text-sm font-medium text-gray-700 mb-1">Nama Kategori</label>
@@ -15,7 +15,7 @@
                 </div>
                 <div class="self-end">
                     <button type="submit"
-                        class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition text-sm">
+                        class="px-4 py-2 bg-primary text-white border border-primary rounded-lg hover:bg-white hover:text-primary transition text-sm">
                         Tambah Kategori
                     </button>
                 </div>
@@ -44,7 +44,7 @@
                                         Simpan
                                     </button>
                                     <button onclick="openModal('delete-konfirmasi-{{ $category->id }}')" type="button"
-                                        class="px-3 py-1.5 bg-red-500 text-white border border-red-500 hover:text-red-500 hover:bg-white rounded-md text-sm">
+                                        class="px-3 py-1.5 bg-danger text-white border border-danger hover:text-danger hover:bg-white rounded-md text-sm">
                                         Hapus
                                     </button>
                                 </div>

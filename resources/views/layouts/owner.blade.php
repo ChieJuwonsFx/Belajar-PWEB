@@ -101,6 +101,11 @@
                                 <span class="text-sm">Kelola Unit</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ route('owner.batches') }}" class="flex items-center p-2 text-blue-200 hover:text-white rounded-lg submenu-item transition-all duration-200">
+                                <span class="text-sm">Sesuaikan Stok</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 
