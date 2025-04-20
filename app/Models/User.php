@@ -66,4 +66,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Transaction::class, 'admin_id');
     }
+    public function stockAdjustment()
+    {
+        return $this->hasOne(Transaction::class);
+    }
 }

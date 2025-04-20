@@ -23,19 +23,19 @@
                     <button id="user-menu-button" class="flex items-center space-x-2 focus:outline-none group">
                         <div class="relative">
                             <img class="w-9 h-9 md:w-10 md:h-10 rounded-full border-2 border-white shadow-md group-hover:border-primary transition-colors"
-                                src="https://randomuser.me/api/portraits/women/44.jpg" alt="User profile">
+                                src="{{ Auth::user()->image }}" alt="User profile">
                         </div>
                         <div class="hidden sm:block text-left">
-                            <p class="text-sm md:text-base font-medium text-primary leading-4">Sarah Johnson</p>
-                            <p class="text-xs md:text-sm text-primary leading-3">Admin</p>
+                            <p class="text-sm md:text-base font-medium text-primary leading-4">{{ Auth::user()->name }}</p>
+                            <p class="text-xs md:text-sm text-primary leading-3">{{ Auth::user()->role }}</p>
                         </div>
                     </button>
     
                     <div id="user-dropdown"
                         class="hidden absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg py-2 z-50 border border-gray-100">
                         <div class="px-4 py-3 border-b border-gray-100">
-                            <p class="text-sm font-medium text-dark">Sarah Johnson</p>
-                            <p class="text-xs text-gray-500">sarah@nexus.example</p>
+                            <p class="text-sm font-medium text-dark">{{ Auth::user()->name }}</p>
+                            <p class="text-xs text-gray-500">{{ Auth::user()->email }}</p>
                         </div>
                         <a href="#"
                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition">Your

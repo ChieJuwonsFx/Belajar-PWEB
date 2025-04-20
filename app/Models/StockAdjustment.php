@@ -14,11 +14,17 @@ class StockAdjustment extends Model
         'quantity',
         'alasan',
         'note',
+        'stock_id',
+        'created_by'
         
     ];
 
     public function stock()
     {
         return $this->belongsTo(Stock::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

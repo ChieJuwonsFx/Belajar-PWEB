@@ -37,9 +37,25 @@ class ownerStockAdjustmentController extends Controller
             ]);
         }
     
-        $stocks = $query->latest()->get();
+        $stocks = $query->latest()->with('stockAdjustments')->get();
         $categories = Category::all();
     
         return view('owner.produk.stockAdjustment', compact('stocks', 'categories'));
+    }
+
+    public function store(Request $request, $id){
+        $stock = Stock::findOrFail($id);
+        StockAdjustment::create([
+            'quantity' => $request->quantity,
+            'alasan' => $request->alasan,
+            'note' => $request->note,
+            'stock_id' => $id,
+            'created_by' => Auth::id()
+        ]);
+        $stock->update([
+            'remaining_quantity' => $stock->remaining_quantity - $request->quantity,
+        ]);
+        
+
     }
 }
