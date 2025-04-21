@@ -57,9 +57,19 @@ export default {
                 warning : '#8A7300',
                 danger: '#850000',
                 success: '#048730',
-                redy: '#FEF0F0',
-                greeny: '#EAFFF1',
-                yellowy: '#FFFDF1',
+                card: {
+                    danger: '#B71C1C',       
+                    dangerSoft: '#FFA7A5',  
+                    dangerBg: '#FFD6DA',     
+            
+                    warning: '#FFA114',  
+                    warningSoft: '#FFF193', 
+                    warningBg: '#FFF9C4',    
+            
+                    success: '#388E3C',      
+                    successSoft: '#A0D9A0',  
+                    successBg: '#C8E6C9',   
+                },
             },   
         },
     },

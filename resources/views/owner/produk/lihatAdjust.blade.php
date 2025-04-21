@@ -72,7 +72,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-yellowy p-4 rounded-lg border border-warning"> 
+                <div class="bg-card-warningBg p-4 rounded-lg border border-warning"> 
                     <div class="flex items-center">
                         <div class="p-2 rounded-full bg-yellow- text-warning mr-3">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -85,7 +85,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-redy p-4 rounded-lg border border-danger">
+                <div class="bg-card-dangerBg p-4 rounded-lg border border-danger">
                     <div class="flex items-center">
                         <div class="p-2 rounded-full bg-red-100 text-danger mr-3">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

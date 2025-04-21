@@ -15,7 +15,7 @@ class ownerStockAdjustmentController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Stock::with('product.category');
+        $query = Stock::with(['product.category', 'stockAdjustments.user', 'stockAdjustments.stock']);
     
         if ($request->category_id) {
             $query->whereHas('product', function ($q) use ($request) {
@@ -37,7 +37,7 @@ class ownerStockAdjustmentController extends Controller
             ]);
         }
     
-        $stocks = $query->latest()->with('stockAdjustments')->get();
+        $stocks = $query->latest()->get();
         $categories = Category::all();
     
         return view('owner.produk.stockAdjustment', compact('stocks', 'categories'));

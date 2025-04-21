@@ -40,8 +40,7 @@
                     <label for="note" class="block mb-2 text-sm font-medium text-gray-700">Note</label>
                     <textarea name="note" id="note" rows="3"
                         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
-                        required>
-                    </textarea>
+                        required></textarea>
                 </div>
 
                 <div class="flex justify-end">
