@@ -13,7 +13,7 @@ class dashboardController extends Controller
     public function owner() {
         return view('owner.home');
     }
-    // public function kasir(){
-    //     return view ('kasir.home');
-    // }
+    public function kasir(){
+        return view ('kasir.home');
+    }
 }

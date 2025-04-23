@@ -46,9 +46,9 @@
                                 $dashboardRoute = route('owner');
                             } elseif ($role === 'Admin') {
                                 $dashboardRoute = route('admin');}
-                            //  elseif ($role === 'Kasir') {
-                            //     $dashboardRoute = route('kasir.dashboard');
-                            // }
+                             elseif ($role === 'Kasir') {
+                                $dashboardRoute = route('kasir');
+                            }
                         @endphp
                     
                         <a href="{{ $dashboardRoute }}"

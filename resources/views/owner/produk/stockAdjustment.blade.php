@@ -123,6 +123,7 @@
                                 </div>
                             </td>
                         </tr>
+
                     @empty
                         <tr>
                             <td colspan="10" class="p-4 text-center text-gray-500">
@@ -134,6 +135,7 @@
                                 </div>
                             </td>
                         </tr>
+
                     @endforelse
                 </tbody>
             </table>

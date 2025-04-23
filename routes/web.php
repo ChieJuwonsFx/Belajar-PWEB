@@ -28,6 +28,11 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::get('/admin/produk/edit/{id}', [adminProductController::class, 'edit'])->name('admin.produk.edit');
     Route::post('/admin/produk/update/{id}', [adminProductController::class, 'update'])->name('admin.produk.update');
 });
+
+Route::middleware(['auth', 'role:Kasir'])->group(function () {
+    Route::get('/kasir', [dashboardController::class, 'kasir'])->name('kasir');
+    
+});
  
 Route::middleware(['auth', 'role:Owner'])->group(function () {
     Route::get('/owner', [dashboardController::class, 'owner'])->name('owner');
