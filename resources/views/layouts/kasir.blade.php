@@ -71,7 +71,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('kasir') }}" class="flex items-center p-3 rounded-lg nav-item transition-all duration-200">
+                    <a href="{{ route('kasir.transaksi') }}" class="flex items-center p-3 rounded-lg nav-item transition-all duration-200">
                         <div class="w-6 h-6 flex items-center justify-center mr-3">
                             <svg class="w-5 h-5 text-blue-300" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>

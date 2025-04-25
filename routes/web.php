@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\admin\adminProductController;
+use App\Http\Controllers\Kasir\transaksiKasirController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::get('/', function () {
@@ -25,7 +26,8 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
 
 Route::middleware(['auth', 'role:Kasir'])->group(function () {
     Route::get('/kasir', [dashboardController::class, 'kasir'])->name('kasir');
-    
+    Route::get('/transaksi', [transaksiKasirController::class, 'index'])->name('kasir.transaksi');
+    Route::post('/transaksi', [transaksiKasirController::class, 'store'])->name('kasir.transaksi.store');
 });
  
 Route::middleware('auth')->group(function () {
