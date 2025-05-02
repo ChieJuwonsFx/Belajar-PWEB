@@ -5,19 +5,20 @@ namespace App\Http\Controllers\Kasir;
 use App\Models\Unit;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class transaksiKasirController extends Controller
 {
     public function index(Request $request){
-        // try{
+        try{
             $categories = Category::all();
             $units = Unit::all();
     
             $query = Product::with('category', 'unit')
                 ->withSum('stocks as stok', 'remaining_quantity')
-                ->where('is_active', true);
+                ->where([['is_active', true], ['is_available', 'Available']]);
     
             if ($request->has('search') && $request->search != '') {
                 $search = $request->search;
@@ -36,8 +37,14 @@ class transaksiKasirController extends Controller
             $products = $query->orderBy('is_available', 'asc')->get();
     
             return view('kasir.transaksi', compact('products', 'categories', 'units'));    
-        // } catch (\Exception $e) {
-        //     return redirect()->route('owner.produk')->with('alert_failed', 'Terjadi kesalahan saat melakukan load data produk: ' . $e->getMessage());
-        // }
+        } catch (\Exception $e) {
+            return redirect()->route('kasir.transaksi')->with('alert_failed', 'Terjadi kesalahan saat melakukan load data produk: ' . $e->getMessage());
+        }
+    }
+
+    public function store(Request $request){
+        $transaksi=Transaction::create([
+
+        ]);
     }
 }

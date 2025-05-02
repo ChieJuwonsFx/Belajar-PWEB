@@ -2,7 +2,7 @@
     <header class="fixed top-3 left-4 right-4 z-40 bg-white rounded-xl shadow-md shadow-primary border border-gray-100 mx-auto max-w-[95vw]">
         <div class="px-4 py-2 md:px-6 md:py-3 flex items-center justify-between">
             <div class="flex items-center gap-2 md:gap-4">
-                <button id="mobile-menu-button" class="md:hidden text-dark hover:text-primary">
+                <button id="mobile-menu-button" class="text-dark hover:text-primary">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-7 md:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
@@ -20,44 +20,51 @@
    
             <div class="flex items-center gap-4">
                 <div class="relative">
-                    <button id="user-menu-button" class="flex items-center space-x-2 focus:outline-none group">
-                        <div class="relative">
-                            <img class="w-9 h-9 md:w-10 md:h-10 rounded-full border-2 border-white shadow-md group-hover:border-primary transition-colors"
-                                src="{{ Auth::user()->image }}" alt="User profile">
+                    @auth
+                        <button id="user-menu-button" class="flex items-center space-x-2 focus:outline-none group">
+                            <div class="relative">
+                                <img class="w-9 h-9 md:w-10 md:h-10 rounded-full border-2 border-white shadow-md group-hover:border-primary transition-colors"
+                                    src="{{ auth()->user()->image }}" alt="User profile">
+                            </div>
+                            <div class="hidden sm:block text-left">
+                                <p class="text-sm md:text-base font-medium text-primary leading-4">{{ auth()->user()->name }}</p>
+                                <p class="text-xs md:text-sm text-primary leading-3">{{ auth()->user()->role }}</p>
+                            </div>
+                        </button>
+        
+                        <div id="user-dropdown"
+                            class="hidden absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg py-2 z-50 border border-gray-100">
+                            <div class="px-4 py-3 border-b border-gray-100">
+                                <p class="text-sm font-medium text-dark">{{ auth()->user()->name }}</p>
+                                <p class="text-xs text-gray-500">{{ auth()->user()->email }}</p>
+                            </div>
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition">Your
+                                Profile</a>
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition">Settings</a>
+                            <div class="border-t border-gray-100"></div>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit"
+                                    class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition">
+                                    Sign out
+                                </button>
+                            </form>
                         </div>
-                        <div class="hidden sm:block text-left">
-                            <p class="text-sm md:text-base font-medium text-primary leading-4">{{ Auth::user()->name }}</p>
-                            <p class="text-xs md:text-sm text-primary leading-3">{{ Auth::user()->role }}</p>
-                        </div>
-                    </button>
-    
-                    <div id="user-dropdown"
-                        class="hidden absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg py-2 z-50 border border-gray-100">
-                        <div class="px-4 py-3 border-b border-gray-100">
-                            <p class="text-sm font-medium text-dark">{{ Auth::user()->name }}</p>
-                            <p class="text-xs text-gray-500">{{ Auth::user()->email }}</p>
-                        </div>
-                        <a href="#"
-                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition">Your
-                            Profile</a>
-                        <a href="#"
-                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition">Settings</a>
-                        <div class="border-t border-gray-100"></div>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit"
-                                class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition">
-                                Sign out
-                            </button>
-                        </form>
-                    </div>
+                    @endauth
                 </div>
             </div>
         </div>
     </header>
     
-    <aside id="sidebar" class="bg-primary shadow-md shadow-black fixed top-0 left-0 z-30 w-64 h-screen pt-16 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out sidebar-gradient text-white">
+    <aside id="sidebar" class="bg-primary shadow-md shadow-black fixed top-0 left-0 z-30 w-64 h-screen pt-16 transform -translate-x-full transition-transform duration-200 ease-in-out sidebar-gradient text-white">
         <div class="h-full overflow-y-auto px-4 py-6 flex flex-col">
+            <button id="close-sidebar-button" class="absolute top-4 right-4 text-white hover:text-blue-200 lg:hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
             <ul class="space-y-1.5 flex-1">
                 <li>
                     <a href="{{ route('owner') }}" class="flex items-center p-3 rounded-lg nav-item transition-all duration-200">
@@ -244,9 +251,7 @@
         </div>
     </aside>
 
-    <div id="sidebar-overlay" class="fixed inset-0 z-20 bg-black bg-opacity-50 md:hidden hidden"></div>
-
-    <main class="md:ml-64 pt-16 min-h-screen">
+    <main class="pt-16 min-h-screen transition-all duration-200" id="main-content">
         <div class="p-4">
             {{ $slot }}
         </div>
@@ -254,15 +259,27 @@
 
     <script>
         $(document).ready(function() {
+            const sidebarState = localStorage.getItem('sidebarState');
+            if (sidebarState === 'open') {
+                openSidebar();
+            } else if (sidebarState === 'closed') {
+                closeSidebar();
+            } else {
+                if (window.innerWidth >= 1024) {
+                    openSidebar();
+                } else {
+                    closeSidebar();
+                }
+            }
+
             $('#mobile-menu-button').click(function(e) {
                 e.stopPropagation();
-                $('#sidebar').toggleClass('-translate-x-full');
-                $('#sidebar-overlay').toggleClass('hidden');
+                toggleSidebar();
             });
 
-            $('#sidebar-overlay').click(function() {
-                $('#sidebar').addClass('-translate-x-full');
-                $('#sidebar-overlay').addClass('hidden');
+            $('#close-sidebar-button').click(function(e) {
+                e.stopPropagation();
+                closeSidebar();
             });
 
             $('#user-menu-button').click(function(e) {
@@ -290,6 +307,32 @@
             setupMenuDropdown('#pages-menu-button', '#pages-menu', '#pages-menu-arrow');
             setupMenuDropdown('#sales-menu-button', '#sales-menu', '#sales-menu-arrow');
             setupMenuDropdown('#auth-menu-button', '#auth-menu', '#auth-menu-arrow');
+
+            $(window).resize(function() {
+                if (window.innerWidth >= 1024) {
+                    openSidebar();
+                }
+            });
+
+            function toggleSidebar() {
+                if ($('#sidebar').hasClass('-translate-x-full')) {
+                    openSidebar();
+                } else {
+                    closeSidebar();
+                }
+            }
+
+            function openSidebar() {
+                $('#sidebar').removeClass('-translate-x-full');
+                $('#main-content').addClass('lg:ml-64');
+                localStorage.setItem('sidebarState', 'open');
+            }
+
+            function closeSidebar() {
+                $('#sidebar').addClass('-translate-x-full');
+                $('#main-content').removeClass('lg:ml-64');
+                localStorage.setItem('sidebarState', 'closed');
+            }
         });
     </script>
 </x-app-layout>

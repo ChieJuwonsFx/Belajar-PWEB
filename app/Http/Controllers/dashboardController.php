@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class dashboardController extends Controller
 {
     public function admin(){
+        $auth = Auth::user();
         return view ('admin.home');
     }
     public function owner() {

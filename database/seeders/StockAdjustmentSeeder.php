@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Stock;
 use App\Models\StockAdjustment;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -20,8 +22,8 @@ class StockAdjustmentSeeder extends Seeder
                 'quantity' => rand(1, 5),
                 'alasan' => $alasanList[array_rand($alasanList)],
                 'note' => 'Catatan penyesuaian stok ke-' . $i,
-                'stock_id' => $i,
-                'created_by' => 1, 
+                'stock_id' => Stock::inRandomOrder()->first()->id,
+                'created_by' => User::inRandomOrder()->first()->id, 
             ]);
         }
     }

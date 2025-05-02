@@ -20,5 +20,7 @@ class CategorySeeder extends Seeder
                 'name' => $name
             ]);
         }
+        
+
     }
 }

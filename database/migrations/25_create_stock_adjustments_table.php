@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::disableForeignKeyConstraints();
 
         Schema::create('stock_adjustments', function (Blueprint $table) {
-            $table->id();
+            $table->string('id')->primary();
             $table->integer('quantity');
             $table->enum('alasan', ["Rusak","Hilang","Expired","Diretur"]);
             $table->text('note')->nullable();
-            $table->bigInteger('stock_id');
+            $table->string('stock_id');
             $table->foreign('stock_id')->references('id')->on('stocks');
-            $table->bigInteger('created_by');
+            $table->string('created_by');
             $table->foreign('created_by')->references('id')->on('users');
             $table->timestamps();
         });

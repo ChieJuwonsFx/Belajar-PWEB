@@ -2,20 +2,32 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Stock extends Model
 {
     /** @use HasFactory<\Database\Factories\StockFactory> */
     use HasFactory;
 
-    protected $fillable=[
-        'quantity',
-        'remaining_quantity',
-        'harga_modal' ,
-        'product_id'
-    ];
+    protected $primaryKey = 'id'; 
+    public $incrementing = false; 
+    protected $keyType = 'string'; 
+
+    protected $guarded = [];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($stock) {
+            if (empty($stock->id)) {
+                $stock->id = 'STK-' . date('Ymd') . '-' . strtoupper(Str::random(4));
+            }
+        });
+    }
+
     public function product()
     {
         return $this->belongsTo(Product::class);

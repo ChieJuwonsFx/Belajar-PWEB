@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Unit;
 use App\Models\Product;
-use Illuminate\Database\Seeder;
+use App\Models\Category;
 use Illuminate\Support\Str;
+use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
 {
@@ -17,32 +19,21 @@ class ProductSeeder extends Seeder
             
             Product::create([
                 'name' => fake()->name(),
+                'slug' => Str::slug(fake()->name()),
                 'deskripsi' => $this->generateProductDescription('halo'),
                 'harga_jual' => rand(50000, 5000000),
                 'stok_minimum' => rand(5, 20),
+                'stok' => rand(5, 20),
                 'image' => $this->generateProductImages($i),
                 'is_available' => rand(0, 1) ? 'Available' : 'Unavailable',
                 'is_active' => true,
                 'is_stock_real' => true,
                 'is_modal_real' => true,
                 'estimasi_modal' => 0,
-                'category_id' => rand(1,5),
-                'unit_id' => rand(1,5),
+                'category_id' => Category::inRandomOrder()->first()->id,
+                'unit_id' => Unit::inRandomOrder()->first()->id,
             ]);
         }
-    }
-
-    protected function generateProductName(int $categoryId): string
-    {
-        $names = [
-            1 => ['Smartphone', 'Laptop', 'Headphone', 'Smart TV', 'Kamera Digital'],
-            2 => ['Kemeja', 'Celana Jeans', 'Jaket', 'Gaun', 'Sepatu'],
-            3 => ['Snack', 'Minuman', 'Makanan Ringan', 'Makanan Kaleng', 'Bahan Pokok'],
-            4 => ['Panci', 'Blender', 'Vacuum Cleaner', 'Lampu', 'Kursi'],
-            5 => ['Sepatu Lari', 'Treadmill', 'Dumbell', 'Yoga Mat', 'Bola Basket'],
-        ];
-
-        return $names[$categoryId][array_rand($names[$categoryId])];
     }
 
     protected function generateProductDescription(string $productName): string

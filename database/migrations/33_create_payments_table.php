@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::disableForeignKeyConstraints();
 
         Schema::create('payments', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('transaction_id');
+            $table->string('id')->primary();
+            $table->string('transaction_id');
             $table->foreign('transaction_id')->references('id')->on('transactions');
             $table->string('midtrans_order_id');
             $table->string('payment_type');

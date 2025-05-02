@@ -14,16 +14,16 @@ return new class extends Migration
         Schema::disableForeignKeyConstraints();
 
         Schema::create('transaction_items', function (Blueprint $table) {
-            $table->id();
+            $table->string('id')->primary();
             $table->integer('subtotal');
             $table->integer('quantity');
-            $table->bigInteger('product_id');
+            $table->string('product_id');
             $table->foreign('product_id')->references('id')->on('products');
             $table->integer('harga_modal');
             $table->integer('harga_jual');
-            $table->bigInteger('stock_id');
+            $table->string('stock_id');
             $table->foreign('stock_id')->references('id')->on('stocks');
-            $table->bigInteger('transaction_id');
+            $table->string('transaction_id');
             $table->foreign('transaction_id')->references('id')->on('transactions');
             $table->timestamps();
         });

@@ -13,7 +13,7 @@ class ownerProductController extends Controller
 {
     public function index(Request $request)
     {
-        // try{
+        try{
             $categories = Category::all();
             $units = Unit::all();
     
@@ -38,10 +38,9 @@ class ownerProductController extends Controller
             $products = $query->orderBy('is_available', 'asc')->get();
     
             return view('owner.produk.produk', compact('products', 'categories', 'units'));    
-        // } catch (\Exception $e) {
-        //     return redirect()->route('owner.produk')->with('alert_failed', 'Terjadi kesalahan saat melakukan load data produk: ' . $e->getMessage());
-        // }
-
+        } catch (\Exception $e) {
+            return redirect()->route('owner.produk')->with('alert_failed', 'Terjadi kesalahan saat melakukan load data produk: ' . $e->getMessage());
+        }
     }
 
     public function store(Request $request)

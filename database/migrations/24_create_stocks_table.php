@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::disableForeignKeyConstraints();
 
         Schema::create('stocks', function (Blueprint $table) {
-            $table->id();
+            $table->string('id')->primary();
             $table->integer('quantity');
             $table->integer('remaining_quantity');
-            $table->bigInteger('harga_modal');
-            $table->bigInteger('product_id');
+            $table->integer('harga_modal');
+            $table->string('product_id');
             $table->foreign('product_id')->references('id')->on('products');
             $table->date('expired_at')->nullable();
             $table->timestamps();

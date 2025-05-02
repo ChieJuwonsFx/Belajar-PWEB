@@ -3,31 +3,25 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Str;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+    protected $primaryKey = 'id'; 
+    public $incrementing = false; 
+
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'no_hp',
-        'role',
-        'alamat',
-        'status',
-        'image',
-        'desa_id',
-    ];
+    protected $guarded = [];
     // protected $with = ['user'];
 
     /**
@@ -51,6 +45,18 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            if (empty($user->id)) {
+                $user->id = 'USR-' . date('Ymd') . '-' . strtoupper(Str::random(4));
+            }
+        });
+    }
+
 
     public function village()
     {

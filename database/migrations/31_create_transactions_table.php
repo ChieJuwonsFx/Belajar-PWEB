@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::disableForeignKeyConstraints();
 
         Schema::create('transactions', function (Blueprint $table) {
-            $table->id();
+            $table->string('id')->primary();
             $table->enum('transaction_type', ["Online","Offline"])->default("Online");
             $table->string('transaction_code');
             $table->integer('total_jual');
             $table->integer('total_modal');
-            $table->bigInteger('user_id')->nullable();
+            $table->string('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->bigInteger('admin_id');
+            $table->string('admin_id');
             $table->foreign('admin_id')->references('id')->on('users');
             $table->string('customer_offline')->nullable();
             $table->enum('status', ["Paid","Pending","Canceled"])->default("Pending");
