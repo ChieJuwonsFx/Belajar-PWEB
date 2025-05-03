@@ -37,24 +37,32 @@
             <div class="mb-8">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     @php
-                        $images = is_string($product->image) ? json_decode($product->image, true) : $product->image;
+                        $images = [];
+                        
+                        if (is_string($product->image)) {
+                            $decoded = json_decode($product->image, true);
+                            $images = (json_last_error() === JSON_ERROR_NONE) ? $decoded : [['path' => $product->image]];
+                        } elseif (is_array($product->image)) {
+                            $images = $product->image;
+                        }
+                        
+                        $images = array_map(function($img) {
+                            return is_array($img) ? $img : ['path' => $img];
+                        }, $images);
                     @endphp
-
+                    
                     @foreach ($images as $index => $img)
-                        <div
-                            class="relative group overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
+                        <div class="relative group overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
                             <div class="aspect-[4/3] w-full overflow-hidden">
                                 <img src="{{ $img['path'] }}"
                                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                     alt="Product Image {{ $index + 1 }}">
                             </div>
-                            <div
-                                class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm">
+                            <div class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm">
                                 {{ $index + 1 }}/{{ count($images) }}
                             </div>
                         </div>
                     @endforeach
-
                 </div>
             </div>
 
@@ -164,11 +172,11 @@
                             </div>
                             <div class="flex-1 font-semibold text-primary">
                                 @if ($product->status_harga_modal)
-                                    Rp{{ number_format($product->stocks()->latest()->first()->harga_modal ?? 0, 0, ',', '.') }}
+                                    Rp{{ number_format($product->stocks()->oldest()->first()->harga_modal ?? 0, 0, ',', '.') }}
                                 @else
                                     Rp{{ number_format($product->estimasi_modal, 0, ',', '.') }}
                                 @endif
-                            </div>
+                            </div>                            
                         </div>
 
                         <div class="flex items-start">
@@ -210,9 +218,35 @@
                 </div>
             </div>
 
-            <div class="md:w-[500px] grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-4 mb-4 ">
+            <div class="bg-gray-50 rounded-xl p-6 mb-6 border border-gray-100 shadow-sm">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 p-2 rounded-lg mr-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800">Barcode Produk</h3>
+                </div>
+
+                <div class="flex flex-col items-center">
+                    <div id="barcode-container-{{ $product->id }}" class="mb-4 py-4 px-8 bg-white border rounded-lg shadow-sm">
+                        <img src="{{ route('products.barcode.show', $product->id) }}" alt="Barcode" class="w-full h-auto">
+                    </div>
+                    <a href="{{ route('products.barcode.download', $product->id) }}"
+                        class="px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
+                        Unduh Barcode
+                    </a>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                 <button type="button" onclick="openModal('restok-produk-{{ $product->id }}')"
-                    class="px-4 py-2 bg-white text-primary border border-primary flex items-center hover:text-white hover:bg-primary rounded-lg whitespace-nowrap">
+                    class="px-4 py-2 bg-white text-primary border border-primary flex items-center justify-center hover:text-white hover:bg-primary rounded-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 4v16m8-8H4" />
@@ -220,16 +254,16 @@
                     Restok Produk
                 </button>
                 <button type="button" onclick="openModal('edit-produk-{{ $product->id }}')"
-                    class="px-4 py-2.5 bg-primary text-white border border-primary hover:bg-white hover:text-primary rounded-lg transition-all flex items-center shadow-sm hover:shadow-md">
+                    class="px-4 py-2 bg-primary text-white border border-primary hover:bg-white hover:text-primary rounded-lg transition-colors flex items-center justify-center shadow-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>
-                    <i class="fas fa-edit mr-2"></i> Edit Produk
+                    Edit Produk
                 </button>
                 <button onclick="openModal('delete-konfirmasi-{{ $product->id }}')"
-                    class="px-4 py-2 bg-danger text-white border border-danger flex items-center hover:text-danger hover:bg-white rounded-lg whitespace-nowrap">
+                    class="px-4 py-2 bg-danger text-white border border-danger flex items-center justify-center hover:text-danger hover:bg-white rounded-lg transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -241,7 +275,6 @@
                     message="Apakah kamu yakin ingin menghapus produk :name ini? Tindakan ini tidak dapat dibatalkan."
                     :route="route('owner.produk.delete', $product->id)" name="{{ $product->name }}" buttonText="Ya, Hapus" cancelText="Batal" />
             </div>
-
 
             @include('owner.produk.restokProduk', ['product' => $product])
             @include('owner.produk.editProduk', ['product' => $product])

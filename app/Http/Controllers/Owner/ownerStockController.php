@@ -11,7 +11,7 @@ class ownerStockController extends Controller
 {
     public function store(Request $request, $id){
         $products = Product::findOrFail($id);
-        if(!$products->is_stock_real){
+        if(!$products->is_stock_real || !$products->is_modal_real){
             Stock::create([
                 'quantity' => $request->quantity,
                 'remaining_quantity' => $request->quantity,
@@ -20,7 +20,8 @@ class ownerStockController extends Controller
             ]);
             Product::update([
                 'stok' => $request->stok,
-                'is_stock_real' => true
+                'is_stock_real' => true,
+                'is_modal_real' => true
             ]);
         }
         else{

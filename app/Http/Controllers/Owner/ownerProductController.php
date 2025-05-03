@@ -6,8 +6,11 @@ use App\Models\Unit;
 use App\Models\Stock;
 use App\Models\Product;
 use App\Models\Category;
+use Milon\Barcode\DNS1D;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Response;
 
 class ownerProductController extends Controller
 {
@@ -53,6 +56,8 @@ class ownerProductController extends Controller
             if($isStockReal && $isModalReal){
                 $product = Product::create([
                     'name' => $request->name,
+                    'slug' => Str::slug($request->name),
+                    'barcode' => $request->barcode,
                     'deskripsi' => $request->deskripsi,
                     'harga_jual' => $request->harga_jual,
                     'stok_minimum' => $request->stok_minimum,
@@ -76,6 +81,8 @@ class ownerProductController extends Controller
             elseif($isStockReal){
                 $product = Product::create([
                     'name' => $request->name,
+                    'slug' => Str::slug($request->name),
+                    'barcode' => $request->barcode,
                     'deskripsi' => $request->deskripsi,
                     'harga_jual' => $request->harga_jual,
                     'stok_minimum' => $request->stok_minimum,
@@ -93,6 +100,8 @@ class ownerProductController extends Controller
             else{
                 Product::create([
                     'name' => $request->name,
+                    'slug' => Str::slug($request->name),
+                    'barcode' => $request->barcode,
                     'deskripsi' => $request->deskripsi,
                     'harga_jual' => $request->harga_jual,
                     'stok' => 0,
@@ -119,6 +128,8 @@ class ownerProductController extends Controller
             $produk = Product::findOrFail($id);
             $produk->update([
                 'name' => $request->name,
+                'slug' => Str::slug($request->name),
+                'barcode' => $request->barcode,
                 'deskripsi' => $request->deskripsi,
                 'harga_jual' => $request->harga_jual,
                 'stok_minimum' => $request->stok_minimum,
@@ -147,4 +158,67 @@ class ownerProductController extends Controller
     }
 
 
+    public function showBarcode($kode)
+    {
+        $barcode = new DNS1D();
+        $barcode->setStorPath(storage_path('framework/barcodes/'));
+        
+        $barcodeSvg = $barcode->getBarcodeSVG($kode, 'C128', 2, 60);
+        
+        return response($barcodeSvg, 200)
+            ->header('Content-Type', 'image/svg+xml');
+    }
+
+    public function downloadBarcode($kode)
+    {
+        $barcode = new DNS1D();
+        $barcode->setStorPath(storage_path('framework/barcodes/'));
+    
+        $pngBase64 = $barcode->getBarcodePNG($kode, 'C128');
+        $barcodeData = base64_decode($pngBase64);
+        $barcodeImage = imagecreatefromstring($barcodeData);
+    
+        if (!$barcodeImage) {
+            abort(500, 'Gagal membuat gambar barcode.');
+        }
+    
+        $originalWidth = imagesx($barcodeImage);
+        $originalHeight = imagesy($barcodeImage);
+    
+        $desiredHeight = 100;
+        $resizedBarcode = imagecreatetruecolor($originalWidth, $desiredHeight);
+        imagefill($resizedBarcode, 0, 0, imagecolorallocate($resizedBarcode, 255, 255, 255)); 
+        imagecopyresampled($resizedBarcode, $barcodeImage, 0, 0, 0, 0, $originalWidth, $desiredHeight, $originalWidth, $originalHeight);
+    
+        $padding = 20;
+        $textHeight = 15;
+        $finalWidth = $originalWidth + $padding * 2;
+        $finalHeight = $desiredHeight + $padding * 2 + $textHeight;
+    
+        $finalImage = imagecreatetruecolor($finalWidth, $finalHeight);
+        $white = imagecolorallocate($finalImage, 255, 255, 255);
+        imagefill($finalImage, 0, 0, $white);
+    
+        imagecopy($finalImage, $resizedBarcode, $padding, $padding, 0, 0, $originalWidth, $desiredHeight);
+    
+        $fontSize = 5;
+        $textColor = imagecolorallocate($finalImage, 0, 0, 0);
+        $textWidth = imagefontwidth($fontSize) * strlen($kode);
+        $textX = ($finalWidth - $textWidth) / 2;
+        $textY = $desiredHeight + $padding + 5;
+        imagestring($finalImage, $fontSize, $textX, $textY, $kode, $textColor);
+    
+        ob_start();
+        imagepng($finalImage);
+        $imageData = ob_get_clean();
+    
+        imagedestroy($barcodeImage);
+        imagedestroy($resizedBarcode);
+        imagedestroy($finalImage);
+    
+        return Response::make($imageData, 200, [
+            'Content-Type' => 'image/png',
+            'Content-Disposition' => 'attachment; filename="barcode-'.$kode.'.png"',
+        ]);
+    }
 }
