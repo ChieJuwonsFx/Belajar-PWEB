@@ -97,6 +97,27 @@
                         required>{{ $product->deskripsi }}</textarea>
                 </div>
 
+                <div class="md:col-span-2 mb-6">
+                    <label for="barcode" class="block mb-2 text-sm font-medium text-gray-700">Barcode Produk
+                        (Opsional)</label>
+                    <p class="block mb-2 text-xs text-gray-700">Pastikan barcode yang diinputkan sudah benar!</p>
+                    <div class="flex gap-2">
+                        <input type="text" name="barcode" id="barcode" value="{{ $product->barcode }}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            placeholder="Masukkan barcode">
+                            <button type="button" onclick="openModal('scanner-edit-{{ $product->id }}')"
+                            class="text-white bg-primary border border-primary hover:text-primary hover:bg-white font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+                            </svg>
+                            <span class="ml-2">Scan</span>
+                        </button>
+                        <x-scanner id="scanner-edit-{{ $product->id }}"/>
+                    </div>
+                </div>
+
                 <div class="mb-6">
                     <label class="block mb-2 text-sm font-medium text-gray-700">Foto Produk</label>
                     <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-4" id="previewContainer-{{ $product->id }}">

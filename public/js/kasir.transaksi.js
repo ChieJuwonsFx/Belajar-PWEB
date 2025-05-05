@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-
     const discountToggle = document.getElementById('discount-toggle');
     const discountContainer = document.getElementById('discount-container');
     const discountArrow = document.getElementById('discount-arrow');

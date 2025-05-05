@@ -172,10 +172,11 @@
                             </div>
                             <div class="flex-1 font-semibold text-primary">
                                 @if ($product->status_harga_modal)
-                                    Rp{{ number_format($product->stocks()->oldest()->first()->harga_modal ?? 0, 0, ',', '.') }}
+                                    Rp{{ number_format($product->stocks()->latest()->first()->harga_modal ?? 0, 0, ',', '.') }}
                                 @else
                                     Rp{{ number_format($product->estimasi_modal, 0, ',', '.') }}
                                 @endif
+                            
                             </div>                            
                         </div>
 
@@ -227,10 +228,13 @@
                     </div>
                     <h3 class="text-lg font-semibold text-gray-800">Barcode Produk</h3>
                 </div>
-
+            
                 <div class="flex flex-col items-center">
-                    <div id="barcode-container-{{ $product->id }}" class="mb-4 py-4 px-8 bg-white border rounded-lg shadow-sm">
-                        <img src="{{ route('products.barcode.show', $product->id) }}" alt="Barcode" class="w-full h-auto">
+                    <div class="mb-4 py-3 px-4 bg-white border rounded-lg shadow-sm w-full max-w-xs mx-auto text-center">
+                        <img src="{{ route('products.barcode.show', $product->id) }}" 
+                             alt="Barcode {{ $product->name }}" 
+                             class="inline-block max-w-full h-auto"
+                             style="max-height: 50px;">
                     </div>
                     <a href="{{ route('products.barcode.download', $product->id) }}"
                         class="px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors flex items-center">
@@ -243,6 +247,7 @@
                     </a>
                 </div>
             </div>
+            
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                 <button type="button" onclick="openModal('restok-produk-{{ $product->id }}')"
@@ -281,3 +286,57 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    function lazyLoadBarcodes() {
+        const productModals = document.querySelectorAll('[id^="product-detail-"]');
+        
+        const barcodeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const barcodeContainer = entry.target;
+                    const barcodeImage = barcodeContainer.querySelector('.barcode-image');
+                    
+                    if (barcodeImage && barcodeImage.dataset.src) {
+                        barcodeImage.src = barcodeImage.dataset.src;
+                        barcodeImage.classList.remove('hidden');
+                        
+                        const skeleton = barcodeContainer.querySelector('.barcode-skeleton');
+                        if (skeleton) {
+                            skeleton.classList.add('hidden');
+                        }
+                        
+                        barcodeObserver.unobserve(barcodeContainer);
+                    }
+                }
+            });
+        }, {
+            threshold: 0.1  
+        });
+        
+        window.initBarcodeObserver = function(productId) {
+            const barcodeContainer = document.getElementById(`barcode-container-${productId}`);
+            if (barcodeContainer) {
+                barcodeObserver.observe(barcodeContainer);
+            }
+        };
+    }
+    
+    lazyLoadBarcodes();
+    
+    window.openModal = function(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.classList.remove('hidden');
+            
+            if (modalId.startsWith('product-detail-')) {
+                const productId = modalId.replace('product-detail-', '');
+                setTimeout(() => {
+                    window.initBarcodeObserver(productId);
+                }, 100);
+            }
+        }
+    };
+});
+</script>

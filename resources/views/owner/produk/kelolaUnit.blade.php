@@ -46,7 +46,6 @@
             </form>
         </div>
 
-        <!-- Units List -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="flex items-center px-5 py-4 bg-gray-50 border-b border-gray-200">
                 <div class="bg-blue-100 p-2 rounded-lg mr-3">

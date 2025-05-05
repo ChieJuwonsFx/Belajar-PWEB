@@ -20,7 +20,7 @@ class Role
             abort(403);
         }
 
-        if ($request->user()->role=='role'){
+        if ($request->user()->role=='User'){
             return redirect('user.home');
         }
         return $next($request);

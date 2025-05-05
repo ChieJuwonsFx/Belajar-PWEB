@@ -58,11 +58,9 @@
                             </path>
                         </svg>
                     </button>
-                    <!-- Notifications -->
                     <button type="button" data-dropdown-toggle="notification-dropdown"
                         class="p-2 mr-1 text-secondary rounded-lg hover:text-primary hover:bg-gray-100 focus:ring-4 focus:ring-gray-300">
                         <span class="sr-only">View notifications</span>
-                        <!-- Bell icon -->
                         <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -70,7 +68,6 @@
                             </path>
                         </svg>
                     </button>
-                    <!-- Dropdown menu -->
                     <div class="hidden overflow-hidden z-50 my-4 max-w-sm text-base list-none bg-white divide-y divide-gray-100 shadow-lg rounded-xl"
                         id="notification-dropdown">
                         <div class="block py-2 px-4 text-base font-medium text-center text-secondary bg-gray-50">
@@ -109,7 +106,6 @@
                     </div>
 
 
-                    {{-- Profile --}}
                     <button type="button"
                         class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300"
                         id="user-menu-button" aria-expanded="false" data-dropdown-toggle="dropdown">
@@ -118,7 +114,6 @@
                             src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png"
                             alt="user photo" />
                     </button>
-                    <!-- Dropdown menu -->
                     <div class="hidden z-50 my-4 w-56 text-base list-none bg-white divide-y divide-gray-100 shadow rounded-xl"
                         id="dropdown">
                         <div class="py-3 px-4">
@@ -198,7 +193,6 @@
             </div>
         </nav>
 
-        <!-- Sidebar -->
         <aside
             class="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-secondary md:translate-x-0"
             aria-label="Sidenav" id="drawer-navigation">

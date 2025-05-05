@@ -233,14 +233,12 @@
 
     <script>
         $(document).ready(function() {
-            // Check localStorage for sidebar state
             const sidebarState = localStorage.getItem('sidebarState');
             if (sidebarState === 'open') {
                 openSidebar();
             } else if (sidebarState === 'closed') {
                 closeSidebar();
             } else {
-                // Default state for larger screens
                 if (window.innerWidth >= 1024) {
                     openSidebar();
                 } else {
@@ -284,15 +282,12 @@
             setupMenuDropdown('#sales-menu-button', '#sales-menu', '#sales-menu-arrow');
             setupMenuDropdown('#auth-menu-button', '#auth-menu', '#auth-menu-arrow');
 
-            // Handle window resize
             $(window).resize(function() {
                 if (window.innerWidth >= 1024) {
-                    // On large screens, ensure sidebar is open
                     openSidebar();
                 }
             });
 
-            // Sidebar functions
             function toggleSidebar() {
                 if ($('#sidebar').hasClass('-translate-x-full')) {
                     openSidebar();

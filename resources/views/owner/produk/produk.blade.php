@@ -45,6 +45,12 @@
              </form>
          </div>
 
+         @if($products->hasPages())
+         <div class="mx-auto my-6 w-full">
+            {{ $products->links() }} 
+        </div>
+         @endif
+
          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
              @foreach ($products as $product)
                  <div class="bg-white rounded-lg shadow-sm hover:shadow-md duration-300 overflow-hidden border border-gray-100 hover:border-blue-100 cursor-pointer group"
@@ -114,10 +120,13 @@
              </div>
          @endif
 
+
+
          @foreach ($products as $product)
              @include('owner.produk.detailProduk', ['product' => $product])
          @endforeach
      </div>
+     
 
      <div class="fixed bottom-6 right-6">
          <button onclick="openModal('add-produk')"

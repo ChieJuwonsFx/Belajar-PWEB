@@ -282,5 +282,5 @@
         </template>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
-    <script src="{{ asset('js/transaksi.js') }}"></script>
+    <script src="{{ asset('js/kasir.transaksi.js') }}"></script>
 </x-kasir>
