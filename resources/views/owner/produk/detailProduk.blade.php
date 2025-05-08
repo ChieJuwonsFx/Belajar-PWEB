@@ -171,7 +171,7 @@
                                 Harga Modal
                             </div>
                             <div class="flex-1 font-semibold text-primary">
-                                @if ($product->status_harga_modal)
+                                @if ($product->is_modal_real)
                                     Rp{{ number_format($product->stocks()->latest()->first()->harga_modal ?? 0, 0, ',', '.') }}
                                 @else
                                     Rp{{ number_format($product->estimasi_modal, 0, ',', '.') }}

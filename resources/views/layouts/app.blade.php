@@ -16,7 +16,7 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.0/lottie.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
-        <script src="{{ asset('component/alert.js') }}"></script>
+        <script src="{{ asset('js/alert.js') }}"></script>
     </head>
     <body>
         <div id="alertContainer" class="fixed top-4 right-4 z-[9999] space-y-2"></div>

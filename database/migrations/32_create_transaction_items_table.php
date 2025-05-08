@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('product_id');
             $table->foreign('product_id')->references('id')->on('products');
             $table->integer('harga_modal');
+            $table->boolean('is_modal_real');
             $table->integer('harga_jual');
             $table->string('stock_id');
             $table->foreign('stock_id')->references('id')->on('stocks');

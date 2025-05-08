@@ -1,5 +1,5 @@
 <div id="add-produk" class="hidden fixed inset-0 z-50 overflow-y-auto">
-    <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onclick="closeModal('add-produk')"></div>
+    <div class="fixed inset-0 bg-black/50 backdrop-blur-sm-opacity" onclick="closeModal('add-produk')"></div>
     <div class="relative bg-white rounded-xl shadow-2xl max-w-4xl w-full mx-auto my-8 overflow-hidden">
         <div class="bg-primary p-6 text-white">
             <div class="flex justify-between items-start">
@@ -7,7 +7,7 @@
                     <h2 class="text-2xl font-bold">Tambah Produk Baru</h2>
                     <p class="text-primary-100">Isi Semua Form di Bawah Ini</p>
                 </div>
-                <button type="button" class="text-white hover:text-primary-100 transition-colors"
+                <button type="button" class="text-white hover:text-primary-100-colors"
                     onclick="closeModal('add-produk')">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -24,115 +24,157 @@
                 @csrf
                 <div class="grid gap-6 mb-6 md:grid-cols-2">
                     <div>
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-700">Nama Produk</label>
-                        <input type="text" name="name" id="name"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                            placeholder="Sanyo" required>
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-700">Nama Produk<span
+                                class="text-danger">* </span></label>
+                        <input type="text" name="name" id="name" value="{{ old('name') }}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 @error('name') border-danger @enderror"
+                            placeholder="Sanyo">
+                        @error('name')
+                            <p class="mt-1 text-sm text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div>
-                        <label for="category" class="block mb-2 text-sm font-medium text-gray-700">Kategori</label>
-                        <select id="category" name="category"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                        <label for="category" class="block mb-2 text-sm font-medium text-gray-700">Kategori<span
+                                class="text-danger">* </span></label>
+                        <select id="category" name="category" value="{{ old('category') }}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 @error('category') border-danger @enderror">
                             <option value="">Pilih Kategori</option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}"
-                                    {{ request('category') == $category->id ? 'selected' : '' }}>
+                                    {{ old('category') == $category->id ? 'selected' : '' }}>
                                     {{ $category->name }}
                                 </option>
                             @endforeach
                         </select>
+                        @error('category')
+                            <p class="mt-1 text-sm text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div>
                         <label for="stok" class="block mb-2 text-sm font-medium text-gray-700">Stok Awal</label>
-                        <input type="number" name="stok" id="stok"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                            placeholder="20" required>
+                        <input type="number" name="stok" id="stok" value="{{ old('stok') }}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 @error('stok') border-danger @enderror"
+                            placeholder="20">
+                        @error('stok')
+                            <p class="mt-1 text-sm text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div>
                         <label for="stok_minimum" class="block mb-2 text-sm font-medium text-gray-700">Stok
-                            Minimum</label>
-                        <input type="number" name="stok_minimum" id="stok_minimum"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                            placeholder="20" required>
+                            Minimum<span class="text-danger">* </span></label>
+                        <input type="number" name="stok_minimum" id="stok_minimum" value="{{ old('stok_minimum') }}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 @error('stok_minimum') border-danger @enderror"
+                            placeholder="20">
+                        @error('stok_minimum')
+                            <p class="mt-1 text-sm text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div>
-                        <label for="is_available" class="block mb-1 text-sm font-medium text-gray-700">Satuan
-                            Produk</label>
+                        <label for="unit" class="block mb-1 text-sm font-medium text-gray-700">Satuan
+                            Produk<span class="text-danger">* </span></label>
                         <p class="block mb-2 text-xs text-gray-700">Pilih produk dijual dalam satuan apa.</p>
                         <select id="unit" name="unit"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 @error('unit') border-danger @enderror">
                             <option value="">Pilih Satuan</option>
                             @foreach ($units as $unit)
-                                <option value="{{ $unit->id }}"
-                                    {{ request('unit') == $unit->id ? 'selected' : '' }}>
+                                <option value="{{ $unit->id }}" {{ old('unit') == $unit->id ? 'selected' : '' }}>
                                     {{ $unit->name }}
                                 </option>
                             @endforeach
                         </select>
+                        @error('unit')
+                            <p class="mt-1 text-sm text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div>
                         <label for="is_available" class="block mb-1 text-sm font-medium text-gray-700">Status
-                            Ketersediaan</label>
+                            Ketersediaan<span class="text-danger">* </span></label>
                         <p class="block mb-2 text-xs text-gray-700">Pilih apakah produk bisa dipesan atau tidak oleh
                             pelanggan.</p>
                         <select name="is_available" id="is_available"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                            required>
-                            <option value="" disabled selected>Pilih ketersediaan</option>
-                            <option value="Available">Dijual</option>
-                            <option value="Unavailable">Tidak Dijual</option>
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 @error('is_available') border-danger @enderror">
+                            <option value="" disabled {{ old('is_available') === null ? 'selected' : '' }}>Pilih
+                                ketersediaan</option>
+                            <option value="Available" {{ old('is_available') === 'Available' ? 'selected' : '' }}>
+                                Dijual</option>
+                            <option value="Unavailable" {{ old('is_available') === 'Unavailable' ? 'selected' : '' }}>
+                                Tidak Dijual</option>
                         </select>
+                        @error('is_available')
+                            <p class="mt-1 text-sm text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div>
                         <label for="harga_modal" class="block mb-2 text-sm font-medium text-gray-700">Harga Modal <span
                                 class="text-xs font-normal text-gray-700">(Isi harga modal produk untuk setiap
                                 unitnya.)</span></label>
-                        <input type="number" name="harga_modal" id="harga_modal"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                            placeholder="20000" required>
+                        <input type="number" name="harga_modal" id="harga_modal" value="{{ old('harga_modal') }}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 @error('harga_modal') border-danger @enderror"
+                            placeholder="20000">
+                        @error('harga_modal')
+                            <p class="mt-1 text-sm text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div>
-                        <label for="harga_jual" class="block mb-2 text-sm font-medium text-gray-700">Harga Jual <span
-                                class="text-xs font-normal text-gray-700">(Isi harga jual produk untuk setiap
+                        <label for="harga_jual" class="block mb-2 text-sm font-medium text-gray-700">Harga Jual<span
+                                class="text-danger">* </span><span class="text-xs font-normal text-gray-700">(Isi harga
+                                jual produk untuk setiap
                                 unitnya.)</span></label>
-                        <input type="number" name="harga_jual" id="harga_jual"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                            placeholder="20000" required>
+                        <input type="number" name="harga_jual" id="harga_jual" value="{{ old('harga_jual') }}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 @error('harga_jual') border-danger @enderror"
+                            placeholder="20000">
+                        @error('harga_jual')
+                            <p class="mt-1 text-sm text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div>
                         <label for="is_stock_real" class="block mb-1 text-sm font-medium text-gray-700">Status
-                            Stok</label>
+                            Stok<span class="text-danger">* </span></label>
                         <p class="block mb-2 text-xs text-gray-700">Pilih apakah stok awal sudah sesuai dengan kondisi
                             nyata.</p>
                         <select name="is_stock_real" id="is_stock_real"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                            required>
-                            <option value="" disabled selected>Pilih ketersediaan</option>
-                            <option value=true>Sesuai</option>
-                            <option value=false>Tidak Sesuai</option>
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 @error('is_stock_real') border-danger @enderror">
+                            <option value="" disabled {{ old('is_stock_real') === null ? 'selected' : '' }}>
+                                Pilih ketersediaan</option>
+                            <option value="true" {{ old('is_stock_real') === 'true' ? 'selected' : '' }}>Sesuai
+                            </option>
+                            <option value="false" {{ old('is_stock_real') === 'false' ? 'selected' : '' }}>Tidak
+                                Sesuai</option>
                         </select>
+                        @error('is_stock_real')
+                            <p class="mt-1 text-sm text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div>
                         <label for="is_modal_real" class="block mb-1 text-sm font-medium text-gray-700">Status Harga
-                            Modal</label>
-                        <p class="block mb-2 text-xs text-gray-700">Pilih apakah harga modal sudah sesuai dengan kondisi
+                            Modal<span class="text-danger">* </span></label>
+                        <p class="block mb-2 text-xs text-gray-700">Pilih apakah harga modal sudah sesuai dengan
+                            kondisi
                             nyata.</p>
                         <select name="is_modal_real" id="is_modal_real"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                            required>
-                            <option value="" disabled selected>Pilih ketersediaan</option>
-                            <option value=true>Sesuai</option>
-                            <option value=false>Tidak Sesuai</option>
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 @error('is_modal_real') border-danger @enderror">
+                            <option value="" disabled {{ old('is_modal_real') === null ? 'selected' : '' }}>
+                                Pilih ketersediaan</option>
+                            <option value="true" {{ old('is_modal_real') === 'true' ? 'selected' : '' }}>Sesuai
+                            </option>
+                            <option value="false" {{ old('is_modal_real') === 'false' ? 'selected' : '' }}>Tidak
+                                Sesuai</option>
                         </select>
+                        @error('is_modal_real')
+                            <p class="mt-1 text-sm text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
 
                 <div class="my-4">
                     <label for="deskripsi" class="block mb-2 text-sm font-medium text-gray-700">Deskripsi
-                        Produk</label>
+                        Produk<span class="text-danger">* </span></label>
                     <textarea name="deskripsi" id="deskripsi" rows="3"
-                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
-                        placeholder="Mampu menarik air hingga mengalir sampai jauh..." required></textarea>
+                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 @error('deskripsi') border-danger @enderror"
+                        placeholder="Mampu menarik air hingga mengalir sampai jauh...">{{ old('deskripsi') }}</textarea>
+                    @error('deskripsi')
+                        <p class="mt-1 text-sm text-danger">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="md:col-span-2 mb-6">
@@ -140,10 +182,10 @@
                         (Opsional)</label>
                     <p class="block mb-2 text-xs text-gray-700">Pastikan barcode yang diinputkan sudah benar!</p>
                     <div class="flex gap-2">
-                        <input type="text" name="barcode" id="barcode"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        <input type="text" name="barcode" id="barcode" value="{{ old('barcode') }}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 @error('barcode') border-danger @enderror"
                             placeholder="Masukkan barcode">
-                            <button type="button" onclick="openModal('scanner-add')"
+                        <button type="button" onclick="openModal('scanner-add')"
                             class="text-white bg-primary border border-primary hover:text-primary hover:bg-white font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -154,13 +196,16 @@
                         </button>
                         <x-scanner id="scanner-add"/>
                     </div>
+                    @error('barcode')
+                        <p class="mt-1 text-sm text-danger">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="mb-6">
                     <label class="block mb-2 text-sm font-medium text-gray-700">Foto Produk</label>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="previewContainer">
                         <label for="imageInput"
-                            class="flex items-center justify-center w-full h-40 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition">
+                            class="flex items-center justify-center w-full h-40 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 hover:bg-blue-50">
                             <div class="text-center">
                                 <div class="text-3xl text-primary">+</div>
                                 <p class="text-sm text-gray-500 mt-1">Tambah Gambar</p>
@@ -191,3 +236,11 @@
         </div>
     </div>
 </div>
+
+@if ($errors->any())
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            openModal('add-produk');
+        });
+    </script>
+@endif
