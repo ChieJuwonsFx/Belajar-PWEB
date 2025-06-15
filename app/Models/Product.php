@@ -20,7 +20,24 @@ class Product extends Model
         'image' => 'array',
     ];
 
-    protected $guarded = [];
+    protected $fillable = [
+        'id',
+        'barcode',
+        'name',
+        'slug',
+        'deskripsi',
+        'harga_jual',
+        'stok_minimum',
+        'stok',
+        'image',
+        'is_available',
+        'is_active',
+        'is_stock_real',
+        'is_modal_real',
+        'estimasi_modal',
+        'category_id',
+        'unit_id'
+    ];
     
     public static function boot()
     {

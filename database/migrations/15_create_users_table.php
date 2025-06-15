@@ -23,6 +23,7 @@ return new class extends Migration
             $table->enum('role', ['User', 'Admin', 'Kasir', 'Owner'])->default('User');
             $table->text('alamat')->nullable();
             $table->string('desa_id')->nullable();
+            $table->string('google_id')->nullable();
             $table->foreign('desa_id')->references('id_desa')->on('villages');
             $table->string('no_hp')->nullable();
             $table->rememberToken();

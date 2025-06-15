@@ -1,8 +1,8 @@
 @if ($paginator->hasPages())
     <nav role="navigation" aria-label="Pagination" class="mt-8">
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
             {{-- Info text --}}
-            <div class="text-sm text-gray-600 dark:text-gray-400">
+            {{-- <div class="text-sm text-gray-600 dark:text-gray-400">
                 Showing 
                 <span class="font-medium">{{ $paginator->firstItem() ?? 0 }}</span>
                 to 
@@ -10,7 +10,7 @@
                 of 
                 <span class="font-medium">{{ $paginator->total() }}</span>
                 results
-            </div>
+            </div> --}}
 
             {{-- Pagination links --}}
             <div class="flex items-center gap-1">

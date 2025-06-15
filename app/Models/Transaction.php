@@ -11,6 +11,8 @@ class Transaction extends Model
     /** @use HasFactory<\Database\Factories\TransactionFactory> */
     use HasFactory;
 
+    protected $guarded = [];
+
     protected $primaryKey = 'id'; 
     public $incrementing = false; 
 

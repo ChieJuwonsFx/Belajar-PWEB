@@ -1,4 +1,4 @@
-<div id="product-detail-{{ $product->id }}" class="hidden fixed inset-0 z-50 overflow-y-auto">
+{{-- <div id="product-detail-{{ $product->id }}" class="hidden fixed inset-0 z-50 overflow-y-auto">
     <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" 
          onclick="closeModal('product-detail-{{ $product->id }}')"></div>
 
@@ -93,4 +93,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}

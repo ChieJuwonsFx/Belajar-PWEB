@@ -237,7 +237,7 @@
     </div>
 </div>
 
-@if ($errors->any())
+@if ($errors->any() && request()->routeIs('owner.produk'))
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             openModal('add-produk');

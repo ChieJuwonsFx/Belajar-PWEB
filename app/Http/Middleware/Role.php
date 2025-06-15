@@ -9,20 +9,25 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Role
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next, $role): Response
     {
-        if (Auth::check() && Auth::user()->role !== $role) {
-            abort(403);
+        // 1. Handle guest users
+        if (!Auth::check()) {
+            return redirect()->route('login');
         }
 
-        if ($request->user()->role=='User'){
-            return redirect('user.home');
+        $userRole = Auth::user()->role;
+
+        // 2. Handle admin/kasir access
+        if ($userRole !== $role) {
+            // 3. Custom redirect for users
+            if ($userRole === 'User') {
+                return redirect()->route('user.home'); // Pastikan route ini ada
+            }
+            
+            abort(403, 'Unauthorized access');
         }
+
         return $next($request);
     }
 }

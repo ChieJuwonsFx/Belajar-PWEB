@@ -40,7 +40,7 @@
                     <div class="flex space-x-2">
                         @php
                             $role = Auth::user()->role;
-                            $dashboardRoute = '#';
+                            $dashboardRoute = 'dashboard';
                     
                             if ($role === 'Owner') {
                                 $dashboardRoute = route('owner');
@@ -55,6 +55,13 @@
                             class="text-white bg-primary hover:bg-white hover:text-primary border border-primary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center">
                             Dashboard
                         </a>
+                                                    <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit"
+                                    class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition">
+                                    Sign out
+                                </button>
+                            </form>
                     </div>
                     @else
                       <div class="flex space-x-2">

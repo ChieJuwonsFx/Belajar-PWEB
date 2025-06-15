@@ -9,27 +9,21 @@ use App\Http\Controllers\Controller;
 
 class ownerStockController extends Controller
 {
-    public function store(Request $request, $id){
+    public function store(Request $request, $id)
+    {
         $products = Product::findOrFail($id);
+
+        Stock::create([
+            'quantity' => $request->quantity,
+            'remaining_quantity' => $request->quantity,
+            'harga_modal' => $request->harga_modal,
+            'product_id' => $products->id,
+        ]);
+
         if(!$products->is_stock_real || !$products->is_modal_real){
-            Stock::create([
-                'quantity' => $request->quantity,
-                'remaining_quantity' => $request->quantity,
-                'harga_modal' => $request->harga_modal,
-                'product_id' => $products->id
-            ]);
-            Product::update([
-                'stok' => $request->stok,
+            $products->update([
                 'is_stock_real' => true,
                 'is_modal_real' => true
-            ]);
-        }
-        else{
-            Stock::create([
-                'quantity' => $request->quantity,
-                'remaining_quantity' => $request->quantity,
-                'harga_modal' => $request->harga_modal,
-                'product_id' => $products->id
             ]);
         }
 

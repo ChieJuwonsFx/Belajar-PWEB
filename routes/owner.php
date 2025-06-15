@@ -22,7 +22,7 @@ Route::middleware(['auth', 'role:Owner'])->group(function () {
     Route::post('/owner/produk/store', [ownerProductController::class, 'store'])->name('owner.produk.store');
     Route::get('/owner/produk/edit/{id}', [ownerProductController::class, 'edit'])->name('owner.produk.edit');
     Route::put('/owner/produk/update/{id}', [ownerProductController::class, 'update'])->name('owner.produk.update');
-    Route::get('/owner/produk/delete/{id}', [ownerProductController::class, 'delete'])->name('owner.produk.delete');
+    Route::put('/owner/produk/delete/{id}', [ownerProductController::class, 'delete'])->name('owner.produk.delete');
     Route::get('/products/barcode/{kode}', [ownerProductController::class, 'showBarcode'])->name('products.barcode.show');
     Route::get('/products/barcode/{kode}/download', [ownerProductController::class, 'downloadBarcode'])->name('products.barcode.download');
 

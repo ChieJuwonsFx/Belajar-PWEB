@@ -1,6 +1,5 @@
-<div id="product-detail-{{ $product->id }}" class="hidden fixed inset-0 z-50 overflow-y-auto">
-    <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
-        onclick="closeModal('product-detail-{{ $product->id }}')"></div>
+<div id="detail-product-modal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onclick="closeDetailModal()"></div>
 
     <div class="relative bg-white rounded-xl shadow-2xl max-w-4xl w-full mx-auto my-8 overflow-hidden">
         <div class="bg-primary p-6 text-white">
@@ -15,15 +14,15 @@
                             </svg>
                         </div>
                         <div>
-                            <h2 class="text-2xl font-bold">{{ $product->name }}</h2>
+                            <h2 class="text-2xl font-bold" id="product-name"></h2>
                             <div class="flex items-center mt-1">
-                                <span class="text-blue-100">{{ $product->category->name }}</span>
+                                <span class="text-blue-100" id="product-category"></span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <button type="button" class="text-white hover:text-blue-200 transition-colors"
-                    onclick="closeModal('product-detail-{{ $product->id }}')">
+                    onclick="closeDetailModal()">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -35,35 +34,7 @@
 
         <div class="p-6">
             <div class="mb-8">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    @php
-                        $images = [];
-                        
-                        if (is_string($product->image)) {
-                            $decoded = json_decode($product->image, true);
-                            $images = (json_last_error() === JSON_ERROR_NONE) ? $decoded : [['path' => $product->image]];
-                        } elseif (is_array($product->image)) {
-                            $images = $product->image;
-                        }
-                        
-                        $images = array_map(function($img) {
-                            return is_array($img) ? $img : ['path' => $img];
-                        }, $images);
-                    @endphp
-                    
-                    @foreach ($images as $index => $img)
-                        <div class="relative group overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-                            <div class="aspect-[4/3] w-full overflow-hidden">
-                                <img src="{{ $img['path'] }}"
-                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                    alt="Product Image {{ $index + 1 }}">
-                            </div>
-                            <div class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm">
-                                {{ $index + 1 }}/{{ count($images) }}
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="product-images"></div>
             </div>
 
             <div class="bg-gray-50 rounded-xl p-6 mb-6 border border-gray-100 shadow-sm">
@@ -88,7 +59,7 @@
                             </svg>
                             Deskripsi
                         </div>
-                        <div class="flex-1 text-gray-700">{{ $product->deskripsi }}</div>
+                        <div class="flex-1 text-gray-700" id="product-description"></div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -101,7 +72,7 @@
                                 </svg>
                                 Kategori
                             </div>
-                            <div class="flex-1 text-gray-700">{{ $product->category->name }}</div>
+                            <div class="flex-1 text-gray-700" id="product-category-detail"></div>
                         </div>
 
                         <div class="flex items-start">
@@ -114,11 +85,8 @@
                                 Status
                             </div>
                             <div class="flex-1">
-                                <span
-                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                                    {{ $product->is_available == 'Available' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                    {{ $product->is_available }}
-                                </span>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+                                    id="product-status"></span>
                             </div>
                         </div>
 
@@ -131,9 +99,11 @@
                                 </svg>
                                 Stok Tersedia
                             </div>
-                            <div class="flex-1 text-gray-700">{{ $product->stok }} {{ $product->unit->name }}</div>
+                            <div class="flex-1 flex items-center gap-2">
+                                <span class="text-gray-700" id="product-stock"></span>
+                                <span id="stock-type-badge" class="text-xs px-2 py-0.5 rounded-full"></span>
+                            </div>
                         </div>
-
                         <div class="flex items-start">
                             <div class="w-40 flex-shrink-0 text-sm font-medium text-gray-500 flex items-start">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 mt-0.5 flex-shrink-0"
@@ -143,8 +113,7 @@
                                 </svg>
                                 Stok Minimum
                             </div>
-                            <div class="flex-1 text-gray-700">{{ $product->stok_minimum }} {{ $product->unit->name }}
-                            </div>
+                            <div class="flex-1 text-gray-700" id="product-min-stock"></div>
                         </div>
 
                         <div class="flex items-start">
@@ -156,9 +125,7 @@
                                 </svg>
                                 Harga Jual
                             </div>
-                            <div class="flex-1 font-semibold text-primary">
-                                Rp{{ number_format($product->harga_jual, 0, ',', '.') }}
-                            </div>
+                            <div class="flex-1 font-semibold text-primary" id="product-sell-price"></div>
                         </div>
 
                         <div class="flex items-start">
@@ -170,49 +137,9 @@
                                 </svg>
                                 Harga Modal
                             </div>
-                            <div class="flex-1 font-semibold text-primary">
-                                @if ($product->is_modal_real)
-                                    Rp{{ number_format($product->stocks()->latest()->first()->harga_modal ?? 0, 0, ',', '.') }}
-                                @else
-                                    Rp{{ number_format($product->estimasi_modal, 0, ',', '.') }}
-                                @endif
-                            
-                            </div>                            
-                        </div>
-
-                        <div class="flex items-start">
-                            <div class="w-40 flex-shrink-0 text-sm font-medium text-gray-500 flex items-start">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 mt-0.5 flex-shrink-0"
-                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                </svg>
-                                Status Stok
-                            </div>
-                            <div class="flex-1">
-                                <span
-                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                                    {{ $product->is_stock_real ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
-                                    {{ $product->is_stock_real ? 'Sudah real' : 'Estimasi' }}
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start">
-                            <div class="w-40 flex-shrink-0 text-sm font-medium text-gray-500 flex items-start">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 mt-0.5 flex-shrink-0"
-                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                </svg>
-                                Status Modal
-                            </div>
-                            <div class="flex-1">
-                                <span
-                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                                    {{ $product->is_modal_real ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
-                                    {{ $product->is_modal_real ? 'Sudah real' : 'Estimasi' }}
-                                </span>
+                            <div class="flex-1 flex items-center gap-2">
+                                <span class="font-semibold text-primary" id="product-cost-price"></span>
+                                <span id="cost-type-badge" class="text-xs px-2 py-0.5 rounded-full"></span>
                             </div>
                         </div>
                     </div>
@@ -222,23 +149,26 @@
             <div class="bg-gray-50 rounded-xl p-6 mb-6 border border-gray-100 shadow-sm">
                 <div class="flex items-center mb-4">
                     <div class="bg-blue-100 p-2 rounded-lg mr-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                         </svg>
                     </div>
                     <h3 class="text-lg font-semibold text-gray-800">Barcode Produk</h3>
                 </div>
-            
+
                 <div class="flex flex-col items-center">
-                    <div class="mb-4 py-3 px-4 bg-white border rounded-lg shadow-sm w-full max-w-xs mx-auto text-center">
-                        <img src="{{ route('products.barcode.show', $product->id) }}" 
-                             alt="Barcode {{ $product->name }}" 
-                             class="inline-block max-w-full h-auto"
-                             style="max-height: 50px;">
+                    <div
+                        class="mb-4 py-3 px-4 bg-white border rounded-lg shadow-sm w-full max-w-xs mx-auto text-center">
+                        <img id="product-barcode" src="" alt="Barcode"
+                            class="inline-block max-w-full h-auto" style="max-height: 50px;">
                     </div>
-                    <a href="{{ route('products.barcode.download', $product->id) }}"
+                    <a id="product-barcode-download" href=""
                         class="px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
                             <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
                             <polyline points="7 10 12 15 17 10" />
                             <line x1="12" y1="15" x2="12" y2="3" />
@@ -247,10 +177,9 @@
                     </a>
                 </div>
             </div>
-            
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                <button type="button" onclick="openModal('restok-produk-{{ $product->id }}')"
+                <button type="button" onclick="openRestockModal(currentProduct)"
                     class="px-4 py-2 bg-white text-primary border border-primary flex items-center justify-center hover:text-white hover:bg-primary rounded-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -258,7 +187,7 @@
                     </svg>
                     Restok Produk
                 </button>
-                <button type="button" onclick="openModal('edit-produk-{{ $product->id }}')"
+                <button type="button" onclick="openEditModal(currentProduct)"
                     class="px-4 py-2 bg-primary text-white border border-primary hover:bg-white hover:text-primary rounded-lg transition-colors flex items-center justify-center shadow-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -267,7 +196,7 @@
                     </svg>
                     Edit Produk
                 </button>
-                <button onclick="openModal('delete-konfirmasi-{{ $product->id }}')"
+                <button onclick="openDeleteModal(currentProduct.id, currentProduct.name)"
                     class="px-4 py-2 bg-danger text-white border border-danger flex items-center justify-center hover:text-danger hover:bg-white rounded-lg transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -276,67 +205,18 @@
                     </svg>
                     Hapus Produk
                 </button>
-                <x-danger-modal id="delete-konfirmasi-{{ $product->id }}" title="Peringatan!"
+                
+                <x-danger-modal id="delete-konfirmasi" title="Peringatan!"
                     message="Apakah kamu yakin ingin menghapus produk :name ini? Tindakan ini tidak dapat dibatalkan."
-                    :route="route('owner.produk.delete', $product->id)" name="{{ $product->name }}" buttonText="Ya, Hapus" cancelText="Batal" />
-            </div>
+                    route="#" name="" buttonText="Ya, Hapus" cancelText="Batal" />
 
-            @include('owner.produk.restokProduk', ['product' => $product])
-            @include('owner.produk.editProduk', ['product' => $product])
+                <form id="delete-form" method="POST" class="hidden">
+                    @csrf
+                    @method('PUT')
+                </form>
+            </div>
+            @include('owner.produk.restokModal')
+            @include('owner.produk.editModal')
         </div>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-    function lazyLoadBarcodes() {
-        const productModals = document.querySelectorAll('[id^="product-detail-"]');
-        
-        const barcodeObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const barcodeContainer = entry.target;
-                    const barcodeImage = barcodeContainer.querySelector('.barcode-image');
-                    
-                    if (barcodeImage && barcodeImage.dataset.src) {
-                        barcodeImage.src = barcodeImage.dataset.src;
-                        barcodeImage.classList.remove('hidden');
-                        
-                        const skeleton = barcodeContainer.querySelector('.barcode-skeleton');
-                        if (skeleton) {
-                            skeleton.classList.add('hidden');
-                        }
-                        
-                        barcodeObserver.unobserve(barcodeContainer);
-                    }
-                }
-            });
-        }, {
-            threshold: 0.1  
-        });
-        
-        window.initBarcodeObserver = function(productId) {
-            const barcodeContainer = document.getElementById(`barcode-container-${productId}`);
-            if (barcodeContainer) {
-                barcodeObserver.observe(barcodeContainer);
-            }
-        };
-    }
-    
-    lazyLoadBarcodes();
-    
-    window.openModal = function(modalId) {
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.classList.remove('hidden');
-            
-            if (modalId.startsWith('product-detail-')) {
-                const productId = modalId.replace('product-detail-', '');
-                setTimeout(() => {
-                    window.initBarcodeObserver(productId);
-                }, 100);
-            }
-        }
-    };
-});
-</script>

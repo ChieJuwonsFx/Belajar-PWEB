@@ -27,7 +27,7 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
 Route::middleware(['auth', 'role:Kasir'])->group(function () {
     Route::get('/kasir', [dashboardController::class, 'kasir'])->name('kasir');
     Route::get('/kasir/transaksi', [transaksiKasirController::class, 'index'])->name('kasir.transaksi');
-    Route::post('/kasir/transaksi', [transaksiKasirController::class, 'store'])->name('kasir.transaksi.store');
+    Route::post('/kasir/transaksi/store', [transaksiKasirController::class, 'store'])->name('kasir.transaksi.store');
 });
  
 Route::middleware('auth')->group(function () {
@@ -46,3 +46,7 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name
 
 require __DIR__.'/auth.php';
 require __DIR__.'/owner.php';
+
+Route::get('/nyoba', function () {
+    return view('profile.profile');
+});

@@ -16,8 +16,9 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->enum('transaction_type', ["Online","Offline"])->default("Online");
-            $table->integer('total_jual');
-            $table->integer('total_modal');
+            $table->double('total_jual');
+            $table->double('total_modal');
+            $table->double('total_diskon');
             $table->string('user_id')->nullable();
             $table->string('admin_id');
             $table->foreign('user_id', 'admin_id')->references('id')->on('users');
