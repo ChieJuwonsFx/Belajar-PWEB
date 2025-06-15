@@ -5,7 +5,7 @@
         </div>
         <div class="bg-white p-4 sm:p-6">
             <div class="flex flex-col lg:flex-row items-center justify-between w-full gap-4 mb-6">
-                <form method="GET" action="{{ route('kasir.transaksi') }}" class="w-full">
+                <form method="GET" action="{{ route('kasir.transaksi') }}" class="w-full" id="filter-form">
                     <div class="flex flex-col sm:flex-row gap-3">
                         <div class="relative w-full sm:w-56">
                             <label for="category" class="sr-only">Kategori</label>
@@ -33,9 +33,11 @@
                             <div class="relative">
                                 <input type="search" name="search" id="search-dropdown"
                                     class="block w-full py-2.5 px-4 text-sm text-gray-900 bg-white border border-gray-200 rounded-lg focus:ring-0 focus:border-primary hover:border-primary pr-12"
-                                    placeholder="Cari produk..." value="{{ request('search') }}" />
+                                    placeholder="Cari produk..." value="{{ request('search') }}"
+                                    {{ request('category') ? '' : 'disabled' }} />
                                 <button type="submit"
-                                    class="absolute top-1/2 right-2 -translate-y-1/2 p-2 text-white bg-primary rounded-lg border border-primary hover:bg-white hover:text-primary">
+                                    class="absolute top-1/2 right-2 -translate-y-1/2 p-2 text-white bg-primary rounded-lg border border-primary hover:bg-white hover:text-primary"
+                                    {{ request('category') ? '' : 'disabled' }}>
                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 20 20">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                             stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
@@ -55,7 +57,7 @@
                         data-id="{{ $product->id }}" data-barcode="{{ $product->barcode }}"
                         data-name="{{ $product->name }}" data-price="{{ $product->harga_jual }}"
                         data-cost="{{ $product->harga_modal }}" data-category="{{ $product->category->name }}"
-                        data-stock="{{ $product->stok }}">
+                        data-stock="{{ $product->stok }}" data-stock="{{ $product->is_stock_real }}">
                         <div class="relative h-40 overflow-hidden">
                             @php
                                 $images = is_string($product->image)
@@ -120,90 +122,90 @@
                 </div>
             @endif
         </div>
+        <form id="transaksi-form" method="POST" action="{{ route('kasir.transaksi') }}">
+            @csrf
+            <input type="hidden" id="data-transaksi" name="data_transaksi">
+            <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6 sticky top-4 h-fit">
+                <h2 class="text-lg font-bold mb-4">Walk-in Customer</h2>
 
-        <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6 sticky top-4 h-fit">
-            <h2 class="text-lg font-bold mb-4">Walk-in Customer</h2>
+                <div class="mb-6">
+                    <h3 class="font-semibold mb-2">Selected Product</h3>
 
-            <div class="mb-6">
-                <h3 class="font-semibold mb-2">Selected Product</h3>
-
-                <div id="selected-products" class="space-y-3 max-h-[210px] overflow-y-auto">
-                    <div class="p-4 text-center text-gray-500 no-products">
-                        Belum ada produk dipilih
+                    <div id="selected-products" class="space-y-3 max-h-[210px] overflow-y-auto">
+                        <div class="p-4 text-center text-gray-500 no-products">
+                            Belum ada produk dipilih
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-6">
-                <div class="space-y-3">
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Sub-Total:</span>
-                        <span class="font-medium" id="subtotal">Rp0</span>
-                    </div>
-
-                    <div class="border-t border-gray-200 pt-2">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-gray-600">Diskon:</span>
-                            <span class="font-medium" id="subtotal-discount">Rp0</span>
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-6">
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Sub-Total:</span>
+                            <span class="font-medium" id="subtotal">Rp0</span>
                         </div>
 
-                        <div id="discount-container"
-                            class="hidden bg-white p-3 rounded-lg border border-gray-200 mt-2">
-                            <div class="grid grid-cols-2 gap-3 mb-3">
-                                <div>
-                                    <input type="number" id="discount-amount" placeholder="0"
-                                        class="w-full py-2 px-3 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
-                                </div>
-                                <div>
-                                    <select id="discount-type"
-                                        class="w-full py-2 px-3 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
-                                        <option value="fixed">Rp (Nominal)</option>
-                                        <option value="percent">% (Persen)</option>
-                                    </select>
-                                </div>
+                        <div class="border-t border-gray-200 pt-2">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-gray-600">Diskon:</span>
+                                <span class="font-medium" id="subtotal-discount">Rp0</span>
                             </div>
-                            <button id="apply-transaction-discount"
-                                class="w-full bg-primary hover:bg-primary-dark text-white py-2 px-4 rounded-md text-sm font-medium">
-                                Terapkan Diskon
+
+                            <div id="discount-container"
+                                class="hidden bg-white p-3 rounded-lg border border-gray-200 mt-2">
+                                <div class="grid grid-cols-2 gap-3 mb-3">
+                                    <div>
+                                        <input type="number" id="discount-amount" placeholder="0"
+                                            class="w-full py-2 px-3 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                                    </div>
+                                    <div>
+                                        <select id="discount-type"
+                                            class="w-full py-2 px-3 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                                            <option value="fixed">Rp (Nominal)</option>
+                                            <option value="percent">% (Persen)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button id="apply-transaction-discount"
+                                    class="w-full bg-primary hover:bg-primary-dark text-white py-2 px-4 rounded-md text-sm font-medium">
+                                    Terapkan Diskon
+                                </button>
+                            </div>
+
+                            <button id="discount-toggle"
+                                class="text-primary hover:text-primary-dark text-sm font-medium flex items-center py-1">
+                                <span id="discount-label">Tambah Diskon</span>
+                                <svg id="discount-arrow"
+                                    class="w-4 h-4 ml-1 transform transition-transform duration-200" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
                             </button>
                         </div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-gray-600">Total Diskon:</span>
+                            <span class="font-medium" id="total-discount">Rp0</span>
+                        </div>
 
-                        <button id="discount-toggle"
-                            class="text-primary hover:text-primary-dark text-sm font-medium flex items-center py-1">
-                            <span id="discount-label">Tambah Diskon</span>
-                            <svg id="discount-arrow" class="w-4 h-4 ml-1 transform transition-transform duration-200"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="text-gray-600">Total Diskon:</span>
-                        <span class="font-medium" id="total-discount">Rp0</span>
-                    </div>
-
-                    <div class="flex justify-between font-bold text-lg border-t border-gray-200 pt-3">
-                        <span>TOTAL:</span>
-                        <span id="total-amount" class="text-primary">Rp0</span>
+                        <div class="flex justify-between font-bold text-lg border-t border-gray-200 pt-3">
+                            <span>TOTAL:</span>
+                            <span id="total-amount" class="text-primary">Rp0</span>
+                        </div>
                     </div>
                 </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button id="cancel-transaction"
+                        class="w-full bg-red-500 hover:bg-red-600 text-white py-3 px-4 rounded-lg font-medium">
+                        Cancel
+                    </button>
+                    <button id="pay-now"
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-medium">
+                        BAYAR SEKARANG
+                    </button>
+                </div>
             </div>
-            <div class="grid grid-cols-3 gap-3">
-                <button id="hold-transaction"
-                    class="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-3 px-4 rounded-lg font-medium">
-                    Hold
-                </button>
-                <button id="cancel-transaction"
-                    class="w-full bg-red-500 hover:bg-red-600 text-white py-3 px-4 rounded-lg font-medium">
-                    Cancel
-                </button>
-                <button id="pay-now"
-                    class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-medium">
-                    BAYAR SEKARANG
-                </button>
-            </div>
-        </div>
+        </form>
 
         <template id="product-row-template">
             <div class="product-row bg-white p-3 rounded-lg border border-gray-200 group" data-id="">
@@ -227,15 +229,15 @@
 
                     <div class="flex flex-wrap items-center sm:ml-4 w-full sm:w-auto mt-3 sm:mt-0">
                         <div class="flex items-center border border-gray-300 rounded-md mr-4 mb-2 sm:mb-0">
-                            <button class="decrease-qty px-2 py-1 text-gray-600 hover:bg-gray-100">
+                            <button type="button" class="decrease-qty px-2 py-1 text-gray-600 hover:bg-gray-100">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M20 12H4" />
                                 </svg>
                             </button>
                             <input type="number" min="1" value="1"
-                                class="quantity-input w-12 text-center border-x border-gray-300 py-1 focus:outline-none focus:ring-1 focus:ring-primary text-sm">
-                            <button class="increase-qty px-2 py-1 text-gray-600 hover:bg-gray-100">
+                                class="quantity-input w-20 text-center border-x border-gray-300 py-1 focus:outline-none focus:ring-1 focus:ring-primary text-sm">
+                            <button type="button" class="increase-qty px-2 py-1 text-gray-600 hover:bg-gray-100">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 4v16m8-8H4" />
@@ -283,4 +285,11 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
     <script src="{{ asset('js/kasir.transaksi.js') }}"></script>
+    <script>
+        document.getElementById('category').addEventListener('change', function() {
+            document.getElementById('search-dropdown').value = '';
+            document.getElementById('filter-form').submit();
+        });
+    </script>
+
 </x-kasir>

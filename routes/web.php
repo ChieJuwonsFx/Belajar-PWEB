@@ -7,6 +7,10 @@ use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\admin\adminProductController;
 use App\Http\Controllers\Kasir\transaksiKasirController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Kasir\LaporanTransaksiController;
+use App\Http\Controllers\Kasir\RiwayatTransaksiController;
+use App\Http\Controllers\Kasir\TransaksiDibatalkanController;
+use App\Http\Controllers\Kasir\TransaksiSelesaiController;
 
 Route::get('/', function () {
     return view('user.home');
@@ -27,9 +31,12 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
 Route::middleware(['auth', 'role:Kasir'])->group(function () {
     Route::get('/kasir', [dashboardController::class, 'kasir'])->name('kasir');
     Route::get('/kasir/transaksi', [transaksiKasirController::class, 'index'])->name('kasir.transaksi');
+    Route::get('/kasir/riwayat', [RiwayatTransaksiController::class, 'index'])->name('kasir.riwayat');
+    Route::get('/kasir/batal', [TransaksiDibatalkanController::class, 'index'])->name('kasir.batal');
+    Route::get('/kasir/selesai', [TransaksiSelesaiController::class, 'index'])->name('kasir.selesai');
     Route::post('/kasir/transaksi', [transaksiKasirController::class, 'store'])->name('kasir.transaksi.store');
 });
- 
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -83,7 +83,8 @@
                                 <div class="pl-3 w-full">
                                     <div class="text-secondary font-normal text-sm mb-1.5">
                                         New message from
-                                        <span class="font-semibold text-primary">Bonnie Green</span>: "Hey, what's up? All
+                                        <span class="font-semibold text-primary">Bonnie Green</span>: "Hey, what's up?
+                                        All
                                         set for the presentation?"
                                     </div>
                                     <div class="text-xs font-medium text-primary-600">
@@ -95,10 +96,10 @@
                         <a href="#"
                             class="block py-2 text-md font-medium text-center text-primary bg-gray-50 hover:bg-gray-100">
                             <div class="inline-flex items-center">
-                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
-                                    <path fill-rule="evenodd"
-                                        d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                                        clip-rule="evenodd"></path>
+                                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
+                                <path fill-rule="evenodd"
+                                    d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                                    clip-rule="evenodd"></path>
                                 </svg>
                                 View all
                             </div>
@@ -122,20 +123,17 @@
                         </div>
                         <ul class="py-1 text-gray-700" aria-labelledby="dropdown">
                             <li>
-                                <a href="#"
-                                    class="block py-2 px-4 text-sm hover:bg-gray-100">My
+                                <a href="#" class="block py-2 px-4 text-sm hover:bg-gray-100">My
                                     profile</a>
                             </li>
                             <li>
-                                <a href="#"
-                                    class="block py-2 px-4 text-sm hover:bg-gray-100">Account
+                                <a href="#" class="block py-2 px-4 text-sm hover:bg-gray-100">Account
                                     settings</a>
                             </li>
                         </ul>
                         <ul class="py-1 text-gray-700" aria-labelledby="dropdown">
                             <li>
-                                <a href="#"
-                                    class="flex items-center py-2 px-4 text-sm hover:bg-gray-100"><svg
+                                <a href="#" class="flex items-center py-2 px-4 text-sm hover:bg-gray-100"><svg
                                         class="mr-2 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd"
@@ -145,8 +143,7 @@
                                     My likes</a>
                             </li>
                             <li>
-                                <a href="#"
-                                    class="flex items-center py-2 px-4 text-sm hover:bg-gray-100"><svg
+                                <a href="#" class="flex items-center py-2 px-4 text-sm hover:bg-gray-100"><svg
                                         class="mr-2 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -159,9 +156,9 @@
                                 <a href="#"
                                     class="flex justify-between items-center py-2 px-4 text-sm hover:bg-gray-100">
                                     <span class="flex items-center">
-                                        <svg aria-hidden="true"
-                                            class="mr-2 w-5 h-5 text-primary-600"
-                                            fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <svg aria-hidden="true" class="mr-2 w-5 h-5 text-primary-600"
+                                            fill="currentColor" viewBox="0 0 20 20"
+                                            xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd"
                                                 d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z"
                                                 clip-rule="evenodd"></path>
@@ -185,7 +182,7 @@
                                         class="block w-full text-left py-2 px-4 text-sm hover:bg-gray-100">
                                         Sign Out
                                     </button>
-                                </form>                            
+                                </form>
                             </li>
                         </ul>
                     </div>
@@ -391,8 +388,7 @@
                     </li>
                 </ul>
             </div>
-            <div
-                class="hidden absolute bottom-0 left-0 justify-center p-4 space-x-4 w-full lg:flex bg-white z-20">
+            <div class="hidden absolute bottom-0 left-0 justify-center p-4 space-x-4 w-full lg:flex bg-white z-20">
                 <a href="#"
                     class="inline-flex justify-center p-2 text-secondary rounded cursor-pointer hover:text-primary hover:bg-gray-100">
                     <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
@@ -416,7 +412,7 @@
                     Settings page
                     <div class="tooltip-arrow" data-popper-arrow></div>
                 </div>
-            </div> 
+            </div>
         </aside>
 
         <main class="p-4 md:ml-64 h-auto pt-20 min-h-screen bg-sky-200 bg-opacity-10">
