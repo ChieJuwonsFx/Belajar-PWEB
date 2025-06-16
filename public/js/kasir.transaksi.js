@@ -23,6 +23,14 @@ document.addEventListener("DOMContentLoaded", function () {
     // holdTransactionBtn.addEventListener('click', holdTransaction);
     cancelTransactionBtn.addEventListener("click", cancelTransaction);
 
+    document.addEventListener("click", function (e) {
+        const card = e.target.closest(".product-card");
+        if (card) {
+            const productId = card.dataset.id;
+            selectProduct(productId, "click");
+        }
+    });
+
     document.querySelectorAll(".product-card").forEach((card) => {
         card.addEventListener("click", function () {
             const productId = this.dataset.id;
@@ -341,7 +349,6 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // Hitung total transaksi
         const totalJual = selectedProducts.reduce(
             (sum, product) => sum + product.price * product.quantity,
             0
@@ -351,7 +358,6 @@ document.addEventListener("DOMContentLoaded", function () {
             0
         );
 
-        // Siapkan data transaksi
         const transactionData = {
             items: selectedProducts.map((product) => ({
                 product_id: product.id,
@@ -363,11 +369,9 @@ document.addEventListener("DOMContentLoaded", function () {
             total_modal_keseluruhan: totalModal,
         };
 
-        // Set data ke input hidden form
         document.getElementById("data-transaksi").value =
             JSON.stringify(transactionData);
 
-        // Submit form
         document.getElementById("transaksi-form").submit();
     }
 
