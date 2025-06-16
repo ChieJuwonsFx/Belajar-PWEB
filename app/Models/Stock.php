@@ -15,7 +15,8 @@ class Stock extends Model
     public $incrementing = false; 
     protected $keyType = 'string'; 
 
-    protected $guarded = [];
+    protected $fillable = ['quantity', 'remaining_quantity', 'harga_modal', 'product_id', 'expired_at'];
+
 
     public static function boot()
     {

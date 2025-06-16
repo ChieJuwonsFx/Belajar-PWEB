@@ -1,7 +1,7 @@
 <x-owner>
     <div class="p-4 w-full">
         <div class="flex flex-col lg:flex-row items-center justify-between w-full gap-4 mb-6">
-            <form method="GET" action="{{ route('owner.produk') }}" class="w-full">
+            <form method="GET" id="filter-form" action="{{ route('owner.produk') }}" class="w-full">
                 <div class="flex flex-col sm:flex-row gap-3">
                     <div class="relative w-full sm:w-56">
                         <label for="category" class="sr-only">Kategori</label>
@@ -44,8 +44,6 @@
                 </div>
             </form>
         </div>
-
-
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             @foreach ($products as $product)
@@ -196,6 +194,11 @@
     </div>
 
     <script>
+        document.getElementById('category').addEventListener('change', function() {
+            document.getElementById('search-dropdown').value = '';
+            document.getElementById('filter-form').submit();
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
             window.formatNumber = function(number) {
                 return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");

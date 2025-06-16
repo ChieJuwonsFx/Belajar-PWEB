@@ -33,7 +33,7 @@ class ownerCategoryController extends Controller
         try{
             $category =Category::findOrFail($id);
             $category->update([
-                'nama' =>$request->nama
+                'name' =>$request->nama
             ]);
     
             return redirect()->route('owner.kategori')->with('alert_success', 'Kategori berhasil diperbaharui');

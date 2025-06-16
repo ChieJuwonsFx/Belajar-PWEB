@@ -13,7 +13,6 @@ class TransactionItem extends Model
 
     protected $primaryKey = 'id'; 
     public $incrementing = false; 
-    protected $guarded = [];
 
     public static function boot()
     {

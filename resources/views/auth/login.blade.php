@@ -26,12 +26,6 @@
                         <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-primary shadow-sm focus:ring-primary">
                         <span class="ms-2 text-sm text-gray-600">Remember me</span>
                     </label>
-
-                    @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}" class="text-sm text-gray-600 hover:text-primary">
-                            {{ __('Forgot your password?') }}
-                        </a>
-                    @endif
                 </div>
 
                 <button type="submit" class="text-white border border-primary bg-primary hover:bg-white hover:text-primary hover:border-primary font-medium rounded-lg text-sm px-4 py-2 text-center w-full mt-2">

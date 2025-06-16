@@ -21,7 +21,16 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $guarded = [];
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'no_hp', // Add no_hp
+        'alamat', // Add alamat
+        'desa_id', // Add desa_id (foreign key to villages table)
+        'image', // Add image
+        'role'
+    ];
     // protected $with = ['user'];
 
     /**

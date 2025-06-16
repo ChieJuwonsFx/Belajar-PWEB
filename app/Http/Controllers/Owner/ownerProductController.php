@@ -43,18 +43,28 @@ class ownerProductController extends Controller
                 )
                 ->select('products.*', DB::raw('COALESCE(stock_summary.total_stock, 0) AS stok'));
 
-            if ($request->filled('search')) {
-                $search = $request->search;
-                $query->where(function ($q) use ($search) {
-                    $q->where('products.name', 'like', "%{$search}%")
-                        ->orWhereHas('category', function ($q) use ($search) {
-                            $q->where('name', 'like', "%{$search}%");
-                        });
-                });
-            }
+            // if ($request->filled('search')) {
+            //     $search = $request->search;
+            //     $query->where(function ($q) use ($search) {
+            //         $q->where('products.name', 'like', "%{$search}%")
+            //             ->orWhereHas('category', function ($q) use ($search) {
+            //                 $q->where('name', 'like', "%{$search}%");
+            //             });
+            //     });
+            // }
 
-            if ($request->filled('category')) {
+            // if ($request->filled('category')) {
+            //     $query->where('category_id', $request->category);
+            // }
+            if ($request->has('category') && $request->category != '') {
                 $query->where('category_id', $request->category);
+
+                if ($request->has('search') && $request->search != '') {
+                    $search = $request->search;
+                    $query->where(function ($q) use ($search) {
+                        $q->where('name', 'like', "%$search%");
+                    });
+                }
             }
 
             $products = $query->orderBy('is_available')->paginate(16);
@@ -67,6 +77,30 @@ class ownerProductController extends Controller
                 ->with('alert_failed', 'Terjadi kesalahan saat memuat data produk: ' . $e->getMessage());
         }
     }
+
+    // try{
+    //         $categories = Category::all();
+    
+    //         $query = Product::with('category', 'unit')
+    //             ->withSum('stocks as stok', 'remaining_quantity')
+    //             ->where([['is_active', true], ['is_available', 'Available']]);
+    
+    //         if ($request->has('category') && $request->category != '') {
+    //             $query->where('category_id', $request->category);
+
+    //             if ($request->has('search') && $request->search != '') {
+    //                 $search = $request->search;
+    //                 $query->where(function ($q) use ($search) {
+    //                     $q->where('name', 'like', "%$search%");
+    //                 });
+    //             }
+    //         }
+    //         $products = $query->orderBy('is_available', 'asc')->get();
+    
+    //         return view('kasir.transaksi', compact('products', 'categories'));    
+    //     } catch (\Exception $e) {
+    //         return redirect()->route('kasir.transaksi')->with('alert_failed', 'Terjadi kesalahan saat melakukan load data produk: ' . $e->getMessage());
+    //     }
 
     // public function store(Request $request)
     // {
@@ -206,109 +240,108 @@ class ownerProductController extends Controller
     //     }
     // }
 
-    // public function update(Request $request, $id)
-    // {
-    //     try {
-    //         $produk = Product::findOrFail($id);
+    public function update(Request $request, $id)
+    {
+        try {
+            $produk = Product::findOrFail($id);
 
-    //         $validated = $request->validate([
-    //             'name' => 'required|string|max:255',
-    //             'barcode' => 'nullable|string|max:255',
-    //             'deskripsi' => 'nullable|string',
-    //             'harga_jual' => 'required|numeric|min:0',
-    //             'stok_minimum' => 'required|integer|min:0',
-    //             'is_available' => 'required|in:Available,Unavailable',
-    //             'category' => 'required|exists:categories,id',
-    //             'unit' => 'required|exists:units,id',
-    //             'image_data' => 'nullable|json',
-    //         ]);
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'barcode' => 'nullable|string|max:255',
+                'deskripsi' => 'nullable|string',
+                'harga_jual' => 'required|numeric|min:0',
+                'stok_minimum' => 'required|integer|min:0',
+                'is_available' => 'required|in:Available,Unavailable',
+                'category' => 'required|exists:categories,id',
+                'unit' => 'required|exists:units,id',
+                'image_data' => 'nullable|json',
+            ]);
 
-    //         $imageData = json_decode($request->input('image_data'), true);
+            $imageData = json_decode($request->input('image_data'), true);
 
-    //         if (!is_array($imageData)) {
-    //             $imageData = ['existing' => [], 'new' => [], 'deleted' => []];
-    //         } else {
-    //             $imageData['existing'] = $imageData['existing'] ?? [];
-    //             $imageData['new'] = $imageData['new'] ?? [];
-    //             $imageData['deleted'] = $imageData['deleted'] ?? [];
-    //         }
+            if (!is_array($imageData)) {
+                $imageData = ['existing' => [], 'new' => [], 'deleted' => []];
+            } else {
+                $imageData['existing'] = $imageData['existing'] ?? [];
+                $imageData['new'] = $imageData['new'] ?? [];
+                $imageData['deleted'] = $imageData['deleted'] ?? [];
+            }
 
-    //         $finalImageData = [];
+            $finalImageData = [];
 
-    //         foreach ($imageData['existing'] as $existingImg) {
-    //             $imageId = $existingImg['id'] ?? null;
+            foreach ($imageData['existing'] as $existingImg) {
+                $imageId = $existingImg['id'] ?? null;
 
-    //             if (!in_array($imageId, $imageData['deleted'])) {
-    //                 $finalImageData[] = [
-    //                     'path' => $existingImg['path'],
-    //                     'filename' => $existingImg['filename'] ?? 'existing_image_' . $imageId . '.jpg'
-    //                 ];
-    //             }
-    //         }
+                if (!in_array($imageId, $imageData['deleted'])) {
+                    $finalImageData[] = [
+                        'path' => $existingImg['path'],
+                        'filename' => $existingImg['filename'] ?? 'existing_image_' . $imageId . '.jpg'
+                    ];
+                }
+            }
 
-    //         foreach ($imageData['new'] as $newImg) {
-    //             if (isset($newImg['path']) && strpos($newImg['path'], 'data:image/') === 0) {
-    //                 $imageBase64 = $newImg['path'];
-    //                 $imageData64 = explode(',', $imageBase64)[1];
-    //                 $imageType = explode(';', explode('/', $imageBase64)[1])[0];
+            foreach ($imageData['new'] as $newImg) {
+                if (isset($newImg['path']) && strpos($newImg['path'], 'data:image/') === 0) {
+                    $imageBase64 = $newImg['path'];
+                    $imageData64 = explode(',', $imageBase64)[1];
+                    $imageType = explode(';', explode('/', $imageBase64)[1])[0];
 
-    //                 $filename = uniqid() . '_' . time() . '.' . $imageType;
-    //                 $filePath = 'product/' . $filename;
+                    $filename = uniqid() . '_' . time() . '.' . $imageType;
+                    $filePath = 'product/' . $filename;
 
-    //                 $decodedImage = base64_decode($imageData64);
+                    $decodedImage = base64_decode($imageData64);
 
-    //                 Storage::disk('public')->put($filePath, $decodedImage);
+                    Storage::disk('public')->put($filePath, $decodedImage);
 
-    //                 $finalImageData[] = [
-    //                     'path' => 'storage/' . $filePath,
-    //                     'filename' => $newImg['filename'] ?? $filename
-    //                 ];
-    //             }
-    //         }
+                    $finalImageData[] = [
+                        'path' => 'storage/' . $filePath,
+                        'filename' => $newImg['filename'] ?? $filename
+                    ];
+                }
+            }
 
-    //         if (!empty($imageData['deleted']) && !empty($produk->image)) {
-    //             $currentImages = json_decode($produk->image, true);
-    //             if (is_array($currentImages)) {
-    //                 foreach ($currentImages as $index => $currentImg) {
-    //                     if (in_array($index, $imageData['deleted'])) {
-    //                         if (isset($currentImg['path']) && strpos($currentImg['path'], 'storage/') === 0) {
-    //                             $filePath = str_replace('storage/', '', $currentImg['path']);
-    //                             if (Storage::disk('public')->exists($filePath)) {
-    //                                 Storage::disk('public')->delete($filePath);
-    //                             }
-    //                         }
-    //                     }
-    //                 }
-    //             }
-    //         }
+            if (!empty($imageData['deleted']) && !empty($produk->image)) {
+                $currentImages = json_decode($produk->image, true);
+                if (is_array($currentImages)) {
+                    foreach ($currentImages as $index => $currentImg) {
+                        if (in_array($index, $imageData['deleted'])) {
+                            if (isset($currentImg['path']) && strpos($currentImg['path'], 'storage/') === 0) {
+                                $filePath = str_replace('storage/', '', $currentImg['path']);
+                                if (Storage::disk('public')->exists($filePath)) {
+                                    Storage::disk('public')->delete($filePath);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
-    //         $produk->update([
-    //             'name' => $validated['name'],
-    //             'slug' => Str::slug($validated['name']),
-    //             'barcode' => $validated['barcode'],
-    //             'deskripsi' => $validated['deskripsi'],
-    //             'harga_jual' => $validated['harga_jual'],
-    //             'stok_minimum' => $validated['stok_minimum'],
-    //             'image' => !empty($finalImageData) ? json_encode(array_values($finalImageData)) : null,
-    //             'is_available' => $validated['is_available'],
-    //             'category_id' => $validated['category'],
-    //             'unit_id' => $validated['unit'],
-    //         ]);
+            $produk->update([
+                'name' => $validated['name'],
+                'slug' => Str::slug($validated['name']),
+                'barcode' => $validated['barcode'],
+                'deskripsi' => $validated['deskripsi'],
+                'harga_jual' => $validated['harga_jual'],
+                'stok_minimum' => $validated['stok_minimum'],
+                'image' => !empty($finalImageData) ? json_encode(array_values($finalImageData)) : null,
+                'is_available' => $validated['is_available'],
+                'category_id' => $validated['category'],
+                'unit_id' => $validated['unit'],
+            ]);
 
-    //         return redirect()->route('owner.produk')
-    //             ->with('success', 'Produk berhasil diperbaharui');
-    //     } catch (\Exception $e) {
-    //         return redirect()->back()
-    //             ->withInput()
-    //             ->with('alert_failed', 'Terjadi kesalahan saat memperbaharui produk: ' . $e->getMessage());
-    //     }
-    // }
+            return redirect()->route('owner.produk')
+                ->with('success', 'Produk berhasil diperbaharui');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('alert_failed', 'Terjadi kesalahan saat memperbaharui produk: ' . $e->getMessage());
+        }
+    }
 
 
     public function store(Request $request)
     {
         try {
-            // Custom validation messages
             $messages = [
                 'name.required' => 'Nama produk wajib diisi.',
                 'name.max' => 'Nama produk tidak boleh lebih dari 255 karakter.',
@@ -337,7 +370,6 @@ class ownerProductController extends Controller
                 'images_json.json' => 'Format gambar tidak valid.',
             ];
 
-            // Validation rules
             $rules = [
                 'name' => 'required|string|max:255',
                 'barcode' => 'nullable|string|max:255',
@@ -354,15 +386,12 @@ class ownerProductController extends Controller
                 'images_json' => 'nullable|json',
             ];
 
-            // Create validator instance
             $validator = Validator::make($request->all(), $rules, $messages);
 
-            // Add conditional validation for harga_modal when is_modal_real is true
             $validator->sometimes('harga_modal', 'required|numeric|min:0', function ($input) {
                 return filter_var($input->is_modal_real, FILTER_VALIDATE_BOOLEAN);
             });
 
-            // Add custom validation for harga_jual > harga_modal
             $validator->after(function ($validator) use ($request) {
                 $isModalReal = filter_var($request->is_modal_real, FILTER_VALIDATE_BOOLEAN);
                 $hargaModal = $request->harga_modal;
@@ -496,140 +525,140 @@ class ownerProductController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
-    {
-        try {
-            $produk = Product::findOrFail($id);
+    // public function update(Request $request, $id)
+    // {
+    //     try {
+    //         $produk = Product::findOrFail($id);
 
-            $messages = [
-                'name.required' => 'Nama produk wajib diisi.',
-                'name.max' => 'Nama produk tidak boleh lebih dari 255 karakter.',
-                'barcode.max' => 'Barcode tidak boleh lebih dari 255 karakter.',
-                'harga_jual.required' => 'Harga jual wajib diisi.',
-                'harga_jual.numeric' => 'Harga jual harus berupa angka.',
-                'harga_jual.min' => 'Harga jual tidak boleh kurang dari 0.',
-                'stok_minimum.required' => 'Stok minimum wajib diisi.',
-                'stok_minimum.integer' => 'Stok minimum harus berupa bilangan bulat.',
-                'stok_minimum.min' => 'Stok minimum tidak boleh kurang dari 0.',
-                'is_available.required' => 'Status ketersediaan wajib dipilih.',
-                'is_available.in' => 'Status ketersediaan tidak valid.',
-                'category.required' => 'Kategori wajib dipilih.',
-                'category.exists' => 'Kategori yang dipilih tidak valid.',
-                'unit.required' => 'Satuan wajib dipilih.',
-                'unit.exists' => 'Satuan yang dipilih tidak valid.',
-                'image_data.json' => 'Format gambar tidak valid.',
-            ];
+    //         $messages = [
+    //             'name.required' => 'Nama produk wajib diisi.',
+    //             'name.max' => 'Nama produk tidak boleh lebih dari 255 karakter.',
+    //             'barcode.max' => 'Barcode tidak boleh lebih dari 255 karakter.',
+    //             'harga_jual.required' => 'Harga jual wajib diisi.',
+    //             'harga_jual.numeric' => 'Harga jual harus berupa angka.',
+    //             'harga_jual.min' => 'Harga jual tidak boleh kurang dari 0.',
+    //             'stok_minimum.required' => 'Stok minimum wajib diisi.',
+    //             'stok_minimum.integer' => 'Stok minimum harus berupa bilangan bulat.',
+    //             'stok_minimum.min' => 'Stok minimum tidak boleh kurang dari 0.',
+    //             'is_available.required' => 'Status ketersediaan wajib dipilih.',
+    //             'is_available.in' => 'Status ketersediaan tidak valid.',
+    //             'category.required' => 'Kategori wajib dipilih.',
+    //             'category.exists' => 'Kategori yang dipilih tidak valid.',
+    //             'unit.required' => 'Satuan wajib dipilih.',
+    //             'unit.exists' => 'Satuan yang dipilih tidak valid.',
+    //             'image_data.json' => 'Format gambar tidak valid.',
+    //         ];
 
-            $rules = [
-                'name' => 'required|string|max:255',
-                'barcode' => 'nullable|string|max:255',
-                'deskripsi' => 'nullable|string',
-                'harga_jual' => 'required|numeric|min:0',
-                'stok_minimum' => 'required|integer|min:0',
-                'is_available' => 'required|in:Available,Unavailable',
-                'category' => 'required|exists:categories,id',
-                'unit' => 'required|exists:units,id',
-                'image_data' => 'nullable|json',
-            ];
+    //         $rules = [
+    //             'name' => 'required|string|max:255',
+    //             'barcode' => 'nullable|string|max:255',
+    //             'deskripsi' => 'nullable|string',
+    //             'harga_jual' => 'required|numeric|min:0',
+    //             'stok_minimum' => 'required|integer|min:0',
+    //             'is_available' => 'required|in:Available,Unavailable',
+    //             'category' => 'required|exists:categories,id',
+    //             'unit' => 'required|exists:units,id',
+    //             'image_data' => 'nullable|json',
+    //         ];
 
-            $validator = Validator::make($request->all(), $rules, $messages);
+    //         $validator = Validator::make($request->all(), $rules, $messages);
 
-            $validator->after(function ($validator) use ($request, $produk) {
-                $hargaJual = $request->harga_jual;
+    //         $validator->after(function ($validator) use ($request, $produk) {
+    //             $hargaJual = $request->harga_jual;
 
-                if ($produk->is_modal_real && $produk->estimasi_modal !== null && $hargaJual < $produk->estimasi_modal) {
-                    $validator->errors()->add('harga_jual', 'Harga jual tidak boleh lebih murah dari harga modal.');
-                }
-            });
+    //             if ($produk->is_modal_real && $produk->estimasi_modal !== null && $hargaJual < $produk->estimasi_modal) {
+    //                 $validator->errors()->add('harga_jual', 'Harga jual tidak boleh lebih murah dari harga modal.');
+    //             }
+    //         });
 
-            if ($validator->fails()) {
-                return redirect()->back()
-                    ->withInput()
-                    ->withErrors($validator);
-            }
+    //         if ($validator->fails()) {
+    //             return redirect()->back()
+    //                 ->withInput()
+    //                 ->withErrors($validator);
+    //         }
 
-            $validated = $validator->validated();
+    //         $validated = $validator->validated();
 
-            $imageData = json_decode($request->input('image_data'), true);
+    //         $imageData = json_decode($request->input('image_data'), true);
 
-            if (!is_array($imageData)) {
-                $imageData = ['existing' => [], 'new' => [], 'deleted' => []];
-            } else {
-                $imageData['existing'] = $imageData['existing'] ?? [];
-                $imageData['new'] = $imageData['new'] ?? [];
-                $imageData['deleted'] = $imageData['deleted'] ?? [];
-            }
+    //         if (!is_array($imageData)) {
+    //             $imageData = ['existing' => [], 'new' => [], 'deleted' => []];
+    //         } else {
+    //             $imageData['existing'] = $imageData['existing'] ?? [];
+    //             $imageData['new'] = $imageData['new'] ?? [];
+    //             $imageData['deleted'] = $imageData['deleted'] ?? [];
+    //         }
 
-            $finalImageData = [];
+    //         $finalImageData = [];
 
-            foreach ($imageData['existing'] as $existingImg) {
-                $imageId = $existingImg['id'] ?? null;
+    //         foreach ($imageData['existing'] as $existingImg) {
+    //             $imageId = $existingImg['id'] ?? null;
 
-                if (!in_array($imageId, $imageData['deleted'])) {
-                    $finalImageData[] = [
-                        'path' => $existingImg['path'],
-                        'filename' => $existingImg['filename'] ?? 'existing_image_' . $imageId . '.jpg'
-                    ];
-                }
-            }
+    //             if (!in_array($imageId, $imageData['deleted'])) {
+    //                 $finalImageData[] = [
+    //                     'path' => $existingImg['path'],
+    //                     'filename' => $existingImg['filename'] ?? 'existing_image_' . $imageId . '.jpg'
+    //                 ];
+    //             }
+    //         }
 
-            foreach ($imageData['new'] as $newImg) {
-                if (isset($newImg['path']) && strpos($newImg['path'], 'data:image/') === 0) {
-                    $imageBase64 = $newImg['path'];
-                    $imageData64 = explode(',', $imageBase64)[1];
-                    $imageType = explode(';', explode('/', $imageBase64)[1])[0];
+    //         foreach ($imageData['new'] as $newImg) {
+    //             if (isset($newImg['path']) && strpos($newImg['path'], 'data:image/') === 0) {
+    //                 $imageBase64 = $newImg['path'];
+    //                 $imageData64 = explode(',', $imageBase64)[1];
+    //                 $imageType = explode(';', explode('/', $imageBase64)[1])[0];
 
-                    $filename = uniqid() . '_' . time() . '.' . $imageType;
-                    $filePath = 'product/' . $filename;
+    //                 $filename = uniqid() . '_' . time() . '.' . $imageType;
+    //                 $filePath = 'product/' . $filename;
 
-                    $decodedImage = base64_decode($imageData64);
+    //                 $decodedImage = base64_decode($imageData64);
 
-                    Storage::disk('public')->put($filePath, $decodedImage);
+    //                 Storage::disk('public')->put($filePath, $decodedImage);
 
-                    $finalImageData[] = [
-                        'path' => 'storage/' . $filePath,
-                        'filename' => $newImg['filename'] ?? $filename
-                    ];
-                }
-            }
+    //                 $finalImageData[] = [
+    //                     'path' => 'storage/' . $filePath,
+    //                     'filename' => $newImg['filename'] ?? $filename
+    //                 ];
+    //             }
+    //         }
 
-            if (!empty($imageData['deleted']) && !empty($produk->image)) {
-                $currentImages = json_decode($produk->image, true);
-                if (is_array($currentImages)) {
-                    foreach ($currentImages as $index => $currentImg) {
-                        if (in_array($index, $imageData['deleted'])) {
-                            if (isset($currentImg['path']) && strpos($currentImg['path'], 'storage/') === 0) {
-                                $filePath = str_replace('storage/', '', $currentImg['path']);
-                                if (Storage::disk('public')->exists($filePath)) {
-                                    Storage::disk('public')->delete($filePath);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+    //         if (!empty($imageData['deleted']) && !empty($produk->image)) {
+    //             $currentImages = json_decode($produk->image, true);
+    //             if (is_array($currentImages)) {
+    //                 foreach ($currentImages as $index => $currentImg) {
+    //                     if (in_array($index, $imageData['deleted'])) {
+    //                         if (isset($currentImg['path']) && strpos($currentImg['path'], 'storage/') === 0) {
+    //                             $filePath = str_replace('storage/', '', $currentImg['path']);
+    //                             if (Storage::disk('public')->exists($filePath)) {
+    //                                 Storage::disk('public')->delete($filePath);
+    //                             }
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         }
 
-            $produk->update([
-                'name' => $validated['name'],
-                'slug' => Str::slug($validated['name']),
-                'barcode' => $validated['barcode'],
-                'deskripsi' => $validated['deskripsi'],
-                'harga_jual' => $validated['harga_jual'],
-                'stok_minimum' => $validated['stok_minimum'],
-                'image' => !empty($finalImageData) ? json_encode(array_values($finalImageData)) : null,
-                'is_available' => $validated['is_available'],
-                'category_id' => $validated['category'],
-                'unit_id' => $validated['unit'],
-            ]);
+    //         $produk->update([
+    //             'name' => $validated['name'],
+    //             'slug' => Str::slug($validated['name']),
+    //             'barcode' => $validated['barcode'],
+    //             'deskripsi' => $validated['deskripsi'],
+    //             'harga_jual' => $validated['harga_jual'],
+    //             'stok_minimum' => $validated['stok_minimum'],
+    //             'image' => !empty($finalImageData) ? json_encode(array_values($finalImageData)) : null,
+    //             'is_available' => $validated['is_available'],
+    //             'category_id' => $validated['category'],
+    //             'unit_id' => $validated['unit'],
+    //         ]);
 
-            return redirect()->route('owner.produk')
-                ->with('success', 'Produk berhasil diperbaharui');
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->withInput()
-                ->with('alert_failed', 'Terjadi kesalahan saat memperbaharui produk: ' . $e->getMessage());
-        }
-    }
+    //         return redirect()->route('owner.produk')
+    //             ->with('success', 'Produk berhasil diperbaharui');
+    //     } catch (\Exception $e) {
+    //         return redirect()->back()
+    //             ->withInput()
+    //             ->with('alert_failed', 'Terjadi kesalahan saat memperbaharui produk: ' . $e->getMessage());
+    //     }
+    // }
 
 
     public function delete($id)

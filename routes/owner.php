@@ -1,17 +1,26 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\Owner\ownerUnitController;
 use App\Http\Controllers\Owner\ownerStockController;
 use App\Http\Controllers\owner\ownerProductController;
+use App\Http\Controllers\owner\ownerProfileController;
 use App\Http\Controllers\owner\ownerCategoryController;
 use App\Http\Controllers\owner\ownerEmployeeController;
+use App\Http\Controllers\owner\ownerDashboardController;
 use App\Http\Controllers\Owner\ownerStockAdjustmentController;
-
+use App\Http\Controllers\Owner\ownerTransaksiController;
 
 Route::middleware(['auth', 'role:Owner'])->group(function () {
-    Route::get('/owner', [dashboardController::class, 'owner'])->name('owner');
+    Route::get('/owner', [dashboardController::class, 'owner'])->name('owner.dashboard');
+    Route::get('/owner/dashboard', [ownerDashboardController::class, 'index'])->name('owner');
+
+    Route::middleware('auth')->group(function () {
+        Route::get('/owner/profile', [ownerProfileController::class, 'edit'])->name('owner.profile.edit');
+        Route::patch('/owner/profile', [ownerProfileController::class, 'update'])->name('owner.profile.update');
+    });
 
     Route::get('/owner/employee', [ownerEmployeeController::class, 'index'])->name('employee');
     Route::post('owner/submit', [ownerEmployeeController::class, 'store'])->name('owner.employee.store');
@@ -37,6 +46,9 @@ Route::middleware(['auth', 'role:Owner'])->group(function () {
     Route::get('/owner/unit/delete/{id}', [ownerUnitController::class, 'delete'])->name('owner.unit.delete');
 
     Route::post('/owner/stok/store/{id}', [ownerStockController::class, 'store'])->name('owner.stok.store');
+
+    Route::get('/owner/transaksi', [ownerTransaksiController::class, 'index'])->name('owner.transaksi');
+    Route::get('/owner/transaksi/{id}', [ownerTransaksiController::class, 'show'])->name('owner.transaksi.show');
 
     Route::get('/batches', [ownerStockAdjustmentController::class, 'index'])->name('owner.batches');
     Route::post('/batches/store/{id?}', [ownerStockAdjustmentController::class, 'store'])->name('owner.batches.store');

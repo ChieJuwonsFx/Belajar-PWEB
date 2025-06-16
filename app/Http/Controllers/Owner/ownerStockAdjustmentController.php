@@ -37,7 +37,7 @@ class ownerStockAdjustmentController extends Controller
             ]);
         }
     
-        $stocks = $query->latest()->get();
+        $stocks = $query->latest()->paginate(15);
         $categories = Category::all();
     
         return view('owner.produk.stockAdjustment', compact('stocks', 'categories'));

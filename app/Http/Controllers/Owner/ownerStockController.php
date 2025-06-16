@@ -17,7 +17,8 @@ class ownerStockController extends Controller
             'quantity' => $request->quantity,
             'remaining_quantity' => $request->quantity,
             'harga_modal' => $request->harga_modal,
-            'product_id' => $products->id,
+            'product_id' => $request->product_id,
+            'expired_at'=>$request->expired_at
         ]);
 
         if(!$products->is_stock_real || !$products->is_modal_real){
@@ -30,3 +31,5 @@ class ownerStockController extends Controller
         return redirect()->route('owner.produk')->with('alert_success', 'Restok produk berhasil dilakukan');
     }
 }
+
+
