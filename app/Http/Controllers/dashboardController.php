@@ -9,11 +9,43 @@ use Illuminate\Support\Facades\Auth;
 
 class dashboardController extends Controller
 {
-    public function owner(Request $request) {
-        $chartData = $request->session()->get('chartData', []);
-        $latestTransactions = $request->session()->get('latestTransactions', []);
-        $latestLosses = $request->session()->get('latestLosses', []);
-        return view('owner.home', compact('chartData', 'latestTransactions', 'latestLosses'));
+    public function owner($ownerData) {
+        $chartData = $ownerData['chartData'];
+        $latestTransactions = $ownerData['latestTransactions'];
+        $latestLosses = $ownerData['latestLosses'];
+        $totalSales = $ownerData['totalSales'];
+        $totalCostOfSales = $ownerData['totalCostOfSales'];
+        $totalLostStockCost = $ownerData['totalLostStockCost'];
+        $totalActualProfitOverall = $ownerData['totalActualProfitOverall'];
+
+        $chartDataDailyRealita = $ownerData['chartDataDailyRealita'];
+        $chartDataWeeklyRealita = $ownerData['chartDataWeeklyRealita'];
+
+        $profitTodayExpected = $ownerData['profitTodayExpected'];
+        $profitTodayActual = $ownerData['profitTodayActual'];
+        $profitThisWeekExpected = $ownerData['profitThisWeekExpected'];
+        $profitThisWeekActual = $ownerData['profitThisWeekActual'];
+        $profitThisMonthExpected = $ownerData['profitThisMonthExpected'];
+        $profitThisMonthActual = $ownerData['profitThisMonthActual'];
+
+
+        return view('owner.home', compact(
+            'chartData',
+            'latestTransactions',
+            'latestLosses',
+            'totalSales',
+            'totalCostOfSales',
+            'totalLostStockCost',
+            'totalActualProfitOverall',
+            'chartDataDailyRealita',
+            'chartDataWeeklyRealita',
+            'profitTodayExpected',
+            'profitTodayActual',
+            'profitThisWeekExpected',
+            'profitThisWeekActual',
+            'profitThisMonthExpected',
+            'profitThisMonthActual'
+        ));
     }
 
     public function kasir(){
@@ -53,7 +85,7 @@ class dashboardController extends Controller
         $latestTransactions = DB::table('transactions')
             ->leftJoin('users', 'transactions.admin_id', '=', 'users.id')
             ->select('transactions.*', 'users.name as user_name')
-            ->where('transactions.admin_id', $auth->id) 
+            ->where('transactions.admin_id', $auth->id)
             ->orderBy('transactions.created_at', 'desc')
             ->limit(5)
             ->get();
