@@ -14,8 +14,8 @@ use App\Http\Controllers\Owner\ownerStockAdjustmentController;
 use App\Http\Controllers\Owner\ownerTransaksiController;
 
 Route::middleware(['auth', 'role:Owner'])->group(function () {
-    Route::get('/owner', [dashboardController::class, 'owner'])->name('owner.dashboard');
-    Route::get('/owner/dashboard', [ownerDashboardController::class, 'index'])->name('owner');
+    Route::get('/owner', [ownerDashboardController::class, 'index'])->name('owner.dashboard');
+    // Route::get('/owner/dashboard', [ownerDashboardController::class, 'index'])->name('owner');
 
     Route::middleware('auth')->group(function () {
         Route::get('/owner/profile', [ownerProfileController::class, 'edit'])->name('owner.profile.edit');
