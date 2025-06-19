@@ -13,7 +13,6 @@ class ownerDashboardController extends Controller
     public function index()
     {
         // --- Perhitungan Profit Bulanan untuk Grafik ---
-        // Keuntungan Ekspektasi (dari semua transaksi, harga jual - harga modal)
         $expectedProfits = DB::table('transactions')
             ->join('transaction_items', 'transactions.id', '=', 'transaction_items.transaction_id')
             ->selectRaw("MONTH(transactions.created_at) as month,
@@ -21,7 +20,6 @@ class ownerDashboardController extends Controller
             ->groupBy('month')
             ->get();
 
-        // Keuntungan Sebenarnya (hanya transaksi yang tidak pending, harga jual - harga modal)
         $actualProfits = DB::table('transactions')
             ->join('transaction_items', 'transactions.id', '=', 'transaction_items.transaction_id')
             ->selectRaw("MONTH(transactions.created_at) as month,
@@ -30,7 +28,6 @@ class ownerDashboardController extends Controller
             ->groupBy('month')
             ->get();
 
-        // Menghitung total biaya modal dari stok yang rusak atau hilang per bulan
         $stockAdjustmentCosts = DB::table('stock_adjustments')
             ->join('stocks', 'stock_adjustments.stock_id', '=', 'stocks.id')
             ->selectRaw("MONTH(stock_adjustments.created_at) as month, SUM(stock_adjustments.quantity * stocks.harga_modal) as total_lost_cost")
@@ -187,15 +184,11 @@ class ownerDashboardController extends Controller
             $month = $currentWeekDate->month;
             $combinedKey = $year . '-' . $weekNumber;
 
-            // nama bulan dari array $monthNames
             $monthName = $monthNames[$month];
 
-            // Hitung profit dan lost cost untuk minggu ini
             $profit = $weeklyProfitMap->get($combinedKey) ?? 0;
             $lost = $weeklyLostCostMap->get($combinedKey) ?? 0;
 
-            // Hitung minggu ke-N dalam bulan
-            $firstDayOfMonth = $currentWeekDate->copy()->startOfMonth();
             $weekOfMonth = $currentWeekDate->weekOfMonth;
 
             $chartDataWeeklyRealita[] = [
@@ -217,7 +210,7 @@ class ownerDashboardController extends Controller
             ->limit(5)
             ->get();
 
-        // Mengambil 5 kerugian terbaru (stok rusak/hilang/expired/diretur)
+        // Mengambil 5 kerugian terbaru (stok rusak/hilang/diretur)
         $latestLosses = DB::table('stock_adjustments')
             ->join('stocks', 'stock_adjustments.stock_id', '=', 'stocks.id')
             ->join('products', 'stocks.product_id', '=', 'products.id')
@@ -250,6 +243,38 @@ class ownerDashboardController extends Controller
 
         $totalActualProfitOverall = ($totalSales - $totalCostOfSales) - $totalLostStockCost;
 
+
+        // --- Data untuk Filter Laporan (Tahun dan Bulan Tersedia) ---
+        $availableYears = DB::table('transactions')
+                            ->selectRaw('YEAR(created_at) as year')
+                            ->distinct()
+                            ->orderBy('year', 'desc')
+                            ->pluck('year');
+
+        $currentYear = Carbon::now()->year;
+        $currentMonth = Carbon::now()->month;
+
+        // Ambil bulan yang tersedia di tahun berjalan (atau tahun yang paling baru jika tidak ada transaksi di tahun berjalan)
+        $monthsInCurrentYear = DB::table('transactions')
+                                ->selectRaw('MONTH(created_at) as month_num')
+                                ->whereYear('created_at', $availableYears->first() ?? $currentYear) // Gunakan tahun pertama yang tersedia atau tahun ini
+                                ->distinct()
+                                ->orderBy('month_num', 'asc')
+                                ->pluck('month_num');
+
+        // Filter bulan yang hanya sampai bulan ini jika tahunnya adalah tahun sekarang
+        if (($availableYears->first() ?? $currentYear) == $currentYear) {
+            $monthsInCurrentYear = $monthsInCurrentYear->filter(function ($monthNum) use ($currentMonth) {
+                return $monthNum <= $currentMonth;
+            });
+        }
+
+        // Ubah nomor bulan menjadi nama bulan
+        $availableMonths = $monthsInCurrentYear->mapWithKeys(function ($monthNum) use ($monthNames) {
+            return [$monthNum => $monthNames[$monthNum]];
+        });
+
+
         // Kumpulkan semua data yang akan dikirim ke dashboardController
         $dataForDashboardView = [
             'chartData' => $chartData,
@@ -267,10 +292,101 @@ class ownerDashboardController extends Controller
             'profitThisWeekActual' => $profitThisWeekActual,
             'profitThisMonthExpected' => $profitThisMonthExpected,
             'profitThisMonthActual' => $profitThisMonthActual,
+            'availableYears' => $availableYears, // Tambahkan ini
+            'availableMonths' => $availableMonths, // Tambahkan ini
+            'currentYear' => $currentYear, // Tambahkan ini untuk default selected
+            'currentMonth' => $currentMonth // Tambahkan ini untuk default selected
         ];
 
         // Buat instance dari dashboardController
         $dashboardController = app(\App\Http\Controllers\dashboardController::class);
         return $dashboardController->owner($dataForDashboardView);
+    }
+
+
+    /**
+     * Mengambil data laporan berdasarkan tahun dan bulan.
+     * Dipanggil melalui AJAX dari frontend.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function generateReport(Request $request)
+    {
+        $year = $request->input('year');
+        $month = $request->input('month');
+
+        $query = DB::table('transactions')
+                    ->leftJoin('users', 'transactions.admin_id', '=', 'users.id')
+                    ->select(
+                        'transactions.created_at',
+                        'transactions.id as transaction_id',
+                        'users.name as admin_name',
+                        'transactions.total_jual',
+                        'transactions.total_modal',
+                        'transactions.total_diskon',
+                        'transactions.status',
+                        DB::raw('(transactions.total_jual - transactions.total_modal) as profit')
+                    )
+                    ->whereYear('transactions.created_at', $year)
+                    ->where('transactions.status', 'Paid'); // Hanya laporan transaksi yang Paid
+
+        if ($month && $month != 'all') { // 'all' untuk semua bulan dalam tahun tersebut
+            $query->whereMonth('transactions.created_at', $month);
+        }
+
+        $reportData = $query->orderBy('transactions.created_at', 'asc')->get();
+
+        return response()->json([
+            'success' => true,
+            'reportData' => $reportData,
+            'reportSummary' => [
+                'totalSales' => $reportData->sum('total_jual'),
+                'totalModal' => $reportData->sum('total_modal'),
+                'totalProfit' => $reportData->sum('profit'),
+                'totalTransactions' => $reportData->count()
+            ]
+        ]);
+    }
+
+    /**
+     * Mengambil bulan-bulan yang tersedia untuk tahun tertentu.
+     * Dipanggil melalui AJAX dari frontend saat tahun dipilih.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getAvailableMonths(Request $request)
+    {
+        $year = $request->input('year');
+        $monthNames = [
+            1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April', 5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus', 9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+        ];
+
+        $monthsInYear = DB::table('transactions')
+                            ->selectRaw('MONTH(created_at) as month_num')
+                            ->whereYear('created_at', $year)
+                            ->distinct()
+                            ->orderBy('month_num', 'asc')
+                            ->pluck('month_num');
+
+        // Filter bulan yang hanya sampai bulan ini jika tahunnya adalah tahun sekarang
+        $currentYear = Carbon::now()->year;
+        $currentMonth = Carbon::now()->month;
+
+        if ($year == $currentYear) {
+            $monthsInYear = $monthsInYear->filter(function ($monthNum) use ($currentMonth) {
+                return $monthNum <= $currentMonth;
+            });
+        }
+
+        $availableMonths = $monthsInYear->mapWithKeys(function ($monthNum) use ($monthNames) {
+            return [$monthNum => $monthNames[$monthNum]];
+        });
+
+        return response()->json([
+            'success' => true,
+            'months' => $availableMonths
+        ]);
     }
 }

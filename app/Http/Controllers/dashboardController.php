@@ -28,6 +28,11 @@ class dashboardController extends Controller
         $profitThisMonthExpected = $ownerData['profitThisMonthExpected'];
         $profitThisMonthActual = $ownerData['profitThisMonthActual'];
 
+        // Tambahan untuk Laporan
+        $availableYears = $ownerData['availableYears'];
+        $availableMonths = $ownerData['availableMonths'];
+        $currentYear = $ownerData['currentYear'];
+        $currentMonth = $ownerData['currentMonth'];
 
         return view('owner.home', compact(
             'chartData',
@@ -37,14 +42,21 @@ class dashboardController extends Controller
             'totalCostOfSales',
             'totalLostStockCost',
             'totalActualProfitOverall',
+
             'chartDataDailyRealita',
             'chartDataWeeklyRealita',
+
             'profitTodayExpected',
             'profitTodayActual',
             'profitThisWeekExpected',
             'profitThisWeekActual',
             'profitThisMonthExpected',
-            'profitThisMonthActual'
+            'profitThisMonthActual',
+
+            'availableYears',
+            'availableMonths',
+            'currentYear',
+            'currentMonth'
         ));
     }
 

@@ -16,6 +16,8 @@ use App\Http\Controllers\Owner\ownerTransaksiController;
 Route::middleware(['auth', 'role:Owner'])->group(function () {
     Route::get('/owner', [ownerDashboardController::class, 'index'])->name('owner.dashboard');
     // Route::get('/owner/dashboard', [ownerDashboardController::class, 'index'])->name('owner');
+    Route::get('/owner/report/generate', [ownerDashboardController::class, 'generateReport'])->name('owner.report.generate');
+    Route::get('/owner/report/months', [ownerDashboardController::class, 'getAvailableMonths'])->name('owner.report.getMonths');
 
     Route::middleware('auth')->group(function () {
         Route::get('/owner/profile', [ownerProfileController::class, 'edit'])->name('owner.profile.edit');
