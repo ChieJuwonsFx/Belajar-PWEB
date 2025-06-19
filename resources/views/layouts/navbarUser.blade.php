@@ -25,15 +25,15 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/posts"
+                    <a href="#userFitur"
                         class="{{ request()->is('posts') ? 'text-primary relative md:after:content-[\'\'] md:after:absolute md:after:bottom-0 md:after:left-0 md:after:w-full md:after:h-1 md:after:bg-primary md:after:rounded-full' : 'text-secondary hover:text-primary' }} block py-2 px-3">
-                        Blog
+                        Fitur
                     </a>
                 </li>
                 <li>
-                    <a href="/product"
+                    <a href="#userWhy"
                         class="{{ request()->is('product') ? 'text-primary relative md:after:content-[\'\'] md:after:absolute md:after:bottom-0 md:after:left-0 md:after:w-full md:after:h-1 md:after:bg-primary md:after:rounded-full' : 'text-secondary hover:text-primary' }} block py-2 px-3">
-                        Product
+                        Why?
                     </a>
                 </li>
                 @auth
@@ -41,7 +41,7 @@
                         @php
                             $role = Auth::user()->role;
                             $dashboardRoute = 'dashboard';
-                    
+
                             if ($role === 'Owner') {
                                 $dashboardRoute = route('owner');
                             } elseif ($role === 'Admin') {
@@ -50,7 +50,7 @@
                                 $dashboardRoute = route('kasir');
                             }
                         @endphp
-                    
+
                         <a href="{{ $dashboardRoute }}"
                             class="text-white bg-primary hover:bg-white hover:text-primary border border-primary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center">
                             Dashboard

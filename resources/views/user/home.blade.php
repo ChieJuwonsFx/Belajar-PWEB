@@ -30,7 +30,7 @@
         </div>
     </section>
 
-    <div class="py-5 px-8 my-4 mx-auto max-w-screen-xl">
+    <div class="py-5 px-8 my-4 mx-auto max-w-screen-xl" id="userFitur">
         <div class="mb-8">
             <h1
                 class="mb-4 text-center text-4xl font-bold leading-none tracking-tight text-primary md:text-5xl lg:text-5xl">
@@ -116,8 +116,7 @@
         </div>
     </div>
 
-    {{-- Bagian "Designed for business teams like yours" diubah menjadi "Mengapa Memilih InnoVixus?" --}}
-    <section class="bg-primary">
+    <section class="bg-primary" id="userWhy">
         <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
             <div class="max-w-screen-md mb-8 lg:mb-10">
                 <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-white">Mengapa Memilih InnoVixus?</h2>
@@ -168,9 +167,8 @@
                 </div>
             </div>
         </div>
-      </section>
+    </section>
 
-    {{-- Bagian testimoni tetap bisa digunakan, namun sesuaikan teksnya --}}
     <div class="py-4 px-8 mt-24 mx-auto max-w-screen-xl">
         <div class="text-center">
             <h1 class="mb-4 text-4xl font-bold leading-none tracking-tight text-primary">Dengarkan apa kata <mark
