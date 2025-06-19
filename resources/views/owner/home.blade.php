@@ -5,7 +5,6 @@
             <p>Ringkasan Kinerja Toko Anda</p>
         </div>
 
-        {{-- Ringkasan Profit Periode (Hari Ini, Minggu Ini, Bulan Ini) --}}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
             {{-- Profit Hari Ini --}}
             <div class="bg-white p-6 rounded-lg shadow-md">
@@ -45,7 +44,6 @@
             </div>
         </div>
 
-        {{-- Bagian Grafik Profit Realita --}}
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 w-full h-auto">
             {{-- Grafik Keuntungan Sebenarnya (Bulanan) --}}
             <div class="w-full bg-white p-4 rounded-lg shadow flex flex-col justify-center items-center">
@@ -65,7 +63,7 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-            {{-- Tabel Transaksi Terbaru --}}
+            {{-- Transaksi Terbaru --}}
             <div>
                 <h2 class="text-2xl font-semibold mb-3">Transaksi Terbaru (Paid)</h2>
                 <div class="bg-white p-4 rounded-lg shadow overflow-x-auto">
@@ -97,7 +95,7 @@
                     </table>
                 </div>
             </div>
-            {{-- Tabel Kerugian Terbaru --}}
+            {{-- Kerugian Terbaru --}}
             <div>
                 <h2 class="text-2xl font-semibold mb-3">Kerugian Stok Terbaru</h2>
                 <div class="bg-white p-4 rounded-lg shadow overflow-x-auto">
@@ -129,7 +127,7 @@
             </div>
         </div>
 
-        {{-- Bagian Filter Laporan dan Tampilan Laporan --}}
+        {{-- Filter Laporan dan Tampilan Laporan --}}
         <div class="bg-white p-6 rounded-lg shadow-md">
             <h2 class="text-2xl font-semibold mb-4">Cetak Laporan Penjualan</h2>
             <form id="reportFilterForm" class="mb-4 flex flex-col md:flex-row gap-4 items-center">
@@ -182,7 +180,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- Data laporan akan di-load di sini oleh JavaScript --}}
+                            {{-- laporan otomatis js --}}
                         </tbody>
                         <tfoot>
                             <tr class="bg-gray-100 font-bold">
@@ -200,7 +198,7 @@
 
         @include('owner.laporan')
 
-    </div> {{-- Penutup untuk div.container --}}
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
@@ -220,7 +218,7 @@
         const actualProfitsWeekly = chartDataWeeklyRealita.map(data => data.actualProfit);
 
 
-        // --- FUNGSI UNTUK MEMBUAT GRAFIK BARU ---
+        // FUNGSI UNTUK MEMBUAT GRAFIK BARU
         function createProfitChart(ctxId, chartLabel, labels, data, axisLabel, chartType = 'bar') {
             const ctx = document.getElementById(ctxId).getContext('2d');
             new Chart(ctx, {
@@ -237,7 +235,7 @@
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: true, // Penting untuk mengontrol ukuran dengan CSS
+                    maintainAspectRatio: true,
                     scales: {
                         y: {
                             beginAtZero: true,
@@ -278,13 +276,13 @@
             });
         }
 
-        // --- Panggil Fungsi untuk Membuat Grafik ---
+        // buat Grafik
         createProfitChart('actualProfitMonthChart', 'Keuntungan Sebenarnya Per Bulan', labelsMonthly, actualProfitsMonthly, 'Bulan');
         createProfitChart('actualProfitWeekChart', 'Keuntungan Sebenarnya Per Minggu', labelsWeekly, actualProfitsWeekly, 'Minggu');
         createProfitChart('actualProfitDayChart', 'Keuntungan Sebenarnya Per Hari', labelsDaily, actualProfitsDaily, 'Hari');
 
 
-        // --- Logika Filter Laporan dan Print ---
+        // Logic Filter Laporan dan Print
         const reportFilterForm = document.getElementById('reportFilterForm');
         const reportYearSelect = document.getElementById('report_year');
         const reportMonthSelect = document.getElementById('report_month');
@@ -297,7 +295,7 @@
         const reportTotalProfitSpan = document.getElementById('reportTotalProfit');
         const printReportBtn = document.getElementById('printReportBtn');
 
-        // Referensi elemen di Blade terpisah (sales_report_printable.blade.php)
+        // ambil elemen di include
         const printableReportContent = document.getElementById('printableReportContent');
         const printReportPeriodSpan = document.getElementById('printReportPeriod');
         const printTotalReportTransactionsSpan = document.getElementById('printTotalReportTransactions');
@@ -310,10 +308,10 @@
         const printReportTotalProfitFooter = document.getElementById('printReportTotalProfitFooter');
 
 
-        // Fungsi untuk mengambil bulan yang tersedia berdasarkan tahun yang dipilih
+        // ambil bulan yang tersedia berdasarkan tahun yang dipilih
         reportYearSelect.addEventListener('change', async function() {
             const selectedYear = this.value;
-            reportMonthSelect.innerHTML = '<option value="all">Loading...</option>'; // Tampilkan loading
+            reportMonthSelect.innerHTML = '<option value="all">Loading...</option>'; // loading
             try {
                 const response = await fetch(`{{ route('owner.report.getMonths') }}?year=${selectedYear}`);
                 const data = await response.json();
@@ -339,14 +337,14 @@
 
         // Event listener untuk submit form laporan
         reportFilterForm.addEventListener('submit', async function(event) {
-            event.preventDefault(); // Mencegah form submit secara default
+            event.preventDefault();
 
             const year = reportYearSelect.value;
             const month = reportMonthSelect.value;
 
             // Clear previous report data
             reportTableBody.innerHTML = '<tr><td colspan="7" class="text-center p-4">Memuat data...</td></tr>';
-            printReportTableBody.innerHTML = '<tr><td colspan="7" class="text-center p-4">Memuat data...</td></tr>'; // Untuk print juga
+            printReportTableBody.innerHTML = '<tr><td colspan="7" class="text-center p-4">Memuat data...</td></tr>';
             reportOutputDiv.classList.remove('hidden'); // Tampilkan div laporan
 
             try {
@@ -374,7 +372,7 @@
                             </tr>
                         `;
                         reportTableBody.insertAdjacentHTML('beforeend', row);
-                        printReportTableBody.insertAdjacentHTML('beforeend', row); // Isi juga tabel cetak
+                        printReportTableBody.insertAdjacentHTML('beforeend', row);
                         totalSales += transaction.total_jual;
                         totalModal += transaction.total_modal;
                         totalProfit += transaction.profit;
@@ -398,7 +396,7 @@
                 } else {
                     const noDataRow = '<tr><td colspan="7" class="text-center p-4">Tidak ada data laporan untuk periode ini.</td></tr>';
                     reportTableBody.innerHTML = noDataRow;
-                    printReportTableBody.innerHTML = noDataRow; // Untuk print juga
+                    printReportTableBody.innerHTML = noDataRow;
 
                     totalReportTransactionsSpan.textContent = '0';
                     reportTotalSalesSpan.textContent = 'Rp 0';
@@ -417,14 +415,14 @@
                 // Update report period label
                 const monthName = reportMonthSelect.options[reportMonthSelect.selectedIndex].text;
                 reportPeriodSpan.textContent = `(${month === 'all' ? 'Tahun ' + year : monthName + ' ' + year})`;
-                printReportPeriodSpan.textContent = `(${month === 'all' ? 'Tahun ' + year : monthName + ' ' + year})`; // Untuk print juga
+                printReportPeriodSpan.textContent = `(${month === 'all' ? 'Tahun ' + year : monthName + ' ' + year})`;
 
 
             } catch (error) {
                 console.error('Error generating report:', error);
                 const errorRow = '<tr><td colspan="7" class="text-center p-4 text-red-500">Gagal memuat laporan.</td></tr>';
                 reportTableBody.innerHTML = errorRow;
-                printReportTableBody.innerHTML = errorRow; // Untuk print juga
+                printReportTableBody.innerHTML = errorRow;
 
                 totalReportTransactionsSpan.textContent = '0';
                 reportTotalSalesSpan.textContent = 'Rp 0';
@@ -445,17 +443,17 @@
         printReportBtn.addEventListener('click', function() {
             let printWindow = window.open('', '', 'height=600,width=800');
             printWindow.document.write('<html><head><title>Laporan Penjualan</title>');
-            // Sertakan styling yang sudah ada di sales_report_printable.blade.php
+            // Sertakan styling yang sudah ada di include
             printWindow.document.write(printableReportContent.querySelector('style').outerHTML);
             printWindow.document.write('</head><body>');
-            // Hanya tulis konten dari div printableReportContent
+            // Hanya tulis konten dari div include
             printWindow.document.write(printableReportContent.innerHTML);
             printWindow.document.write('</body></html>');
             printWindow.document.close();
             printWindow.print();
         });
 
-        // Jalankan filter saat halaman dimuat untuk menampilkan laporan default
+        // run pertama untuk laporan default
         reportFilterForm.dispatchEvent(new Event('submit'));
     </script>
 </x-owner>
