@@ -2,11 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\Kasir\dashboardKasirController;
 use App\Http\Controllers\kasir\kasirProfileController;
 use App\Http\Controllers\Kasir\transaksiKasirController;
 
 Route::middleware(['auth', 'role:Kasir'])->group(function () {
-    Route::get('/kasir', [dashboardController::class, 'kasir'])->name('kasir');
+    Route::get('/kasir', [dashboardKasirController::class, 'index'])->name('kasir.dashboard');
     Route::get('/kasir/transaksi', [transaksiKasirController::class, 'index'])->name('kasir.transaksi');
     Route::post('/kasir/transaksi', [transaksiKasirController::class, 'store'])->name('kasir.transaksi.store');
     Route::get('/kasir/transaksi/riwayat', [transaksiKasirController::class, 'riwayat'])->name('kasir.transaksi.riwayat');

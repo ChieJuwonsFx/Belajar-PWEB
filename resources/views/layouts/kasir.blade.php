@@ -104,7 +104,7 @@
 
             <ul class="space-y-1.5 flex-1">
                 <li>
-                    <a href="{{ route('kasir') }}"
+                    <a href="{{ route('kasir.dashboard') }}"
                         class="flex items-center p-3 rounded-lg nav-item transition-all duration-200">
                         <div class="w-6 h-6 flex items-center justify-center mr-3">
                             <svg class="w-5 h-5 text-blue-300" fill="currentColor" viewBox="0 0 20 20">
