@@ -18,13 +18,15 @@ class Transaction extends Model
     {
         parent::boot();
 
+
         static::creating(function ($transaction) {
             if (empty($transaction->id)) {
                 $transaction->id = 'TRX-' . date('Ymd') . '-' . strtoupper(Str::random(4));
             }
         });
     }
-
+    protected $fillable = ['status'];
+    
     public function customer()
     {
         return $this->belongsTo(User::class, 'user_id');
